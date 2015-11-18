@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">RedMineProject</string>
+    <string name="text_username">username</string>
+    <string name="text_password">password</string>
+
+    <string name="hint_username">username</string>
+    <string name="hint_password">password</string>
+    <string name="btn_sign_up">sign up</string>
+    <string name="menu_item_logout">logout</string>
+
 </resources>
