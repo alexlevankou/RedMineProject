@@ -1,18 +1,18 @@
 package by.alexlevankou.redmineproject;
 
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
 import retrofit.Callback;
-import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -23,8 +23,10 @@ public class LoginActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private FloatingActionButton submitButton;
     private CoordinatorLayout coordinatorLayout;
-    private static final String API_URL = "http://192.168.1.17:3001";
-    private  String user_id = "me";
+    final static String USERNAME = "username";
+    final static String PASSWORD = "password";
+
+    SharedPreferences sharedPreferences;
 
 
     @Override
@@ -53,9 +55,14 @@ public class LoginActivity extends AppCompatActivity {
         String name = username.getText().toString();
         String pass = password.getText().toString();
 
+        sharedPreferences = getPreferences(MODE_PRIVATE);
+        Editor ed = sharedPreferences.edit();
+        ed.putString(USERNAME, name);
+        ed.putString(PASSWORD, pass);
+        ed.apply();
 
-        RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint(API_URL).build();
-        RedMineApi redMine = restAdapter.create(RedMineApi.class);
+        RedMineApi redMine =
+                ServiceGenerator.createService(RedMineApi.class, name, pass);
         Callback callback = new Callback() {
             @Override
             public void success(Object o, Response response) {
@@ -68,7 +75,6 @@ public class LoginActivity extends AppCompatActivity {
             public void failure(RetrofitError retrofitError) {
                 retrofitError.printStackTrace();
                 Snackbar.make(coordinatorLayout,"Failure",Snackbar.LENGTH_LONG).show();
-
             }
         };
         redMine.getIssues("me", callback);
