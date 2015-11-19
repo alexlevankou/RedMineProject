@@ -5,6 +5,8 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -18,15 +20,15 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText username;
     private EditText password;
+    private Toolbar toolbar;
     private FloatingActionButton submitButton;
     private CoordinatorLayout coordinatorLayout;
-    public String local_host = "192.168.1.17:3001";
+    private static final String API_URL = "http://192.168.1.17:3001";
     private  String user_id = "me";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.RedTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -36,6 +38,8 @@ public class LoginActivity extends AppCompatActivity {
     private void initLogin() {
         username = (EditText) findViewById(R.id.input_username);
         password = (EditText) findViewById(R.id.input_password);
+        toolbar = (Toolbar) findViewById(R.id.login_toolbar);
+        toolbar.setTitle("RedMine");
         submitButton = (FloatingActionButton) findViewById(R.id.submit_fab);
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.login_coordinator_layout);
         submitButton.setOnClickListener(new View.OnClickListener() {
@@ -48,16 +52,9 @@ public class LoginActivity extends AppCompatActivity {
 
         String name = username.getText().toString();
         String pass = password.getText().toString();
-        StringBuilder base_url = new StringBuilder();
-        base_url.append(name);
-        base_url.append(":");
-        base_url.append(pass);
-        base_url.append("@");
-        base_url.append(local_host);
-        String api_url = base_url.toString();
-        Log.e("tag",api_url);
 
-        RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint(api_url).build();
+
+        RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint(API_URL).build();
         RedMineApi redMine = restAdapter.create(RedMineApi.class);
         Callback callback = new Callback() {
             @Override

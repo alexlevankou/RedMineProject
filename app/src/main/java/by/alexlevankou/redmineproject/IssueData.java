@@ -1,9 +1,11 @@
 package by.alexlevankou.redmineproject;
 
+import android.os.Parcelable;
+import android.os.Parcel;
 import java.util.List;
 import java.util.Map;
 
-public class IssueData {
+public class IssueData implements Parcelable {
 
     public List<Issue> issue;
     public int total_count;
@@ -53,6 +55,30 @@ public class IssueData {
         }
 
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+       // dest.writeStringArray(new String[] { mName, mWhiskers, mPaws, mTail });
+    }
+
+    public static final Parcelable.Creator<IssueData> CREATOR = new Parcelable.Creator<IssueData>() {
+
+        @Override
+        public IssueData createFromParcel(Parcel source) {
+          //  return new IssueData(source);
+        return null;
+        }
+
+        @Override
+        public IssueData[] newArray(int size) {
+            return new IssueData[size];
+        }
+    };
 
 
 }
