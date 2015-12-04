@@ -15,7 +15,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 
+import by.alexlevankou.redmineproject.IssueComparator;
 import by.alexlevankou.redmineproject.IssueData;
 import by.alexlevankou.redmineproject.R;
 import by.alexlevankou.redmineproject.RecyclerAdapter;
@@ -34,6 +39,7 @@ public class IssueListFragment extends Fragment  implements SwipeRefreshLayout.O
     private RecyclerView.LayoutManager mLayoutManager;
     private Toolbar toolbar;
     public TextView status, priority, tracker ,project ,subject, description, start_date;
+    public static Map shownTracker, shownStatus, shownPriority;
 
     SharedPreferences pref;
     Callback callback;
@@ -70,12 +76,10 @@ public class IssueListFragment extends Fragment  implements SwipeRefreshLayout.O
 
     }
 
-    public void onClick(View view){
-       /* switch (){
-            case 1: break;
+    public void onClick(View v){
+        Collections.sort(list,new IssueComparator(v.getId()));
+        mAdapter.update(list);
 
-        }
-*/
     }
 
     private void initToolbar(){
@@ -102,6 +106,31 @@ public class IssueListFragment extends Fragment  implements SwipeRefreshLayout.O
         checkVisibility(subject, pref.getBoolean("subject_chb", false));
         checkVisibility(description, pref.getBoolean("description_chb", false));
         checkVisibility(start_date, pref.getBoolean("start_date_chb", false));
+
+        shownStatus = new HashMap<Integer,Boolean>();
+        shownStatus.put(1,pref.getBoolean("new_chb",true));
+        shownStatus.put(2,pref.getBoolean("in_progress_chb",true));
+        shownStatus.put(7,pref.getBoolean("on_hold_chb", true));
+        shownStatus.put(8,pref.getBoolean("clarification_chb", true));
+        shownStatus.put(3,pref.getBoolean("resolved_chb", true));
+        shownStatus.put(10,pref.getBoolean("verified_chb", true));
+        shownStatus.put(5,pref.getBoolean("closed_chb", true));
+        shownStatus.put(6,pref.getBoolean("not_valid_chb",true));
+
+        shownTracker = new HashMap<Integer,Boolean>();
+        shownTracker.put(2,pref.getBoolean("feature_chb",true));
+        shownTracker.put(4, pref.getBoolean("grp_feature_chb", true));
+        shownTracker.put(1, pref.getBoolean("defect_chb", true));
+        shownTracker.put(5, pref.getBoolean("qa_chb", true));
+        shownTracker.put(3, pref.getBoolean("support_chb", true));
+        shownTracker.put(6, pref.getBoolean("suggestion_chb", true));
+
+        shownPriority = new HashMap<Integer,Boolean>();
+        shownPriority.put(1,pref.getBoolean("low_chb", true));
+        shownPriority.put(2,pref.getBoolean("normal_chb", true));
+        shownPriority.put(3,pref.getBoolean("high_chb", true));
+        shownPriority.put(4,pref.getBoolean("urgent_chb", true));
+        shownPriority.put(5, pref.getBoolean("immediate_chb", true));
     }
 
     private void initSwipeRefresher() {

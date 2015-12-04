@@ -32,8 +32,30 @@ public class IssueData{
     }
 
     public void setStartDate(String s){
+
         issue.start_date = s;
     }
+
+
+    public String getStatusName(){
+        return issue.status.name;
+    }
+    public int getPriorityId(){
+        return issue.priority.id;
+    }
+
+    public String getSubject(){
+        return issue.subject;
+    }
+
+    public String getDescription(){
+        return issue.description;
+    }
+
+    public String getStartDate(){
+        return issue.start_date;
+    }
+
 
     public class Issues{
 
@@ -54,7 +76,47 @@ public class IssueData{
 
         public Basics project; //in_list
 
-      //  public int status_id;
+
+        public long getNumber(){
+            return id;
+        }
+        public String getStatusName(){
+            return status.name;
+        }
+        public int getStatusId(){
+            return status.id;
+
+        }
+
+        public String getTrackerName(){
+            return tracker.name;
+        }
+        public int getTrackerId(){
+            return tracker.id;
+        }
+
+        public int getPriorityId(){
+            return priority.id;
+        }
+
+        public String getSubject(){
+            return subject;
+        }
+
+        public String getProjectName(){
+            return project.name;
+        }
+
+        public String getDescription(){
+            return description;
+        }
+
+        public String getStartDate(){
+            return start_date;
+        }
+
+
+        //  public int status_id;
        // public int priority_id;
     //    public int tracker_id;
 

@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import by.alexlevankou.redmineproject.fragment.IssueListFragment;
@@ -23,15 +24,16 @@ public class TaskListActivity extends AppCompatActivity {
 
     public static RedMineApi redMineApi;
     private SharedPreferences sharedPreferences;
+    Fragment issueListFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_list);
 
-        Fragment fragment = new IssueListFragment();
+        issueListFragment = new IssueListFragment();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.frame, fragment);
+        fragmentTransaction.add(R.id.frame, issueListFragment);
         fragmentTransaction.commit();
 
         initNavigation();
@@ -68,6 +70,11 @@ public class TaskListActivity extends AppCompatActivity {
                 break;
         }
         return true;
+    }
+
+    public void onClick(View v){
+        IssueListFragment frag = (IssueListFragment) issueListFragment;
+        frag.onClick(v);
     }
 
     private void initNavigation(){

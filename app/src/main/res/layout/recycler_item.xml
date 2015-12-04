@@ -4,11 +4,11 @@
     android:id="@+id/list_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="16dp"
-    android:paddingBottom="20dp"
     android:background="@drawable/ripple">
 
-    <TableRow>
+    <TableRow
+        android:paddingTop="16dp"
+        android:paddingBottom="20dp">
         <TextView
             android:id="@+id/number"
             style="@style/TextFont"
@@ -66,4 +66,10 @@
             android:shrinkColumns="true"
             android:gravity="center_horizontal" />
     </TableRow>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="#c0c0c0"/>
 </TableLayout>

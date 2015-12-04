@@ -15,9 +15,12 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import by.alexlevankou.redmineproject.fragment.IssueListFragment;
+
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
     private ArrayList<IssueData.Issues> list;
+    private ArrayList<IssueData.Issues> defaultList;
     public Context context;
     public static SharedPreferences pref;
 
@@ -79,6 +82,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     // Конструктор
     public RecyclerAdapter(Context context) {
         list = new ArrayList<IssueData.Issues>();
+        defaultList = new ArrayList<IssueData.Issues>();
         this.context = context;
         pref = PreferenceManager.getDefaultSharedPreferences(context);
 
@@ -134,11 +138,23 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     }
 
     public void update(ArrayList<IssueData.Issues> issues){
-        list = issues;
+        defaultList = issues;
+        filter();
+       // list = issues;
         notifyDataSetChanged();
     }
 
     public void filter(){
-
+        list.clear();
+        for(IssueData.Issues item: defaultList){
+            if(
+                    IssueListFragment.shownPriority.get(item.getPriorityId()).equals(true)&&
+                    IssueListFragment.shownTracker.get(item.getTrackerId()).equals(true)&&
+                    IssueListFragment.shownStatus.get(item.getStatusId()).equals(true)
+                    ){
+                list.add(item);
+            }
+        }
+        notifyDataSetChanged();
     }
 }
