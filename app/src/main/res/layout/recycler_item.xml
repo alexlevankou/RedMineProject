@@ -1,16 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<TableLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/list_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="16dp"
+    android:paddingBottom="20dp"
+    android:background="@drawable/ripple">
 
-    <TextView
-        android:id="@+id/tv_recycler_item"
-        android:text="hello"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="7dp"
-        android:textSize="18sp" />
-
-</LinearLayout>
+    <TableRow>
+        <TextView
+            android:id="@+id/number"
+            style="@style/TextFont"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:shrinkColumns="true"
+            android:gravity="center_horizontal" />
+        <TextView
+            android:id="@+id/tracker"
+            style="@style/TextFont"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:shrinkColumns="true"
+            android:gravity="center_horizontal" />
+        <TextView
+            android:id="@+id/status"
+            style="@style/TextFont"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:shrinkColumns="true"
+            android:gravity="center_horizontal" />
+        <TextView
+            android:id="@+id/priority"
+            android:layout_width="0dp"
+            style="@style/TextFont"
+            android:layout_weight="1"
+            android:shrinkColumns="true"
+            android:gravity="center_horizontal" />
+        <TextView
+            android:id="@+id/subject"
+            android:layout_width="0dp"
+            style="@style/TextFont"
+            android:layout_weight="3"
+            android:shrinkColumns="true"
+            android:gravity="center_horizontal" />
+        <TextView
+            android:id="@+id/project"
+            android:layout_width="0dp"
+            style="@style/TextFont"
+            android:layout_weight="2"
+            android:shrinkColumns="true"
+            android:gravity="center_horizontal" />
+        <TextView
+            android:id="@+id/start_date"
+            style="@style/TextFont"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:shrinkColumns="true"
+            android:gravity="center_horizontal" />
+        <TextView
+            android:id="@+id/description"
+            style="@style/TextFont"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:shrinkColumns="true"
+            android:gravity="center_horizontal" />
+    </TableRow>
+</TableLayout>

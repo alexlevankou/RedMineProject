@@ -1,84 +1,68 @@
 package by.alexlevankou.redmineproject;
 
-import android.os.Parcelable;
-import android.os.Parcel;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class IssueData implements Parcelable {
+public class IssueData{
 
-    public List<Issue> issue;
+    public Issues issue;
+    public ArrayList<Issues> issues;
     public int total_count;
     public int offset;
     public int limit;
+
+    public IssueData(){
+        issue = new Issues();
+    }
 
     public IssueData(int total_count,int offset,int limit){
         this.total_count = total_count;
         this.offset = offset;
         this.limit = limit;
+        issue = new Issues();
     }
 
-    public void setTotalCount(int total_count){
-        this.total_count = total_count;
-    }
-    public int getTotalCount(){
-        return total_count;
-    }
-    public void setOffset(int offset){
-        this.offset = offset;
-    }
-    public int getOffset(){
-        return offset;
-    }
-    public void setLimit(int limit){
-        this.limit = limit;
-    }
-    public int getLimit(){
-        return limit;
+    public void setSubject(String s){
+        issue.subject = s;
     }
 
-    public class Issue{
+    public void setDescription(String s){
+        issue.description = s;
+    }
 
-        long issue_id;
-        Map<Integer,String> project;
-        Map<Integer,String> tracker;
-        Map<Integer,String> author;
-        String subject;
+    public void setStartDate(String s){
+        issue.start_date = s;
+    }
 
-        Issue(){}
-        Issue(long issue_id, Map<Integer,String> project, Map<Integer,String> tracker, Map<Integer,String> author, String subject){
-            this.issue_id = issue_id;
-            this.project = project;
-            this.tracker = tracker;
-            this.author = author;
-            this.subject = subject;
+    public class Issues{
+
+        public long id;
+
+        public Basics tracker; //in_list
+        public Basics status; //in_list
+        public Basics priority; //in_list
+        public String subject; //in_list
+        public String description;
+        public String start_date;
+        public int done_ratio;
+        public String created_on;
+        public String updated_on;
+
+        public Basics author;
+        public Basics assigned_to;
+
+        public Basics project; //in_list
+
+      //  public int status_id;
+       // public int priority_id;
+    //    public int tracker_id;
+
+        public Issues(){}
+
+        public class Basics{
+            public int id;
+            public String name;
         }
-
     }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-       // dest.writeStringArray(new String[] { mName, mWhiskers, mPaws, mTail });
-    }
-
-    public static final Parcelable.Creator<IssueData> CREATOR = new Parcelable.Creator<IssueData>() {
-
-        @Override
-        public IssueData createFromParcel(Parcel source) {
-          //  return new IssueData(source);
-        return null;
-        }
-
-        @Override
-        public IssueData[] newArray(int size) {
-            return new IssueData[size];
-        }
-    };
-
-
 }

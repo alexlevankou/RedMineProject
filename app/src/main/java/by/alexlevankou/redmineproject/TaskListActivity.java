@@ -1,79 +1,95 @@
 package by.alexlevankou.redmineproject;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
+
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.os.Handler;
+import android.support.v7.widget.Toolbar;
+import android.support.v4.app.Fragment;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
+import by.alexlevankou.redmineproject.fragment.IssueListFragment;
 
 
-public class TaskListActivity extends AppCompatActivity  implements SwipeRefreshLayout.OnRefreshListener {
+public class TaskListActivity extends AppCompatActivity {
 
-    private SwipeRefreshLayout mSwipeLayout;
-
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-
+    public static RedMineApi redMineApi;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.RedTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_list);
 
-        initSwipeRefresher();
+        Fragment fragment = new IssueListFragment();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.frame, fragment);
+        fragmentTransaction.commit();
 
-        ArrayList<String> myDataset = getDataSet();
+        initNavigation();
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-
-        // если мы уверены, что изменения в контенте не изменят размер layout-а RecyclerView
-        // передаем параметр true - это увеличивает производительность
-        mRecyclerView.setHasFixedSize(true);
-
-        // используем linear layout manager
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        // создаем адаптер
-        mAdapter = new RecyclerAdapter(myDataset);
-        mRecyclerView.setAdapter(mAdapter);
-
+        sharedPreferences = getSharedPreferences(Constants.APP_PREFERENCES, MODE_PRIVATE);
+        String name = sharedPreferences.getString(Constants.USERNAME, "");
+        String pass = sharedPreferences.getString(Constants.PASSWORD, "");
+        redMineApi = ServiceGenerator.createService(this, RedMineApi.class, name, pass);
     }
 
     @Override
-    public void onRefresh() {
-        Log.d("my_tag", "refresh");
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // stop refresh
-                mSwipeLayout.setRefreshing(false);
-            }
-        }, 5000);
+    protected void onStart(){
+        super.onStart();
     }
 
-    private void initSwipeRefresher() {
-        mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe);
-        mSwipeLayout.setOnRefreshListener(this);
-        mSwipeLayout.setColorSchemeResources(
-                R.color.colorPrimary,
-                R.color.colorAccent
-        );
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+        MenuItem menuItem = menu.findItem(R.id.edit_item);
+        menuItem.setVisible(false);
+        menuItem = menu.findItem(R.id.settings_item);
+        menuItem.setVisible(true);
+        return true;
     }
 
-    private ArrayList<String> getDataSet() {
-
-        ArrayList<String> list = new ArrayList<String>(100);
-        for (int i = 0; i < 100; i++) {
-            list.add("item" + i);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.settings_item:
+                Intent intent = new Intent(this, SettingActivity.class);
+                startActivity(intent);
+                break;
+            default:
+                break;
         }
-        return list;
+        return true;
     }
 
+    private void initNavigation(){
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
+        drawerLayout.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+
+                SharedPreferences.Editor ed = sharedPreferences.edit();
+                ed.putString(Constants.USERNAME, null);
+                ed.putString(Constants.PASSWORD, null);
+                ed.apply();
+                TaskListActivity.this.finishAffinity();
+                return true;
+            }
+        });
+    }
 }

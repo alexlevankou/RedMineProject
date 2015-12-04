@@ -7,12 +7,30 @@
      <style name="RedTheme" parent="AppTheme">
          <item name="colorPrimary">@color/colorPrimary</item>
          <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+         <item name="colorControlNormal">@color/colorWhite</item>
          <item name="colorAccent">@color/colorAccent</item>
      </style>
 
     <style name="Theme.TextInputLayout" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/colorPrimaryDark</item>
         <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="HeadLineFont" parent="Base.TextAppearance.AppCompat.Headline">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="SubHeadFont" parent="Base.TextAppearance.AppCompat.Subhead">
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="TextFont" parent="Base.TextAppearance.AppCompat.Body1">
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="TableRowSize" >
+        <item name="android:layout_height">wrap_content</item>
     </style>
 
 </resources>

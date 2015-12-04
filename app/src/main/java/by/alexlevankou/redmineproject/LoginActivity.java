@@ -1,5 +1,6 @@
 package by.alexlevankou.redmineproject;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
@@ -20,28 +21,36 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText username;
     private EditText password;
-    private Toolbar toolbar;
-    private FloatingActionButton submitButton;
     private CoordinatorLayout coordinatorLayout;
-    final static String USERNAME = "username";
-    final static String PASSWORD = "password";
-
-    SharedPreferences sharedPreferences;
-
+    private RedMineApi redMine;
+    private String name;
+    private  String pass;
+    public SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        initLogin();
+        sharedPreferences = getSharedPreferences(Constants.APP_PREFERENCES, MODE_PRIVATE);
+        name = sharedPreferences.getString(Constants.USERNAME, null);
+        pass = sharedPreferences.getString(Constants.PASSWORD, null);
+
+        if(name != null && pass != null) {
+            Intent intent = new Intent(LoginActivity.this,TaskListActivity.class);
+            startActivity(intent);
+        }else{
+            initLogin();
+        }
     }
 
     private void initLogin() {
         username = (EditText) findViewById(R.id.input_username);
         password = (EditText) findViewById(R.id.input_password);
+        Toolbar toolbar;
         toolbar = (Toolbar) findViewById(R.id.login_toolbar);
-        toolbar.setTitle("RedMine");
+        toolbar.setTitle(R.string.app_name);
+        FloatingActionButton submitButton;
         submitButton = (FloatingActionButton) findViewById(R.id.submit_fab);
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.login_coordinator_layout);
         submitButton.setOnClickListener(new View.OnClickListener() {
@@ -52,33 +61,27 @@ public class LoginActivity extends AppCompatActivity {
     }
     private void fabClicked(){
 
-        String name = username.getText().toString();
-        String pass = password.getText().toString();
+        name = username.getText().toString();
+        pass = password.getText().toString();
 
-        sharedPreferences = getPreferences(MODE_PRIVATE);
         Editor ed = sharedPreferences.edit();
-        ed.putString(USERNAME, name);
-        ed.putString(PASSWORD, pass);
+        ed.putString(Constants.USERNAME, name);
+        ed.putString(Constants.PASSWORD, pass);
         ed.apply();
 
-        RedMineApi redMine =
-                ServiceGenerator.createService(RedMineApi.class, name, pass);
+        redMine = ServiceGenerator.createService(this,RedMineApi.class, name, pass);
         Callback callback = new Callback() {
             @Override
             public void success(Object o, Response response) {
-                IssueData issueData = (IssueData)o;
-                int count = issueData.getTotalCount();
-                Snackbar.make(coordinatorLayout,count,Snackbar.LENGTH_LONG).show();
+                Intent intent = new Intent(LoginActivity.this,TaskListActivity.class);
+                startActivity(intent);
             }
 
             @Override
             public void failure(RetrofitError retrofitError) {
-                retrofitError.printStackTrace();
-                Snackbar.make(coordinatorLayout,"Failure",Snackbar.LENGTH_LONG).show();
+                Snackbar.make(coordinatorLayout,"Wrong Login or Password",Snackbar.LENGTH_LONG).show();
             }
         };
-        redMine.getIssues("me", callback);
-
+        redMine.login("me", callback);
     }
-
 }

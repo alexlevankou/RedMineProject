@@ -1,6 +1,10 @@
 package by.alexlevankou.redmineproject;
 
+import android.content.Context;
+import android.support.design.widget.Snackbar;
 import android.util.Base64;
+import android.widget.Toast;
+
 import com.squareup.okhttp.OkHttpClient;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
@@ -14,11 +18,11 @@ public class ServiceGenerator {
             .setEndpoint(API_BASE_URL)
             .setClient(new OkClient(new OkHttpClient()));
 
-    public static <S> S createService(Class<S> serviceClass) {
-        return createService(serviceClass, null, null);
+    public static <S> S createService(Context ctx,Class<S> serviceClass) {
+        return createService(ctx,serviceClass, null, null);
     }
 
-    public static <S> S createService(Class<S> serviceClass, String username, String password) {
+    public static <S> S createService(Context ctx, Class<S> serviceClass, String username, String password) {
         if (!username.isEmpty() && !password.isEmpty()) {
             // concatenate username and password with colon for authentication
             String credentials = username + ":" + password;

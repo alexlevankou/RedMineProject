@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="8dp">
+
+    <TextView
+        android:id="@+id/tracker_text"
+        style="@style/HeadLineFont" />
+
+    <TableLayout
+        android:id="@+id/table_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tracker_text"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="8dp">
+
+        <TableRow>
+            <TextView
+                android:id="@+id/subject_text"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                style="@style/HeadLineFont"
+                android:shrinkColumns="true"
+                android:gravity="start" />
+        </TableRow>
+
+        <TableRow
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                style="@style/SubHeadFont"
+                android:shrinkColumns="true"
+                android:gravity="start"
+                android:text="@string/status" />
+            <TextView
+                android:id="@+id/status_text"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                style="@style/TextFont"
+                android:shrinkColumns="true"
+                android:gravity="start" />
+        </TableRow>
+
+        <TableRow
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                style="@style/SubHeadFont"
+                android:shrinkColumns="true"
+                android:gravity="start"
+                android:text="@string/priority" />
+            <TextView
+                android:id="@+id/priority_text"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                style="@style/TextFont"
+                android:shrinkColumns="true"
+                android:gravity="start" />
+        </TableRow>
+
+        <TableRow
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                style="@style/SubHeadFont"
+                android:shrinkColumns="true"
+                android:gravity="start"
+                android:text="@string/author" />
+            <TextView
+                android:id="@+id/author_text"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                style="@style/TextFont"
+                android:shrinkColumns="true"
+                android:gravity="start" />
+        </TableRow>
+        <TableRow
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                style="@style/SubHeadFont"
+                android:shrinkColumns="true"
+                android:gravity="start"
+                android:text="@string/assignee" />
+            <TextView
+                android:id="@+id/assignee_text"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                style="@style/TextFont"
+                android:shrinkColumns="true"
+                android:gravity="start" />
+        </TableRow>
+        <TableRow
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                style="@style/TextFont"
+                android:shrinkColumns="true"
+                android:gravity="start"
+                android:text="@string/start_date" />
+            <TextView
+                android:id="@+id/start_date_text"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                style="@style/TextFont"
+                android:shrinkColumns="true"
+                android:gravity="start" />
+        </TableRow>
+        <TableRow
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                style="@style/SubHeadFont"
+                android:shrinkColumns="true"
+                android:gravity="start"
+                android:text="@string/update_date" />
+            <TextView
+                android:id="@+id/update_date_text"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                style="@style/TextFont"
+                android:shrinkColumns="true"
+                android:gravity="start" />
+        </TableRow>
+        <TableRow
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                style="@style/SubHeadFont"
+                android:shrinkColumns="true"
+                android:gravity="start"
+                android:text="@string/done_ratio" />
+            <ProgressBar
+                android:id="@+id/done_ratio_progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:shrinkColumns="true"
+                android:gravity="start" />
+        </TableRow>
+        <TableRow
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                style="@style/SubHeadFont"
+                android:shrinkColumns="true"
+                android:gravity="start"
+                android:text="@string/description" />
+            <TextView
+                android:id="@+id/description_text"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                style="@style/TextFont"
+                android:shrinkColumns="true"
+                android:gravity="start" />
+        </TableRow>
+    </TableLayout>
+</RelativeLayout>

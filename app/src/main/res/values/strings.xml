@@ -1,11 +1,86 @@
 <resources>
-    <string name="app_name">RedMineProject</string>
-    <string name="text_username">username</string>
-    <string name="text_password">password</string>
+    <string name="app_name">RedMine</string>
+    <string name="issues">Issues</string>
+
+    <string name="tracker">Tracker</string>
+    <string name="number">#</string>
+    <string name="status">Status</string>
+    <string name="priority">Priority</string>
+    <string name="subject">Subject</string>
+    <string name="project">Project</string>
 
     <string name="hint_username">username</string>
     <string name="hint_password">password</string>
     <string name="btn_sign_up">sign up</string>
     <string name="menu_item_logout">logout</string>
+
+    <string name="author">Author</string>
+    <string name="assignee">Assignee</string>
+    <string name="start_date">Start date:</string>
+    <string name="update_date">Last update:</string>
+    <string name="done_ratio">% Done</string>
+    <string name="description">Description</string>
+    <string name="open">open</string>
+    <string name="close">close</string>
+    <string name="edit">Edit</string>
+
+    <string-array name="tracker_array">
+        <item>Feature</item>
+        <item>GRP-Feature</item>
+        <item>Defect</item>
+        <item>QA</item>
+        <item>Support</item>
+        <item>Suggestion</item>
+    </string-array>
+
+    <string-array name="tracker_values">
+        <item>2</item>
+        <item>4</item>
+        <item>1</item>
+        <item>5</item>
+        <item>3</item>
+        <item>6</item>
+    </string-array>
+
+    <string-array name="status_array">
+        <item>New</item>
+        <item>In Progress</item>
+        <item>On Hold</item>
+        <item>Wait for Clarification</item>
+        <item>Resolved</item>
+        <item>Verified</item>
+        <item>Closed</item>
+        <item>Not Valid</item>
+    </string-array>
+
+    <string-array name="status_values">
+        <item>1</item>
+        <item>2</item>
+        <item>7</item>
+        <item>8</item>
+        <item>3</item>
+        <item>10</item>
+        <item>5</item>
+        <item>6</item>
+    </string-array>
+
+
+    <string-array name="priority_array">
+        <item>Low</item>
+        <item>Normal</item>
+        <item>High</item>
+        <item>Urgent</item>
+        <item>Immediate</item>
+    </string-array>
+
+    <string-array name="priority_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+  <string name="settings">settings</string>
 
 </resources>
