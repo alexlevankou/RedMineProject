@@ -37,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         pass = sharedPreferences.getString(Constants.PASSWORD, null);
 
         if(name != null && pass != null) {
+            RedMineApplication.redMineApi = ServiceGenerator.createService(this,RedMineApi.class, name, pass);
             Intent intent = new Intent(LoginActivity.this,TaskListActivity.class);
             startActivity(intent);
         }else{
@@ -63,13 +64,14 @@ public class LoginActivity extends AppCompatActivity {
 
         name = username.getText().toString();
         pass = password.getText().toString();
-
         Editor ed = sharedPreferences.edit();
         ed.putString(Constants.USERNAME, name);
         ed.putString(Constants.PASSWORD, pass);
         ed.apply();
 
-        redMine = ServiceGenerator.createService(this,RedMineApi.class, name, pass);
+        //redMine = ServiceGenerator.createService(this,RedMineApi.class, name, pass);
+        RedMineApplication.redMineApi = ServiceGenerator.createService(this,RedMineApi.class, name, pass);
+
         Callback callback = new Callback() {
             @Override
             public void success(Object o, Response response) {
@@ -82,6 +84,8 @@ public class LoginActivity extends AppCompatActivity {
                 Snackbar.make(coordinatorLayout,"Wrong Login or Password",Snackbar.LENGTH_LONG).show();
             }
         };
-        redMine.login("me", callback);
+
+        //redMine.login("me", callback);
+        RedMineApplication.redMineApi.login("me",callback);
     }
 }

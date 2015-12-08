@@ -9,6 +9,8 @@
     <color name="mainBackground">#e2e2e2</color>
     <color name="colorGrey">#9E9E9E</color>
     <color name="colorWhite">#ffffff</color>
+    <color name="colorSecondaryText">#ffebee</color>
     <color name="colorBlack">#000000</color>
+    <color name="colorLightRed">#ef9a9a</color>
 
 </resources>

@@ -148,10 +148,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         list.clear();
         for(IssueData.Issues item: defaultList){
             if(
-                    IssueListFragment.shownPriority.get(item.getPriorityId()).equals(true)&&
-                    IssueListFragment.shownTracker.get(item.getTrackerId()).equals(true)&&
-                    IssueListFragment.shownStatus.get(item.getStatusId()).equals(true)
-                    ){
+                IssueListFragment.shownPriority.get(item.getPriorityId()).equals(true)&&
+                IssueListFragment.shownTracker.get(item.getTrackerId()).equals(true)&&
+                IssueListFragment.shownStatus.get(item.getStatusId()).equals(true)
+            ){
                 list.add(item);
             }
         }

@@ -29,6 +29,19 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+
+    <style name="TabFont" parent="Base.TextAppearance.AppCompat.Body2">
+        <item name="android:layout_height">48dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/colorSecondaryText</item>
+        <item name="android:background">@drawable/tab_ripple</item>
+    </style>
+
+    <style name="TabSize">
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+
+
     <style name="TableRowSize" >
         <item name="android:layout_height">wrap_content</item>
     </style>

@@ -9,8 +9,13 @@
          <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
          <item name="colorControlNormal">@color/colorWhite</item>
          <item name="colorAccent">@color/colorAccent</item>
-
          <item name="android:statusBarColor">@android:color/transparent</item>
      </style>
+
+    <style name="TabSize">
+        <item name="android:elevation">4dp</item>
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+
 
 </resources>

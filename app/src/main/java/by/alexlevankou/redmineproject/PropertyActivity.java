@@ -119,7 +119,9 @@ public class PropertyActivity extends AppCompatActivity {
         //сделать отдельные массивы для дефекта и других
 
         String taskId = String.valueOf(id);
-        redMineApi.updateIssue(iss,taskId, cb);
+        //redMineApi.updateIssue(iss,taskId, cb);
+        RedMineApplication.redMineApi.updateIssue(iss,taskId, cb);
+
     }
 
     private void getInfoFromApi(){
@@ -141,6 +143,8 @@ public class PropertyActivity extends AppCompatActivity {
         };
 
         String query = String.valueOf(id);
-        redMineApi.showIssue(query, callback);
+        //redMineApi.showIssue(query, callback);
+        RedMineApplication.redMineApi.showIssue(query, callback);
+
     }
 }

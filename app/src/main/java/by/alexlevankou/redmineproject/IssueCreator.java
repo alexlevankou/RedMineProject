@@ -20,17 +20,17 @@ public class IssueCreator {
         issue.start_date = s;
     }
 
-        public void setTracker(String s) {
-            issue.tracker_id = s;
-        }
+    public void setTracker(String s) {
+        issue.tracker_id = s;
+    }
 
-        public void setPriority(String s) {
-            issue.priority_id = s;
-        }
+    public void setPriority(String s) {
+        issue.priority_id = s;
+    }
 
-        public void setStatus(String s) {
-            issue.status_id = s;
-        }
+    public void setStatus(String s) {
+        issue.status_id = s;
+    }
 
 
     public class Issue {

@@ -25,6 +25,7 @@ import by.alexlevankou.redmineproject.IssueData;
 import by.alexlevankou.redmineproject.R;
 import by.alexlevankou.redmineproject.RecyclerAdapter;
 import by.alexlevankou.redmineproject.RedMineApi;
+import by.alexlevankou.redmineproject.RedMineApplication;
 import by.alexlevankou.redmineproject.TaskListActivity;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -79,7 +80,6 @@ public class IssueListFragment extends Fragment  implements SwipeRefreshLayout.O
     public void onClick(View v){
         Collections.sort(list,new IssueComparator(v.getId()));
         mAdapter.update(list);
-
     }
 
     private void initToolbar(){
@@ -173,6 +173,7 @@ public class IssueListFragment extends Fragment  implements SwipeRefreshLayout.O
                 retrofitError.printStackTrace();
             }
         };
-        TaskListActivity.redMineApi.getIssues("me", callback);
+        RedMineApplication.redMineApi.getIssues("me", callback);
+        //TaskListActivity.redMineApi.getIssues("me", callback);
     }
 }

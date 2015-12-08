@@ -19,7 +19,6 @@ import retrofit.client.Response;
 
 public class IssuePropertiesFragment extends Fragment {
 
-    private View view;
     private Toolbar toolbar;
     private TextView tracker;
     private TextView subject;
@@ -31,6 +30,7 @@ public class IssuePropertiesFragment extends Fragment {
     private  TextView update_date;
     private  TextView description;
     private ProgressBar progressbar;
+    private TextView progress;
 
     private IssueData.Issues issue = PropertyActivity.issue;
 
@@ -43,7 +43,7 @@ public class IssuePropertiesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_issue_properties,null);
+        View view = inflater.inflate(R.layout.fragment_issue_properties,null);
         return view;
     }
 
@@ -64,6 +64,7 @@ public class IssuePropertiesFragment extends Fragment {
         start_date  = (TextView) getActivity().findViewById(R.id.start_date_text);
         update_date  = (TextView) getActivity().findViewById(R.id.update_date_text);
         progressbar = (ProgressBar) getActivity().findViewById(R.id.done_ratio_progress);
+        progress = (TextView) getActivity().findViewById(R.id.done_ratio_text);
         description  = (TextView) getActivity().findViewById(R.id.description_text);
 
 
@@ -78,7 +79,7 @@ public class IssuePropertiesFragment extends Fragment {
         start_date.setText(issue.start_date);
         update_date.setText(issue.updated_on);
         description.setText(issue.description);
-
+        progress.setText(issue.done_ratio+"%");
         progressbar.setProgress(issue.done_ratio);
     }
 

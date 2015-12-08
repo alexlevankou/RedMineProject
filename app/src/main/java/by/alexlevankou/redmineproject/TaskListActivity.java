@@ -23,7 +23,7 @@ import by.alexlevankou.redmineproject.fragment.IssueListFragment;
 public class TaskListActivity extends AppCompatActivity {
 
     public static RedMineApi redMineApi;
-    private SharedPreferences sharedPreferences;
+    public SharedPreferences sharedPreferences;
     Fragment issueListFragment;
 
     @Override
@@ -38,10 +38,10 @@ public class TaskListActivity extends AppCompatActivity {
 
         initNavigation();
 
-        sharedPreferences = getSharedPreferences(Constants.APP_PREFERENCES, MODE_PRIVATE);
-        String name = sharedPreferences.getString(Constants.USERNAME, "");
-        String pass = sharedPreferences.getString(Constants.PASSWORD, "");
-        redMineApi = ServiceGenerator.createService(this, RedMineApi.class, name, pass);
+       // sharedPreferences = getSharedPreferences(Constants.APP_PREFERENCES, MODE_PRIVATE);
+      //  String name = sharedPreferences.getString(Constants.USERNAME, "");
+      //  String pass = sharedPreferences.getString(Constants.PASSWORD, "");
+     //   redMineApi = ServiceGenerator.createService(this, RedMineApi.class, name, pass);
     }
 
     @Override
@@ -90,6 +90,7 @@ public class TaskListActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
 
+                sharedPreferences = getSharedPreferences(Constants.APP_PREFERENCES, MODE_PRIVATE);
                 SharedPreferences.Editor ed = sharedPreferences.edit();
                 ed.putString(Constants.USERNAME, null);
                 ed.putString(Constants.PASSWORD, null);

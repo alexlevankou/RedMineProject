@@ -82,5 +82,12 @@
     </string-array>
 
   <string name="settings">settings</string>
+    <string name="tracker_caps">TRACKER</string>
+    <string name="status_caps">STATUS</string>
+    <string name="priority_caps">PRIORITY</string>
+    <string name="subject_caps">SUBJECT</string>
+    <string name="project_caps">PROJECT</string>
+    <string name="start_date_caps">START DATE</string>
+    <string name="description_caps">DESCRIPTION</string>
 
 </resources>
