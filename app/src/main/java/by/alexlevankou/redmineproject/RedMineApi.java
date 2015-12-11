@@ -22,6 +22,12 @@ public interface RedMineApi {
             Callback<IssueData> callback
     );
 
+    @GET("/projects.json")
+    void getProjects(
+            Callback<ProjectData> callback
+    );
+
+
     @GET("/issues/{id}.json")
     void showIssue(
             @Path("id") String id,
@@ -34,6 +40,8 @@ public interface RedMineApi {
             @Path("id") String id,
             Callback<IssueData> callback
     );
+
+
 
 
 

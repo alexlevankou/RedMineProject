@@ -72,9 +72,10 @@ public class IssuePropertiesFragment extends Fragment {
         String track = issue.tracker.name + " #" + String.valueOf(issue.id);
         tracker.setText(track);
         subject.setText(issue.subject);
+        String info = "Added by "+issue.author.name;
+        author.setText(info);
         status.setText(issue.status.name);
         priority.setText(issue.priority.name);
-        author.setText(issue.author.name);
         assignee.setText(issue.assigned_to.name);
         start_date.setText(issue.start_date);
         update_date.setText(issue.updated_on);

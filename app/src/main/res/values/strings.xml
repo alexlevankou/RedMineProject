@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">RedMine</string>
     <string name="issues">Issues</string>
+    <string name="projects">Projects</string>
+
 
     <string name="tracker">Tracker</string>
     <string name="number">#</string>
@@ -8,21 +10,34 @@
     <string name="priority">Priority</string>
     <string name="subject">Subject</string>
     <string name="project">Project</string>
-
-    <string name="hint_username">username</string>
-    <string name="hint_password">password</string>
-    <string name="btn_sign_up">sign up</string>
-    <string name="menu_item_logout">logout</string>
-
     <string name="author">Author</string>
     <string name="assignee">Assignee</string>
     <string name="start_date">Start date:</string>
     <string name="update_date">Last update:</string>
     <string name="done_ratio">% Done</string>
     <string name="description">Description</string>
+
+    <string name="hint_username">username</string>
+    <string name="hint_password">password</string>
+    <string name="btn_sign_up">sign up</string>
+
+
     <string name="open">open</string>
     <string name="close">close</string>
     <string name="edit">Edit</string>
+
+    <string name="settings">settings</string>
+    <string name="menu_item_projects">Projects</string>
+    <string name="menu_item_issues">Issues</string>
+    <string name="menu_item_logout">Logout</string>
+
+    <string name="tracker_caps">TRACKER</string>
+    <string name="status_caps">STATUS</string>
+    <string name="priority_caps">PRIORITY</string>
+    <string name="subject_caps">SUBJECT</string>
+    <string name="project_caps">PROJECT</string>
+    <string name="start_date_caps">START DATE</string>
+    <string name="description_caps">DESCRIPTION</string>
 
     <string-array name="tracker_array">
         <item>Feature</item>
@@ -81,13 +96,31 @@
         <item>5</item>
     </string-array>
 
-  <string name="settings">settings</string>
-    <string name="tracker_caps">TRACKER</string>
-    <string name="status_caps">STATUS</string>
-    <string name="priority_caps">PRIORITY</string>
-    <string name="subject_caps">SUBJECT</string>
-    <string name="project_caps">PROJECT</string>
-    <string name="start_date_caps">START DATE</string>
-    <string name="description_caps">DESCRIPTION</string>
+
+    <string-array name="done_ratio_array">
+        <item>10%</item>
+        <item>20%</item>
+        <item>30%</item>
+        <item>40%</item>
+        <item>50%</item>
+        <item>60%</item>
+        <item>70%</item>
+        <item>80%</item>
+        <item>90%</item>
+        <item>100%</item>
+    </string-array>
+
+    <string-array name="done_ratio_values">
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>40</item>
+        <item>50</item>
+        <item>60</item>
+        <item>70</item>
+        <item>80</item>
+        <item>90</item>
+        <item>100</item>
+    </string-array>
 
 </resources>

@@ -2,8 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/actionNotificationItem"
+        android:id="@+id/actionNotificationProjects"
+        android:orderInCategory="1"
+        android:icon="@drawable/ic_project"
+        android:title="@string/menu_item_projects" />
+    <item
+        android:id="@+id/actionNotificationIssues"
+        android:orderInCategory="1"
+        android:icon="@drawable/ic_issue"
+        android:title="@string/menu_item_issues" />
+
+    <item
+        android:id="@+id/actionNotificationLogout"
         android:orderInCategory="1"
         android:icon="@drawable/ic_logout"
         android:title="@string/menu_item_logout" />
+
 </menu>

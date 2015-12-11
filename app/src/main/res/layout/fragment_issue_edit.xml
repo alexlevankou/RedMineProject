@@ -20,9 +20,7 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/edit_text"
         android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingTop="16dp"
-        android:paddingBottom="8dp">
+        android:paddingRight="16dp">
 
         <TableRow
             style="@style/TableRowSize">
@@ -178,6 +176,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="2"
                 style="@style/TextFont"
+                android:entries="@array/done_ratio_array"
                 android:gravity="start" />
         </TableRow>
     </TableLayout>

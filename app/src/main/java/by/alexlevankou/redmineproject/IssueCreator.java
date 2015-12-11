@@ -32,6 +32,9 @@ public class IssueCreator {
         issue.status_id = s;
     }
 
+    public void setDoneRatio(int i){
+        issue.done_ratio = i;
+    }
 
     public class Issue {
 
@@ -41,5 +44,6 @@ public class IssueCreator {
         public String status_id;
         public String priority_id;
         public String tracker_id;
+        public int done_ratio;
     }
 }

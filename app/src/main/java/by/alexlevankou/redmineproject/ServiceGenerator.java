@@ -13,9 +13,10 @@ import retrofit.client.OkClient;
 public class ServiceGenerator {
 
     public static final String API_BASE_URL = "http://192.168.1.17:3001";
+    public static final String DEMO_BASE_URL = "https://redmine-demo.alphanodes.com";
 
     private static RestAdapter.Builder builder = new RestAdapter.Builder()
-            .setEndpoint(API_BASE_URL)
+            .setEndpoint(DEMO_BASE_URL)
             .setClient(new OkClient(new OkHttpClient()));
 
     public static <S> S createService(Context ctx,Class<S> serviceClass) {

@@ -8,7 +8,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -166,7 +164,6 @@ public class IssueListFragment extends Fragment  implements SwipeRefreshLayout.O
                 IssueData issueData = (IssueData)o;
                 list = issueData.issues;
                 mAdapter.update(list);
-
             }
             @Override
             public void failure(RetrofitError retrofitError) {

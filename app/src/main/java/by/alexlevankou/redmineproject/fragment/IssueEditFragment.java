@@ -29,6 +29,7 @@ public class IssueEditFragment extends Fragment {
     public AppCompatSpinner status;
     public AppCompatSpinner priority;
     public AppCompatSpinner assignee;
+    public AppCompatSpinner done_ratio;
     public  TextView start_date;
     private ImageButton date_picker;
 
@@ -81,9 +82,8 @@ public class IssueEditFragment extends Fragment {
         status  = (AppCompatSpinner) getActivity().findViewById(R.id.status_spinner);
         priority  = (AppCompatSpinner) getActivity().findViewById(R.id.priority_spinner);
         assignee  = (AppCompatSpinner) getActivity().findViewById(R.id.assignee_spinner);
-
+        done_ratio = (AppCompatSpinner) getActivity().findViewById(R.id.done_ratio_spinner);
         start_date  = (TextView) getActivity().findViewById(R.id.start_date_text);
-
         date_picker = (ImageButton) getActivity().findViewById(R.id.date_picker);
     }
 
@@ -99,15 +99,7 @@ public class IssueEditFragment extends Fragment {
         status.setSelection(selected);
         selected = findSelected(issue.priority.name,R.array.priority_array);
         priority.setSelection(selected);
-    }
-
-    private void getData() {
-        subject.getText().toString();
-        description.getText().toString();
-        start_date.getText().toString();
-        tracker.getSelectedItem().toString();
-        status.getSelectedItem().toString();
-        priority.getSelectedItem().toString();
+        done_ratio.setSelection(issue.done_ratio/10-1);
     }
 
     private int findSelected(String s,int id){

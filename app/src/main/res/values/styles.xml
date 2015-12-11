@@ -19,6 +19,7 @@
     <style name="HeadLineFont" parent="Base.TextAppearance.AppCompat.Headline">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingBottom">32dp</item>
     </style>
 
     <style name="SubHeadFont" parent="Base.TextAppearance.AppCompat.Subhead">
@@ -41,9 +42,8 @@
         <item name="android:background">@color/colorPrimary</item>
     </style>
 
-
     <style name="TableRowSize" >
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingBottom">20dp</item>
     </style>
 
 </resources>
