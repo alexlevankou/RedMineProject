@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/RedTheme">
         <activity
-            android:name=".LoginActivity"
+            android:name=".activity.LoginActivity"
             android:screenOrientation="portrait"
             android:noHistory="true">
             <intent-filter>
@@ -22,14 +22,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".TaskListActivity"
+            android:name=".activity.TaskListActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".PropertyActivity"
+            android:name=".activity.PropertyActivity"
             android:screenOrientation="portrait"
             android:noHistory="true"/>
         <activity
-            android:name=".SettingActivity"
+            android:name=".activity.SettingActivity"
             android:screenOrientation="portrait"/>
     </application>
 

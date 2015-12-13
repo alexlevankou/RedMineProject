@@ -6,8 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -15,8 +13,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import by.alexlevankou.redmineproject.IssueData;
-import by.alexlevankou.redmineproject.PropertyActivity;
+import by.alexlevankou.redmineproject.model.IssueData;
+import by.alexlevankou.redmineproject.activity.PropertyActivity;
 import by.alexlevankou.redmineproject.R;
 
 public class IssueEditFragment extends Fragment {

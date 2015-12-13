@@ -9,28 +9,11 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import by.alexlevankou.redmineproject.IssueData;
-import by.alexlevankou.redmineproject.PropertyActivity;
+import by.alexlevankou.redmineproject.model.IssueData;
+import by.alexlevankou.redmineproject.activity.PropertyActivity;
 import by.alexlevankou.redmineproject.R;
 
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
-
 public class IssuePropertiesFragment extends Fragment {
-
-    private Toolbar toolbar;
-    private TextView tracker;
-    private TextView subject;
-    private TextView status;
-    private  TextView priority;
-    private  TextView author;
-    private  TextView assignee;
-    private  TextView start_date;
-    private  TextView update_date;
-    private  TextView description;
-    private ProgressBar progressbar;
-    private TextView progress;
 
     private IssueData.Issues issue = PropertyActivity.issue;
 
@@ -54,19 +37,18 @@ public class IssuePropertiesFragment extends Fragment {
     }
 
     private void initData(){
-        toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-        tracker  = (TextView) getActivity().findViewById(R.id.tracker_text);
-        subject = (TextView) getActivity().findViewById(R.id.subject_text);
-        status  = (TextView) getActivity().findViewById(R.id.status_text);
-        priority  = (TextView) getActivity().findViewById(R.id.priority_text);
-        author  = (TextView) getActivity().findViewById(R.id.author_text);
-        assignee  = (TextView) getActivity().findViewById(R.id.assignee_text);
-        start_date  = (TextView) getActivity().findViewById(R.id.start_date_text);
-        update_date  = (TextView) getActivity().findViewById(R.id.update_date_text);
-        progressbar = (ProgressBar) getActivity().findViewById(R.id.done_ratio_progress);
-        progress = (TextView) getActivity().findViewById(R.id.done_ratio_text);
-        description  = (TextView) getActivity().findViewById(R.id.description_text);
-
+        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        TextView tracker = (TextView) getActivity().findViewById(R.id.tracker_text);
+        TextView subject = (TextView) getActivity().findViewById(R.id.subject_text);
+        TextView status = (TextView) getActivity().findViewById(R.id.status_text);
+        TextView priority = (TextView) getActivity().findViewById(R.id.priority_text);
+        TextView author = (TextView) getActivity().findViewById(R.id.author_text);
+        TextView assignee = (TextView) getActivity().findViewById(R.id.assignee_text);
+        TextView start_date = (TextView) getActivity().findViewById(R.id.start_date_text);
+        TextView update_date = (TextView) getActivity().findViewById(R.id.update_date_text);
+        ProgressBar progressbar = (ProgressBar) getActivity().findViewById(R.id.done_ratio_progress);
+        TextView progress = (TextView) getActivity().findViewById(R.id.done_ratio_text);
+        TextView description = (TextView) getActivity().findViewById(R.id.description_text);
 
         toolbar.setTitle(issue.project.name);
         String track = issue.tracker.name + " #" + String.valueOf(issue.id);
@@ -80,10 +62,7 @@ public class IssuePropertiesFragment extends Fragment {
         start_date.setText(issue.start_date);
         update_date.setText(issue.updated_on);
         description.setText(issue.description);
-        progress.setText(issue.done_ratio+"%");
+        progress.setText(issue.done_ratio + "%");
         progressbar.setProgress(issue.done_ratio);
     }
-
-
-
 }

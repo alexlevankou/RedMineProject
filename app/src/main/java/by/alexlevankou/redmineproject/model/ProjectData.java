@@ -1,4 +1,4 @@
-package by.alexlevankou.redmineproject;
+package by.alexlevankou.redmineproject.model;
 
 import java.util.ArrayList;
 

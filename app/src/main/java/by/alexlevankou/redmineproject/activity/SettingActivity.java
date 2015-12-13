@@ -1,8 +1,10 @@
-package by.alexlevankou.redmineproject;
+package by.alexlevankou.redmineproject.activity;
 
 import android.preference.PreferenceActivity;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
+
+import by.alexlevankou.redmineproject.R;
 
 public class SettingActivity extends PreferenceActivity {
 

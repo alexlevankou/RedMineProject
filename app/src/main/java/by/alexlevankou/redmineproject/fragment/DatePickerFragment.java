@@ -7,10 +7,8 @@ import android.support.v4.app.DialogFragment;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
-import by.alexlevankou.redmineproject.IssueData;
-import by.alexlevankou.redmineproject.PropertyActivity;
+import by.alexlevankou.redmineproject.model.IssueData;
+import by.alexlevankou.redmineproject.activity.PropertyActivity;
 import by.alexlevankou.redmineproject.R;
 
 

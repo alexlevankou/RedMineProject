@@ -2,6 +2,8 @@ package by.alexlevankou.redmineproject;
 
 import java.util.Comparator;
 
+import by.alexlevankou.redmineproject.model.IssueData;
+
 public class IssueComparator implements Comparator<IssueData.Issues> {
 
     public static final int COMPARE_BY_NUMBER = R.id.number;

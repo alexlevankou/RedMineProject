@@ -17,7 +17,6 @@
                 android:id="@+id/number"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:onClick="onClick"
                 style="@style/TabFont"
                 android:text="@string/number"/>
             <TextView
@@ -25,49 +24,44 @@
                 android:layout_width="0dp"
                 style="@style/TabFont"
                 android:layout_weight="1"
-                android:onClick="onClick"
                 android:text="@string/tracker_caps" />
             <TextView
                 android:id="@+id/status"
                 android:layout_width="0dp"
                 style="@style/TabFont"
                 android:layout_weight="1"
-                android:onClick="onClick"
+
                 android:text="@string/status_caps" />
             <TextView
                 android:id="@+id/priority"
                 android:layout_width="0dp"
                 style="@style/TabFont"
                 android:layout_weight="1"
-                android:onClick="onClick"
+
                 android:text="@string/priority_caps"/>
             <TextView
                 android:id="@+id/subject"
                 android:layout_width="0dp"
                 style="@style/TabFont"
                 android:layout_weight="3"
-                android:onClick="onClick"
                 android:text="@string/subject_caps"/>
             <TextView
                 android:id="@+id/project"
                 android:layout_width="0dp"
                 style="@style/TabFont"
                 android:layout_weight="2"
-                android:onClick="onClick"
                 android:text="@string/project_caps"/>
             <TextView
                 android:id="@+id/start_date"
                 android:layout_width="0dp"
                 style="@style/TabFont"
                 android:layout_weight="1"
-                android:onClick="onClick"
                 android:text="@string/start_date_caps"/>
             <TextView
                 android:id="@+id/description"
                 android:layout_width="0dp"
                 style="@style/TabFont"
                 android:layout_weight="2"
-                android:onClick="onClick"
                 android:text="@string/description_caps"/>
         </TableRow>
     </TableLayout>

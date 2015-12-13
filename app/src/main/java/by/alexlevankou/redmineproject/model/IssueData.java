@@ -1,4 +1,4 @@
-package by.alexlevankou.redmineproject;
+package by.alexlevankou.redmineproject.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,10 +61,10 @@ public class IssueData{
 
         public long id;
 
-        public Basics tracker; //in_list
-        public Basics status; //in_list
-        public Basics priority; //in_list
-        public String subject; //in_list
+        public Basics tracker;
+        public Basics status;
+        public Basics priority;
+        public String subject;
         public String description;
         public String start_date;
         public int done_ratio;
@@ -73,8 +73,7 @@ public class IssueData{
 
         public Basics author;
         public Basics assigned_to;
-
-        public Basics project; //in_list
+        public Basics project;
 
 
         public long getNumber(){
@@ -85,7 +84,6 @@ public class IssueData{
         }
         public int getStatusId(){
             return status.id;
-
         }
 
         public String getTrackerName(){
@@ -114,13 +112,6 @@ public class IssueData{
         public String getStartDate(){
             return start_date;
         }
-
-
-        //  public int status_id;
-       // public int priority_id;
-    //    public int tracker_id;
-
-        public Issues(){}
 
         public class Basics{
             public int id;

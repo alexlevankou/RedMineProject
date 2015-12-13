@@ -1,34 +1,34 @@
-package by.alexlevankou.redmineproject;
+package by.alexlevankou.redmineproject.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import by.alexlevankou.redmineproject.R;
+import by.alexlevankou.redmineproject.RedMineApplication;
 import by.alexlevankou.redmineproject.fragment.IssueEditFragment;
 import by.alexlevankou.redmineproject.fragment.IssuePropertiesFragment;
+import by.alexlevankou.redmineproject.model.IssueCreator;
+import by.alexlevankou.redmineproject.model.IssueData;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class PropertyActivity extends AppCompatActivity {
 
-    public static RedMineApi redMineApi;
-    IssueData issueData;
     public static IssueData.Issues issue;
-    public static long id;
+    private static long id;
     private FloatingActionButton fab;
     private Callback callback;
-    SharedPreferences sharedPreferences;
-    Fragment fragment;
+    private IssueData issueData;
+    private Fragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +40,7 @@ public class PropertyActivity extends AppCompatActivity {
         fab = (FloatingActionButton) findViewById(R.id.submit_fab);
         fab.hide();
         Intent intent = getIntent();
-        id = intent.getLongExtra("id",-1);
-
-        sharedPreferences = getSharedPreferences(Constants.APP_PREFERENCES, MODE_PRIVATE);
-        String name = sharedPreferences.getString(Constants.USERNAME, null);
-        String pass = sharedPreferences.getString(Constants.PASSWORD, null);
-        redMineApi = ServiceGenerator.createService(this, RedMineApi.class, name, pass);
+        id = intent.getLongExtra("id", -1);
 
         getInfoFromApi();
     }
@@ -97,7 +92,6 @@ public class PropertyActivity extends AppCompatActivity {
             }
         };
 
-       // IssueData iss = new IssueData();
         IssueCreator iss  = new IssueCreator();
         IssueEditFragment editFragment = (IssueEditFragment) fragment;
 
@@ -112,17 +106,10 @@ public class PropertyActivity extends AppCompatActivity {
         iss.setStatus(selectedVal);
         selectedVal = getResources().getStringArray(R.array.priority_values)[editFragment.priority.getSelectedItemPosition()];
         iss.setPriority(selectedVal);
-
         iss.setDoneRatio(editFragment.done_ratio.getSelectedItemPosition()*10+10);
-
-       //New-In Progress-3 Resolved-4 Resolved-Closed-Not Valid-On Hold-Wait for Clarification-ReOpen-11 Verified
-       //Defect-Feature-Support-GRP-QA-Suggest
-        //Low-Normal-High-Urgent-Immediate
-        //сделать отдельные массивы для дефекта и других
 
         String taskId = String.valueOf(id);
         RedMineApplication.redMineApi.updateIssue(iss,taskId, cb);
-        //redMineApi.updateIssue(iss,taskId, cb);
     }
 
     private void getInfoFromApi(){
@@ -144,8 +131,6 @@ public class PropertyActivity extends AppCompatActivity {
         };
 
         String query = String.valueOf(id);
-        //redMineApi.showIssue(query, callback);
         RedMineApplication.redMineApi.showIssue(query, callback);
-
     }
 }

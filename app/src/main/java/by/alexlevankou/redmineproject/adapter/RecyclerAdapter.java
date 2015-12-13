@@ -1,11 +1,10 @@
-package by.alexlevankou.redmineproject;
+package by.alexlevankou.redmineproject.adapter;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,33 +12,35 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
+import by.alexlevankou.redmineproject.activity.PropertyActivity;
+import by.alexlevankou.redmineproject.R;
 import by.alexlevankou.redmineproject.fragment.IssueListFragment;
+import by.alexlevankou.redmineproject.model.IssueData;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
     private ArrayList<IssueData.Issues> list;
     private ArrayList<IssueData.Issues> defaultList;
-    public Context context;
-    public static SharedPreferences pref;
+    private Context context;
+    private static SharedPreferences pref;
 
 
     // класс view holder-а с помощью которого мы получаем ссылку на каждый элемент
     // отдельного пункта списка
     public static class ViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener {
 
-        public TableLayout item;
-        public TextView number;
-        public TextView tracker;
-        public TextView status;
-        public TextView priority;
-        public TextView subject;
-        public TextView project;
-        public TextView start_date;
-        public TextView description;
+        private TableLayout item;
+        private TextView number;
+        private TextView tracker;
+        private TextView status;
+        private TextView priority;
+        private TextView subject;
+        private TextView project;
+        private TextView start_date;
+        private TextView description;
 
-        public MyListListener mListener;
+        private MyListListener mListener;
 
 
         public ViewHolder(View v, MyListListener listener) {
@@ -73,8 +74,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             }
         }
 
-        public static interface MyListListener {
-            public void onChoose(Long id);
+        public interface MyListListener {
+            void onChoose(Long id);
         }
 
     }
@@ -140,17 +141,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public void update(ArrayList<IssueData.Issues> issues){
         defaultList = issues;
         filter();
-       // list = issues;
         notifyDataSetChanged();
     }
 
-    public void filter(){
+    private void filter(){
         list.clear();
         for(IssueData.Issues item: defaultList){
             if(
-                IssueListFragment.shownPriority.get(item.getPriorityId()).equals(true)&&
-                IssueListFragment.shownTracker.get(item.getTrackerId()).equals(true)&&
-                IssueListFragment.shownStatus.get(item.getStatusId()).equals(true)
+                IssueListFragment.prefPriority.get(item.getPriorityId())&&
+                IssueListFragment.prefTracker.get(item.getTrackerId())&&
+                IssueListFragment.prefStatus.get(item.getStatusId())
             ){
                 list.add(item);
             }

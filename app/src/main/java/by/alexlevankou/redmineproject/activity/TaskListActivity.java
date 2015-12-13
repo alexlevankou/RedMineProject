@@ -1,8 +1,7 @@
-package by.alexlevankou.redmineproject;
+package by.alexlevankou.redmineproject.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
@@ -12,23 +11,22 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
+import by.alexlevankou.redmineproject.Constants;
+import by.alexlevankou.redmineproject.R;
 import by.alexlevankou.redmineproject.fragment.IssueListFragment;
 import by.alexlevankou.redmineproject.fragment.ProjectListFragment;
 
 
 public class TaskListActivity extends AppCompatActivity {
 
-   // public static RedMineApi redMineApi;
-    public SharedPreferences sharedPreferences;
-    Fragment issueListFragment;
-    Fragment projectListFragment;
-    FragmentTransaction fragmentTransaction;
+    private SharedPreferences sharedPreferences;
+    private Fragment issueListFragment;
+    private Fragment projectListFragment;
+    private FragmentTransaction fragmentTransaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +39,6 @@ public class TaskListActivity extends AppCompatActivity {
         fragmentTransaction.commit();
 
         initNavigation();
-
-       // sharedPreferences = getSharedPreferences(Constants.APP_PREFERENCES, MODE_PRIVATE);
-      //  String name = sharedPreferences.getString(Constants.USERNAME, "");
-      //  String pass = sharedPreferences.getString(Constants.PASSWORD, "");
-     //   redMineApi = ServiceGenerator.createService(this, RedMineApi.class, name, pass);
     }
 
     @Override
@@ -69,11 +62,6 @@ public class TaskListActivity extends AppCompatActivity {
                 break;
         }
         return true;
-    }
-
-    public void onClick(View v){
-        IssueListFragment frag = (IssueListFragment) issueListFragment;
-        frag.onClick(v);
     }
 
     private void initNavigation(){

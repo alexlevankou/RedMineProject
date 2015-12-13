@@ -1,5 +1,8 @@
 package by.alexlevankou.redmineproject;
 
+import by.alexlevankou.redmineproject.model.IssueCreator;
+import by.alexlevankou.redmineproject.model.IssueData;
+import by.alexlevankou.redmineproject.model.ProjectData;
 import retrofit.Callback;
 import retrofit.http.Body;
 import retrofit.http.GET;

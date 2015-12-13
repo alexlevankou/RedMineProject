@@ -1,4 +1,4 @@
-package by.alexlevankou.redmineproject;
+package by.alexlevankou.redmineproject.model;
 
 public class IssueCreator {
 

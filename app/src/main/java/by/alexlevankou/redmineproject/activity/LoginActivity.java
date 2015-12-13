@@ -1,4 +1,4 @@
-package by.alexlevankou.redmineproject;
+package by.alexlevankou.redmineproject.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,6 +13,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 
+import by.alexlevankou.redmineproject.Constants;
+import by.alexlevankou.redmineproject.R;
+import by.alexlevankou.redmineproject.RedMineApi;
+import by.alexlevankou.redmineproject.RedMineApplication;
+import by.alexlevankou.redmineproject.ServiceGenerator;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -22,10 +27,9 @@ public class LoginActivity extends AppCompatActivity {
     private EditText username;
     private EditText password;
     private CoordinatorLayout coordinatorLayout;
-    private RedMineApi redMine;
     private String name;
     private  String pass;
-    public SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         pass = sharedPreferences.getString(Constants.PASSWORD, null);
 
         if(name != null && pass != null) {
-            RedMineApplication.redMineApi = ServiceGenerator.createService(this,RedMineApi.class, name, pass);
+            RedMineApplication.redMineApi = ServiceGenerator.createService(this, RedMineApi.class, name, pass);
             Intent intent = new Intent(LoginActivity.this,TaskListActivity.class);
             startActivity(intent);
         }else{
@@ -69,7 +73,6 @@ public class LoginActivity extends AppCompatActivity {
         ed.putString(Constants.PASSWORD, pass);
         ed.apply();
 
-        //redMine = ServiceGenerator.createService(this,RedMineApi.class, name, pass);
         RedMineApplication.redMineApi = ServiceGenerator.createService(this,RedMineApi.class, name, pass);
 
         Callback callback = new Callback() {
@@ -85,7 +88,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         };
 
-        //redMine.login("me", callback);
         RedMineApplication.redMineApi.login("me",callback);
     }
 }
