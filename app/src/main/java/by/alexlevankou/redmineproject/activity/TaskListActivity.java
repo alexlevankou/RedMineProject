@@ -17,6 +17,7 @@ import android.view.View;
 
 import by.alexlevankou.redmineproject.Constants;
 import by.alexlevankou.redmineproject.R;
+import by.alexlevankou.redmineproject.RedMineApplication;
 import by.alexlevankou.redmineproject.fragment.IssueListFragment;
 import by.alexlevankou.redmineproject.fragment.ProjectListFragment;
 
@@ -27,6 +28,8 @@ public class TaskListActivity extends AppCompatActivity {
     private Fragment issueListFragment;
     private Fragment projectListFragment;
     private FragmentTransaction fragmentTransaction;
+    private final int PROJECTS_FRAGMENT = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,15 @@ public class TaskListActivity extends AppCompatActivity {
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.frame, issueListFragment);
         fragmentTransaction.commit();
+
+        Intent intent = getIntent();
+        int  type = intent.getIntExtra("fragment", RedMineApplication.EMPTY_INTENT);
+        if(type == PROJECTS_FRAGMENT){
+            projectListFragment = new ProjectListFragment();
+            fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frame, projectListFragment);
+            fragmentTransaction.commit();
+        }
 
         initNavigation();
     }

@@ -1,5 +1,6 @@
 package by.alexlevankou.redmineproject.fragment;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -28,7 +29,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class IssueListFragment extends Fragment  implements SwipeRefreshLayout.OnRefreshListener {
+public class IssueListFragment extends AbstractTabFragment  implements SwipeRefreshLayout.OnRefreshListener {
 
     public static SparseBooleanArray prefTracker, prefStatus, prefPriority;
     private View view;
@@ -42,10 +43,19 @@ public class IssueListFragment extends Fragment  implements SwipeRefreshLayout.O
     private SharedPreferences pref;
     private Callback callback;
     private ArrayList<IssueData.Issues> list;
+    private String title;
 
 
     public IssueListFragment() {
         // Required empty public constructor
+    }
+
+    public static IssueListFragment getInstance(Context context) {
+        Bundle args = new Bundle();
+        IssueListFragment fragment = new IssueListFragment();
+        fragment.setArguments(args);
+        fragment.setTitle(context.getString(R.string.tab_issues));
+        return fragment;
     }
 
     @Override
@@ -184,6 +194,16 @@ public class IssueListFragment extends Fragment  implements SwipeRefreshLayout.O
                 retrofitError.printStackTrace();
             }
         };
+
+        //verify project or your issues
         RedMineApplication.redMineApi.getIssues("me", callback);
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getTitle() {
+        return title;
     }
 }

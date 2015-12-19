@@ -13,6 +13,8 @@ import retrofit.http.Query;
 
 public interface RedMineApi {
 
+    // issue
+
     @HEAD("/issues.json")
     void login(
             @Query("assigned_to_id") String user_id,
@@ -24,12 +26,6 @@ public interface RedMineApi {
             @Query("assigned_to_id") String user_id,
             Callback<IssueData> callback
     );
-
-    @GET("/projects.json")
-    void getProjects(
-            Callback<ProjectData> callback
-    );
-
 
     @GET("/issues/{id}.json")
     void showIssue(
@@ -44,12 +40,22 @@ public interface RedMineApi {
             Callback<IssueData> callback
     );
 
-
-
-
-
     @GET("/issues/{id}.json")
     IssueData.Issues synchroGet(@Path("id") String id);
 
+
+    //project
+
+    @GET("/projects.json")
+    void getProjects(
+            Callback<ProjectData> callback
+    );
+
+
+    @GET("/projects/{id}.json")
+    void showProject(
+            @Path("id") String id,
+            Callback<ProjectData> callback
+    );
 
 }

@@ -39,6 +39,12 @@
     <string name="start_date_caps">START DATE</string>
     <string name="description_caps">DESCRIPTION</string>
 
+    <string name="tab_issues">ISSUES</string>
+    <string name="tab_new_issue">NEW ISSUE</string>
+    <string name="tab_activity">ACTIVITY</string>
+    <string name="tab_overview">OVERVIEW</string>
+
+
     <string-array name="tracker_array">
         <item>Feature</item>
         <item>GRP-Feature</item>
