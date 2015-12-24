@@ -3,6 +3,7 @@ package by.alexlevankou.redmineproject.activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 
@@ -18,6 +19,7 @@ import android.view.View;
 import by.alexlevankou.redmineproject.Constants;
 import by.alexlevankou.redmineproject.R;
 import by.alexlevankou.redmineproject.RedMineApplication;
+import by.alexlevankou.redmineproject.fragment.ExitDialogFragment;
 import by.alexlevankou.redmineproject.fragment.IssueListFragment;
 import by.alexlevankou.redmineproject.fragment.ProjectListFragment;
 
@@ -107,12 +109,8 @@ public class TaskListActivity extends AppCompatActivity {
                         break;
 
                     case R.id.actionNotificationLogout:
-                        sharedPreferences = getSharedPreferences(Constants.APP_PREFERENCES, MODE_PRIVATE);
-                        SharedPreferences.Editor ed = sharedPreferences.edit();
-                        ed.putString(Constants.USERNAME, null);
-                        ed.putString(Constants.PASSWORD, null);
-                        ed.apply();
-                        TaskListActivity.this.finishAffinity();
+                        DialogFragment fragment = new ExitDialogFragment();
+                        fragment.show(getSupportFragmentManager(), "EXIT");
                         break;
                 }
                 return true;

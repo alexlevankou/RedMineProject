@@ -9,16 +9,19 @@
         <CheckBoxPreference
             android:key="status_chb"
             android:summary="display status"
+            android:defaultValue="true"
             android:title="Status">
         </CheckBoxPreference>
         <CheckBoxPreference
             android:key="priority_chb"
             android:summary="display priority"
+            android:defaultValue="true"
             android:title="Priority">
         </CheckBoxPreference>
         <CheckBoxPreference
             android:key="tracker_chb"
             android:summary="display tracker"
+            android:defaultValue="true"
             android:title="Tracker">
         </CheckBoxPreference>
         <CheckBoxPreference
@@ -34,6 +37,7 @@
         <CheckBoxPreference
             android:key="project_chb"
             android:summary="display project name"
+            android:defaultValue="true"
             android:title="Project">
         </CheckBoxPreference>
         <CheckBoxPreference
@@ -52,46 +56,55 @@
             android:dependency="status_chb"
             android:key="status_screen"
             android:summary="filter the list by status"
+            android:defaultValue="true"
             android:title="Status filter">
 
             <CheckBoxPreference
                 android:key="new_chb"
                 android:summary="show new issues"
+                android:defaultValue="true"
                 android:title="New">
             </CheckBoxPreference>
             <CheckBoxPreference
                 android:key="in_progress_chb"
                 android:summary="show issues in progress"
+                android:defaultValue="true"
                 android:title="In Progress">
             </CheckBoxPreference>
             <CheckBoxPreference
                 android:key="on_hold_chb"
                 android:summary="show on hold issues"
+                android:defaultValue="true"
                 android:title="On Hold">
             </CheckBoxPreference>
             <CheckBoxPreference
                 android:key="clarification_chb"
                 android:summary="show issues waiting for clarification"
+                android:defaultValue="true"
                 android:title="Wait for Clarification">
             </CheckBoxPreference>
             <CheckBoxPreference
                 android:key="resolved_chb"
                 android:summary="show resolved issues"
+                android:defaultValue="true"
                 android:title="Resolved">
             </CheckBoxPreference>
             <CheckBoxPreference
                 android:key="verified_chb"
                 android:summary="show verified issues"
+                android:defaultValue="true"
                 android:title="Verified">
             </CheckBoxPreference>
             <CheckBoxPreference
                 android:key="closed_chb"
                 android:summary="show closed issues"
+                android:defaultValue="true"
                 android:title="Closed">
             </CheckBoxPreference>
             <CheckBoxPreference
                 android:key="not_valid_chb"
                 android:summary="show not valid issues"
+                android:defaultValue="true"
                 android:title="Not Valid">
             </CheckBoxPreference>
         </PreferenceScreen>
@@ -104,26 +117,31 @@
             <CheckBoxPreference
                 android:key="low_chb"
                 android:summary="show low priority issues"
+                android:defaultValue="true"
                 android:title="Low">
             </CheckBoxPreference>
             <CheckBoxPreference
                 android:key="normal_chb"
                 android:summary="show normal priority issues"
+                android:defaultValue="true"
                 android:title="Normal">
             </CheckBoxPreference>
             <CheckBoxPreference
                 android:key="high_chb"
                 android:summary="show high priority issues"
+                android:defaultValue="true"
                 android:title="High">
             </CheckBoxPreference>
             <CheckBoxPreference
                 android:key="urgent_chb"
                 android:summary="show urgent priority issues"
+                android:defaultValue="true"
                 android:title="Urgent">
             </CheckBoxPreference>
             <CheckBoxPreference
                 android:key="immediate_chb"
                 android:summary="show immediate priority issues"
+                android:defaultValue="true"
                 android:title="Immediate">
             </CheckBoxPreference>
         </PreferenceScreen>
@@ -136,31 +154,37 @@
             <CheckBoxPreference
                 android:key="feature_chb"
                 android:summary="show features"
+                android:defaultValue="true"
                 android:title="Feature">
             </CheckBoxPreference>
             <CheckBoxPreference
                 android:key="grp_feature_chb"
                 android:summary="show GRP-features"
+                android:defaultValue="true"
                 android:title="GRP-Feature">
             </CheckBoxPreference>
             <CheckBoxPreference
                 android:key="defect_chb"
                 android:summary="show defects"
+                android:defaultValue="true"
                 android:title="Defect">
             </CheckBoxPreference>
             <CheckBoxPreference
                 android:key="qa_chb"
                 android:summary="show QAs"
+                android:defaultValue="true"
                 android:title="QA">
             </CheckBoxPreference>
             <CheckBoxPreference
                 android:key="support_chb"
                 android:summary="show supports"
+                android:defaultValue="true"
                 android:title="Support">
             </CheckBoxPreference>
             <CheckBoxPreference
                 android:key="suggestion_chb"
                 android:summary="show suggestions"
+                android:defaultValue="true"
                 android:title="Suggestion">
             </CheckBoxPreference>
         </PreferenceScreen>

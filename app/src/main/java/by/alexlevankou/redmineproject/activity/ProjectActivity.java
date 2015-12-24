@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,20 +17,22 @@ import by.alexlevankou.redmineproject.Constants;
 import by.alexlevankou.redmineproject.R;
 import by.alexlevankou.redmineproject.RedMineApplication;
 import by.alexlevankou.redmineproject.adapter.ViewPagerAdapter;
+import by.alexlevankou.redmineproject.fragment.ExitDialogFragment;
+import by.alexlevankou.redmineproject.fragment.OverviewFragment;
+import by.alexlevankou.redmineproject.model.IssueData;
 import by.alexlevankou.redmineproject.model.ProjectData;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class ProjectActivity extends AppCompatActivity {
+public class ProjectActivity extends AppCompatActivity{
 
-    private SharedPreferences sharedPreferences;
     private Toolbar toolbar;
-    private DrawerLayout drawerLayout;
     private ViewPager viewPager;
 
     public static ProjectData projectData;
-
+    public static IssueData projectIssueData;
+    public static int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +41,7 @@ public class ProjectActivity extends AppCompatActivity {
         setContentView(R.layout.activity_project);
 
         Intent intent = getIntent();
-        int id = intent.getIntExtra("id", RedMineApplication.EMPTY_INTENT);
+        id = intent.getIntExtra("id", RedMineApplication.EMPTY_INTENT);
 
         getInfoFromApi(id);
         //initToolbar();
@@ -66,7 +69,17 @@ public class ProjectActivity extends AppCompatActivity {
             public void success(Object o, Response response) {
                 projectData = (ProjectData)o;
                 initToolbar();
+            }
+            @Override
+            public void failure(RetrofitError retrofitError) {
+                retrofitError.printStackTrace();
+            }
+        };
 
+        Callback callbackProjectIssues = new Callback() {
+            @Override
+            public void success(Object o, Response response) {
+                projectIssueData = (IssueData)o;
             }
             @Override
             public void failure(RetrofitError retrofitError) {
@@ -76,6 +89,8 @@ public class ProjectActivity extends AppCompatActivity {
 
         String query = String.valueOf(id);
         RedMineApplication.redMineApi.showProject(query, callback);
+        RedMineApplication.redMineApi.getProjectIssues(query, callbackProjectIssues);
+
     }
 
     private void initNavigation(){
@@ -107,12 +122,8 @@ public class ProjectActivity extends AppCompatActivity {
                         break;
 
                     case R.id.actionNotificationLogout:
-                        sharedPreferences = getSharedPreferences(Constants.APP_PREFERENCES, MODE_PRIVATE);
-                        SharedPreferences.Editor ed = sharedPreferences.edit();
-                        ed.putString(Constants.USERNAME, null);
-                        ed.putString(Constants.PASSWORD, null);
-                        ed.apply();
-                        ProjectActivity.this.finishAffinity();
+                        DialogFragment fragment = new ExitDialogFragment();
+                        fragment.show(getSupportFragmentManager(), "EXIT");
                         break;
                 }
                 return true;

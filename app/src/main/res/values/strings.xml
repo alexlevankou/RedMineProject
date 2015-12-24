@@ -43,6 +43,12 @@
     <string name="tab_new_issue">NEW ISSUE</string>
     <string name="tab_activity">ACTIVITY</string>
     <string name="tab_overview">OVERVIEW</string>
+    <string name="issue_tracking">Issue tracking</string>
+    <string name="members">Members</string>
+    <string name="cancel">Cancel</string>
+    <string name="exit_question">Exit application?</string>
+    <string name="exit">Exit</string>
+    <string name="preferences">Preferences</string>
 
 
     <string-array name="tracker_array">

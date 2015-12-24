@@ -85,6 +85,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         list = new ArrayList<IssueData.Issues>();
         defaultList = new ArrayList<IssueData.Issues>();
         this.context = context;
+        PreferenceManager.setDefaultValues(context, R.xml.preferences, false);
         pref = PreferenceManager.getDefaultSharedPreferences(context);
 
     }
@@ -123,10 +124,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         holder.description.setText(list.get(position).description);
         holder.start_date.setText(list.get(position).start_date);
 
-        holder.checkVisibility(holder.status, pref.getBoolean("status_chb", false));
-        holder.checkVisibility(holder.priority, pref.getBoolean("priority_chb", false));
-        holder.checkVisibility(holder.tracker, pref.getBoolean("tracker_chb", false));
-        holder.checkVisibility(holder.project, pref.getBoolean("project_chb",false));
+        holder.checkVisibility(holder.status, pref.getBoolean("status_chb", true));
+        holder.checkVisibility(holder.priority, pref.getBoolean("priority_chb", true));
+        holder.checkVisibility(holder.tracker, pref.getBoolean("tracker_chb", true));
+        holder.checkVisibility(holder.project, pref.getBoolean("project_chb",true));
         holder.checkVisibility(holder.subject, pref.getBoolean("subject_chb", false));
         holder.checkVisibility(holder.description, pref.getBoolean("description_chb", false));
         holder.checkVisibility(holder.start_date, pref.getBoolean("start_date_chb", false));

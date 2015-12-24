@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,8 +16,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 import by.alexlevankou.redmineproject.IssueComparator;
 import by.alexlevankou.redmineproject.model.IssueData;
@@ -29,7 +26,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class IssueListFragment extends AbstractTabFragment  implements SwipeRefreshLayout.OnRefreshListener {
+public class IssueListFragment extends AbstractFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     public static SparseBooleanArray prefTracker, prefStatus, prefPriority;
     private View view;
@@ -37,7 +34,7 @@ public class IssueListFragment extends AbstractTabFragment  implements SwipeRefr
     private RecyclerView mRecyclerView;
     private RecyclerAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private Toolbar toolbar;
+    protected Toolbar toolbar;
     private TextView number, status, priority, tracker ,project ,subject, description, start_date;
 
     private SharedPreferences pref;
@@ -87,7 +84,7 @@ public class IssueListFragment extends AbstractTabFragment  implements SwipeRefr
 
     private void initToolbar(){
         toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.issues);
+        //toolbar.setTitle(R.string.issues);
     }
 
     private void initListHeader(View v) {
@@ -120,11 +117,12 @@ public class IssueListFragment extends AbstractTabFragment  implements SwipeRefr
     }
 
     private void formListHeader() {
+        PreferenceManager.setDefaultValues(getContext(), R.xml.preferences, false);
         pref = PreferenceManager.getDefaultSharedPreferences(getContext());
-        checkVisibility(status,pref.getBoolean("status_chb",false));
-        checkVisibility(priority,pref.getBoolean("priority_chb",false));
-        checkVisibility(tracker,pref.getBoolean("tracker_chb",false));
-        checkVisibility(project,pref.getBoolean("project_chb",false));
+        checkVisibility(status,pref.getBoolean("status_chb",true));
+        checkVisibility(priority,pref.getBoolean("priority_chb",true));
+        checkVisibility(tracker,pref.getBoolean("tracker_chb",true));
+        checkVisibility(project,pref.getBoolean("project_chb",true));
         checkVisibility(subject, pref.getBoolean("subject_chb", false));
         checkVisibility(description, pref.getBoolean("description_chb", false));
         checkVisibility(start_date, pref.getBoolean("start_date_chb", false));

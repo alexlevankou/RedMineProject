@@ -15,10 +15,10 @@ import android.widget.TextView;
 
 import by.alexlevankou.redmineproject.R;
 
-public abstract class AbstractIssueFragment  extends AbstractTabFragment {
+public abstract class AbstractIssueFragment  extends AbstractFragment {
 
-    private View view;
-    private Toolbar toolbar;
+    protected View view;
+    protected Toolbar toolbar;
     public AppCompatSpinner tracker;
     public EditText subject;
     public EditText description;
@@ -27,19 +27,20 @@ public abstract class AbstractIssueFragment  extends AbstractTabFragment {
     public AppCompatSpinner assignee;
     public AppCompatSpinner done_ratio;
     public TextView start_date;
-    private ImageButton date_picker;
+    protected ImageButton date_picker;
 
-    private final static int START_DATE = 1;
-    private final static int DUE_DATE = 2;
+    protected final static int START_DATE = 1;
+    protected final static int DUE_DATE = 2;
 
     ArrayAdapter<?> assignee_adapter;
 
 
-    abstract void setData();
+    protected abstract void setData();
 
     public AbstractIssueFragment() {
         // Required empty public constructor
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,7 +69,7 @@ public abstract class AbstractIssueFragment  extends AbstractTabFragment {
         }
     }
 
-    private void initData() {
+    protected void initData() {
         toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         tracker  = (AppCompatSpinner) getActivity().findViewById(R.id.tracker_spinner);
 
@@ -82,7 +83,7 @@ public abstract class AbstractIssueFragment  extends AbstractTabFragment {
         date_picker = (ImageButton) getActivity().findViewById(R.id.date_picker);
     }
 
-    private int findSelected(String s,int id){
+    protected int findSelected(String s,int id){
         String[] array = getResources().getStringArray(id);
         for(int i=0; i < array.length; i++){
             if(s.equals(array[i])) return  i;

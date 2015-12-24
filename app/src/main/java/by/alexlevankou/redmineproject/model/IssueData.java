@@ -57,6 +57,8 @@ public class IssueData{
     }
 
 
+
+
     public class Issues{
 
         public long id;
@@ -112,6 +114,9 @@ public class IssueData{
         public String getStartDate(){
             return start_date;
         }
+
+
+
 
         public class Basics{
             public int id;

@@ -1,34 +1,30 @@
 package by.alexlevankou.redmineproject.fragment;
 
+
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.AppCompatSpinner;
-import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
-import by.alexlevankou.redmineproject.model.IssueData;
-import by.alexlevankou.redmineproject.activity.PropertyActivity;
 import by.alexlevankou.redmineproject.R;
 
-public class IssueEditFragment extends AbstractIssueFragment {
 
-    private IssueData.Issues issue = PropertyActivity.issue;
+public class IssueCreateFragment extends AbstractIssueFragment{
 
-
-    public IssueEditFragment() {
+    public IssueCreateFragment() {
         // Required empty public constructor
     }
 
+    public static IssueCreateFragment getInstance(Context context) {
+        Bundle args = new Bundle();
+        IssueCreateFragment fragment = new IssueCreateFragment();
+        fragment.setArguments(args);
+        fragment.setTitle(context.getString(R.string.tab_new_issue));
+        return fragment;
+    }
+
     protected void setData(){
+        /*
         toolbar.setTitle(issue.project.name);
+
         subject.setText(issue.subject);
         description.setText(issue.description);
         start_date.setText(issue.start_date);
@@ -40,5 +36,6 @@ public class IssueEditFragment extends AbstractIssueFragment {
         selected = findSelected(issue.priority.name,R.array.priority_array);
         priority.setSelection(selected);
         done_ratio.setSelection(issue.done_ratio/10-1);
+        */
     }
 }
