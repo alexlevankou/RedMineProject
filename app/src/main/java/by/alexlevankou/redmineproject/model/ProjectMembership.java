@@ -10,6 +10,21 @@ public class ProjectMembership {
         return memberships;
     }
 
+    public ArrayList<String> getNameList(){
+        ArrayList<String> names = new ArrayList<>();
+        for(Member member: memberships){
+            names.add(member.getName());
+        }
+        return names;
+    }
+
+    public ArrayList<Integer> getIdList(){
+        ArrayList<Integer> ids = new ArrayList<>();
+        for(Member member: memberships){
+            ids.add(member.getUserId());
+        }
+        return ids;
+    }
 
     public class Member{
 
@@ -30,6 +45,11 @@ public class ProjectMembership {
         public int getUserId(){
             return user.getId();
         }
+
+        public String getName(){
+            return user.getName();
+        }
+
         public String getUsername(){
             return user.getName()+": ";
         }

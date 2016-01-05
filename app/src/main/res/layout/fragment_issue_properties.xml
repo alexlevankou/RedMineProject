@@ -141,14 +141,17 @@
                 <ProgressBar
                     android:id="@+id/done_ratio_progress"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="wrap_content"
+                    android:progressDrawable="@android:drawable/progress_horizontal"
                     style="?android:attr/progressBarStyleHorizontal" />
                 <TextView
                     android:id="@+id/done_ratio_text"
                     android:background="#00000000"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignLeft="@id/done_ratio_progress" />
+                    android:gravity="center"
+                    android:textColor="#ffffff"
+                     />
             </RelativeLayout>
         </TableRow>
         <TableRow

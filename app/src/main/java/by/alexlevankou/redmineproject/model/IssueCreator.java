@@ -8,6 +8,10 @@ public class IssueCreator {
 
     public Issue issue;
 
+    public void setProject(String s) {
+        issue.project_id = s;
+    }
+
     public void setSubject(String s) {
         issue.subject = s;
     }
@@ -28,6 +32,10 @@ public class IssueCreator {
         issue.priority_id = s;
     }
 
+    public void setAssignee(String s) {
+        issue.assigned_to_id = s;
+    }
+
     public void setStatus(String s) {
         issue.status_id = s;
     }
@@ -38,12 +46,14 @@ public class IssueCreator {
 
     public class Issue {
 
-        public String subject;
-        public String description;
-        public String start_date;
+        public String project_id;
         public String status_id;
         public String priority_id;
         public String tracker_id;
+        public String assigned_to_id;
+        public String subject;
+        public String description;
+        public String start_date;
         public int done_ratio;
     }
 }

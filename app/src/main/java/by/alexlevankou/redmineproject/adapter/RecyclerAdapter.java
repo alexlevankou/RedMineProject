@@ -116,13 +116,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         String id = String.valueOf(list.get(position).id);
         holder.number.setText(id);
-        holder.status.setText(list.get(position).status.name);
-        holder.priority.setText(list.get(position).priority.name);
-        holder.tracker.setText(list.get(position).tracker.name);
-        holder.subject.setText(list.get(position).subject);
-        holder.project.setText(list.get(position).project.name);
-        holder.description.setText(list.get(position).description);
-        holder.start_date.setText(list.get(position).start_date);
+        holder.status.setText(list.get(position).getStatusName());
+        holder.priority.setText(list.get(position).getPriorityName());
+        holder.tracker.setText(list.get(position).getTrackerName());
+        holder.subject.setText(list.get(position).getSubject());
+        holder.project.setText(list.get(position).getProjectName());
+        holder.description.setText(list.get(position).getDescription());
+        holder.start_date.setText(list.get(position).getStartDate());
 
         holder.checkVisibility(holder.status, pref.getBoolean("status_chb", true));
         holder.checkVisibility(holder.priority, pref.getBoolean("priority_chb", true));
@@ -139,9 +139,32 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         return list.size();
     }
 
+    public void update(){
+        filter();
+        //notifyDataSetChanged();
+    }
     public void update(ArrayList<IssueData.Issues> issues){
         defaultList = issues;
         filter();
+        //notifyDataSetChanged();
+    }
+
+    public void search(String text){
+        list.clear();
+        for(IssueData.Issues item: defaultList){
+           if(
+               item.getStatusName().contains(text)||
+               item.getPriorityName().contains(text)||
+               item.getTrackerName().contains(text)||
+               item.getSubject().contains(text)||
+               item.getStartDate().contains(text)||
+               item.getProjectName().contains(text)||
+               item.getDescription().contains(text)
+           ){
+                list.add(item);
+           }
+        }
+        //filter();
         notifyDataSetChanged();
     }
 

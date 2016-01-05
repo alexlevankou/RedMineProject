@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <RelativeLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,7 +11,7 @@
 
     <TextView
         android:id="@+id/edit_text"
-        android:text="@string/edit"
+        android:text="@string/create"
         style="@style/HeadLineFont" />
 
     <TableLayout
@@ -129,54 +129,5 @@
                 android:gravity="start" />
         </TableRow>
 
-        <TableRow
-            style="@style/TableRowSize">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                style="@style/SubHeadFont"
-                android:shrinkColumns="true"
-                android:gravity="start"
-                android:text="@string/start_date" />
-
-            <RelativeLayout
-                android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:layout_weight="2">
-
-                <TextView
-                    android:id="@+id/start_date_text"
-                    android:layout_width="wrap_content"
-                    style="@style/TextFont"
-                    android:shrinkColumns="true"
-                    android:gravity="start" />
-                <ImageButton
-                    android:id="@+id/date_picker"
-                    android:layout_toRightOf="@+id/start_date_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorWhite"
-                    android:src="@drawable/ic_calendar"/>
-
-            </RelativeLayout>
-        </TableRow>
-
-        <TableRow
-            style="@style/TableRowSize">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                style="@style/SubHeadFont"
-                android:shrinkColumns="true"
-                android:gravity="start"
-                android:text="@string/done_ratio" />
-            <android.support.v7.widget.AppCompatSpinner
-                android:id="@+id/done_ratio_spinner"
-                android:layout_width="0dp"
-                android:layout_weight="2"
-                style="@style/TextFont"
-                android:entries="@array/done_ratio_array"
-                android:gravity="start" />
-        </TableRow>
     </TableLayout>
 </RelativeLayout>

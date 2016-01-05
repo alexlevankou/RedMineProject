@@ -72,11 +72,6 @@ public class PropertyActivity extends AppCompatActivity {
         return true;
     }
 
-    public void onClickEditFragment(View v) {
-        IssueEditFragment frag = (IssueEditFragment) fragment;
-        frag.showDatePickerDialog(v);
-    }
-
     public void onClickFAB(View v){
 
         Callback cb = new Callback() {
@@ -85,7 +80,6 @@ public class PropertyActivity extends AppCompatActivity {
                 Intent intent = new Intent(PropertyActivity.this,TaskListActivity.class);
                 startActivity(intent);
             }
-
             @Override
             public void failure(RetrofitError retrofitError) {
                 retrofitError.printStackTrace();
@@ -94,19 +88,7 @@ public class PropertyActivity extends AppCompatActivity {
 
         IssueCreator iss  = new IssueCreator();
         IssueEditFragment editFragment = (IssueEditFragment) fragment;
-
-        iss.setSubject(editFragment.subject.getText().toString());
-        iss.setDescription(editFragment.description.getText().toString());
-        iss.setStartDate(editFragment.start_date.getText().toString());
-
-        String selectedVal;
-        selectedVal = getResources().getStringArray(R.array.tracker_values)[editFragment.tracker.getSelectedItemPosition()];
-        iss.setTracker(selectedVal);
-        selectedVal = getResources().getStringArray(R.array.status_values)[editFragment.status.getSelectedItemPosition()];
-        iss.setStatus(selectedVal);
-        selectedVal = getResources().getStringArray(R.array.priority_values)[editFragment.priority.getSelectedItemPosition()];
-        iss.setPriority(selectedVal);
-        iss.setDoneRatio(editFragment.done_ratio.getSelectedItemPosition()*10+10);
+        iss = editFragment.prepareIssue(iss);
 
         String taskId = String.valueOf(id);
         RedMineApplication.redMineApi.updateIssue(iss,taskId, cb);

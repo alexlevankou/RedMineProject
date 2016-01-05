@@ -25,6 +25,7 @@
     <string name="open">open</string>
     <string name="close">close</string>
     <string name="edit">Edit</string>
+    <string name="create">Create Issue</string>
 
     <string name="settings">settings</string>
     <string name="menu_item_projects">Projects</string>
@@ -49,6 +50,8 @@
     <string name="exit_question">Exit application?</string>
     <string name="exit">Exit</string>
     <string name="preferences">Preferences</string>
+    <string name="connect">Connect</string>
+    <string name="search">Search</string>
 
 
     <string-array name="tracker_array">
@@ -110,6 +113,7 @@
 
 
     <string-array name="done_ratio_array">
+        <item>0%</item>
         <item>10%</item>
         <item>20%</item>
         <item>30%</item>
@@ -123,6 +127,7 @@
     </string-array>
 
     <string-array name="done_ratio_values">
+        <item>0</item>
         <item>10</item>
         <item>20</item>
         <item>30</item>

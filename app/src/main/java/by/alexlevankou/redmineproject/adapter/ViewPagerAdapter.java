@@ -1,6 +1,8 @@
 package by.alexlevankou.redmineproject.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -8,11 +10,15 @@ import android.support.v4.app.FragmentPagerAdapter;
 import java.util.HashMap;
 import java.util.Map;
 
+import by.alexlevankou.redmineproject.Constants;
+import by.alexlevankou.redmineproject.R;
+import by.alexlevankou.redmineproject.activity.ProjectActivity;
 import by.alexlevankou.redmineproject.fragment.AbstractFragment;
 import by.alexlevankou.redmineproject.fragment.HistoryFragment;
 import by.alexlevankou.redmineproject.fragment.IssueCreateFragment;
 import by.alexlevankou.redmineproject.fragment.IssueListFragment;
 import by.alexlevankou.redmineproject.fragment.OverviewFragment;
+import by.alexlevankou.redmineproject.fragment.ProjectIssueListFragment;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 
@@ -44,7 +50,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         tabs = new HashMap<>();
         tabs.put(0, OverviewFragment.getInstance(context));
         tabs.put(1, HistoryFragment.getInstance(context));
-        tabs.put(2, IssueListFragment.getInstance(context));
+        tabs.put(2, ProjectIssueListFragment.getInstance(context));
         tabs.put(3, IssueCreateFragment.getInstance(context));
     }
 }

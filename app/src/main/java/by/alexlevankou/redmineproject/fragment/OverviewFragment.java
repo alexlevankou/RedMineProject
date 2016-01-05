@@ -3,6 +3,7 @@ package by.alexlevankou.redmineproject.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import by.alexlevankou.redmineproject.FragmentLifecycle;
 import by.alexlevankou.redmineproject.R;
 import by.alexlevankou.redmineproject.RedMineApplication;
 import by.alexlevankou.redmineproject.activity.ProjectActivity;
@@ -24,7 +26,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class OverviewFragment extends AbstractFragment {
+public class OverviewFragment extends AbstractFragment implements FragmentLifecycle {
 
     private ArrayList<TrackerData.Tracker> trackers;
     private ArrayList<ProjectMembership.Member> members;
@@ -55,6 +57,16 @@ public class OverviewFragment extends AbstractFragment {
         initRecycler(view);
         getInfoFromApi();
         return view;
+    }
+
+    @Override
+    public void onPauseFragment() {
+
+    }
+
+    @Override
+    public void onResumeFragment() {
+
     }
 
     private void initRecycler(View view) {

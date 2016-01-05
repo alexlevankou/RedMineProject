@@ -13,80 +13,147 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import by.alexlevankou.redmineproject.R;
+import by.alexlevankou.redmineproject.RedMineApplication;
+import by.alexlevankou.redmineproject.model.PriorityData;
+import by.alexlevankou.redmineproject.model.ProjectData;
+import by.alexlevankou.redmineproject.model.StatusData;
+import by.alexlevankou.redmineproject.model.TrackerData;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public abstract class AbstractIssueFragment  extends AbstractFragment {
 
+    protected int sync =0;
     protected View view;
     protected Toolbar toolbar;
+
     public AppCompatSpinner tracker;
     public EditText subject;
     public EditText description;
     public AppCompatSpinner status;
     public AppCompatSpinner priority;
     public AppCompatSpinner assignee;
-    public AppCompatSpinner done_ratio;
-    public TextView start_date;
-    protected ImageButton date_picker;
+
 
     protected final static int START_DATE = 1;
     protected final static int DUE_DATE = 2;
 
-    ArrayAdapter<?> assignee_adapter;
+    protected ArrayAdapter<String> assigneeAdapter;
+    protected ArrayAdapter<String> trackerAdapter;
+    protected ArrayAdapter<String> statusAdapter;
+    protected ArrayAdapter<String> priorityAdapter;
 
-
-    protected abstract void setData();
+    protected ArrayList<Integer> assigneeIdentifiers;
+    protected ArrayList<Integer> trackerIdentifiers;
+    protected ArrayList<Integer> statusIdentifiers;
+    protected ArrayList<Integer> priorityIdentifiers;
 
     public AbstractIssueFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_issue_edit,null);
+
         return view;
     }
-
 
     @Override
     public void onStart() {
         super.onStart();
         initData();
-        setData();
+        getSpinnerData();
     }
 
-    public void showDatePickerDialog(View v){
 
-        if(v.equals(date_picker)) {
-            DialogFragment fragment = new DatePickerFragment();
-            Bundle bundle = new Bundle();
-            bundle.putInt("date",START_DATE);
-            fragment.setArguments(bundle);
-            fragment.show(getActivity().getSupportFragmentManager(), "datePicker");
-        }
-    }
+    protected abstract void setData();
+
 
     protected void initData() {
         toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         tracker  = (AppCompatSpinner) getActivity().findViewById(R.id.tracker_spinner);
-
         subject = (EditText) getActivity().findViewById(R.id.subject_text);
         description  = (EditText) getActivity().findViewById(R.id.description_text);
         status  = (AppCompatSpinner) getActivity().findViewById(R.id.status_spinner);
         priority  = (AppCompatSpinner) getActivity().findViewById(R.id.priority_spinner);
         assignee  = (AppCompatSpinner) getActivity().findViewById(R.id.assignee_spinner);
-        done_ratio = (AppCompatSpinner) getActivity().findViewById(R.id.done_ratio_spinner);
-        start_date  = (TextView) getActivity().findViewById(R.id.start_date_text);
-        date_picker = (ImageButton) getActivity().findViewById(R.id.date_picker);
     }
 
-    protected int findSelected(String s,int id){
-        String[] array = getResources().getStringArray(id);
-        for(int i=0; i < array.length; i++){
-            if(s.equals(array[i])) return  i;
+    protected void getSpinnerData() {
+
+        sync=0;
+        Callback trackerCallback = new Callback() {
+            @Override
+            public void success(Object o, Response response) {
+                TrackerData trackerData = (TrackerData)o;
+                trackerIdentifiers = trackerData.getIdList();
+                trackerAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, trackerData.getNameList());
+                trackerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                tracker.setAdapter(trackerAdapter);
+                sync++;
+                allowToSet();
+            }
+            @Override
+            public void failure(RetrofitError retrofitError) {
+                retrofitError.printStackTrace();
+            }
+        };
+
+        Callback priorityCallback = new Callback() {
+            @Override
+            public void success(Object o, Response response) {
+                PriorityData priorData = (PriorityData)o;
+                priorityIdentifiers = priorData.getIdList();
+                priorityAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, priorData.getNameList());
+                priorityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                priority.setAdapter(priorityAdapter);
+                sync++;
+                allowToSet();
+            }
+            @Override
+            public void failure(RetrofitError retrofitError) {
+                retrofitError.printStackTrace();
+            }
+        };
+
+        Callback statusCallback = new Callback() {
+            @Override
+            public void success(Object o, Response response) {
+                StatusData statusData = (StatusData)o;
+                statusIdentifiers = statusData.getIdList();
+                statusAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, statusData.getNameList());
+                statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                status.setAdapter(statusAdapter);
+                sync++;
+                allowToSet();
+            }
+            @Override
+            public void failure(RetrofitError retrofitError) {
+                retrofitError.printStackTrace();
+            }
+        };
+
+        RedMineApplication.redMineApi.getTrackers(trackerCallback);
+        RedMineApplication.redMineApi.getPriorities(priorityCallback);
+        RedMineApplication.redMineApi.getStatuses(statusCallback);
+    }
+
+    protected void allowToSet() {
+        if(sync == 4){
+            setData();
+        }
+    }
+
+    protected int findSelected(int id,ArrayList<Integer> list){
+        for(int i=0; i < list.size(); i++){
+            if(list.get(i).equals(id)) return  i;
         }
         return -1;
     }

@@ -98,11 +98,22 @@ public class IssueData{
         public int getPriorityId(){
             return priority.id;
         }
+        public String getPriorityName(){
+            return priority.name;
+        }
+
+        public int getAssigneeId(){
+            return assigned_to.id;
+        }
+        public String getAssigneNeame(){
+            return assigned_to.name;
+        }
 
         public String getSubject(){
             return subject;
         }
 
+        public int getProjectId(){ return  project.id; }
         public String getProjectName(){
             return project.name;
         }

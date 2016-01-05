@@ -1,5 +1,7 @@
 package by.alexlevankou.redmineproject.activity;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.design.widget.NavigationView;
@@ -7,9 +9,11 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.support.v4.app.Fragment;
 import android.view.Menu;
@@ -19,6 +23,7 @@ import android.view.View;
 import by.alexlevankou.redmineproject.Constants;
 import by.alexlevankou.redmineproject.R;
 import by.alexlevankou.redmineproject.RedMineApplication;
+import by.alexlevankou.redmineproject.adapter.RecyclerAdapter;
 import by.alexlevankou.redmineproject.fragment.ExitDialogFragment;
 import by.alexlevankou.redmineproject.fragment.IssueListFragment;
 import by.alexlevankou.redmineproject.fragment.ProjectListFragment;
@@ -60,6 +65,47 @@ public class TaskListActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);
         MenuItem menuItem = menu.findItem(R.id.edit_item);
         menuItem.setVisible(false);
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        menuItem = menu.findItem(R.id.search_item);
+        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                IssueListFragment fragment = (IssueListFragment) getSupportFragmentManager().findFragmentById(R.id.frame);
+                RecyclerAdapter recyclerAdapter = fragment.getAdapter();
+                recyclerAdapter.search(newText);
+                return true;
+            }
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+               /* if (query.length() != 0) {
+                    System.out.println("--->" + query);
+                    // handle search here
+                    return true;
+                }*/
+                return true;
+            }
+        });
+        MenuItemCompat.setOnActionExpandListener(menuItem, new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                IssueListFragment fragment = (IssueListFragment) getSupportFragmentManager().findFragmentById(R.id.frame);
+                RecyclerAdapter recyclerAdapter = fragment.getAdapter();
+                recyclerAdapter.update();
+                return true;  // Return true to collapse action view
+            }
+
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                // Do something when expanded
+                return true;  // Return true to expand action view
+            }
+        });
+        menuItem.setVisible(true);
+
         menuItem = menu.findItem(R.id.settings_item);
         menuItem.setVisible(true);
         return true;

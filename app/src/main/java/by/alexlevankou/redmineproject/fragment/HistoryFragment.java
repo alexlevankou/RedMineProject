@@ -6,9 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import by.alexlevankou.redmineproject.FragmentLifecycle;
 import by.alexlevankou.redmineproject.R;
 
-public class HistoryFragment extends AbstractFragment {
+public class HistoryFragment extends AbstractFragment implements FragmentLifecycle {
 
     public HistoryFragment() {
         // Required empty public constructor
@@ -38,5 +39,14 @@ public class HistoryFragment extends AbstractFragment {
       //  setData();
     }
 
+    @Override
+    public void onPauseFragment() {
+
+    }
+
+    @Override
+    public void onResumeFragment() {
+
+    }
 
 }
