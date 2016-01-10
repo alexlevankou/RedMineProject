@@ -19,20 +19,19 @@ import retrofit.http.Query;
 public interface RedMineApi {
 
     // issue
-
     @HEAD("/issues.json")
     void login(
             @Query("assigned_to_id") String user_id,
             Callback<IssueData> callback
     );
 
-    @GET("/issues.json")
+    @GET("/issues.json?status_id=*")
     void getIssues(
             @Query("assigned_to_id") String user_id,
             Callback<IssueData> callback
     );
 
-    @GET("/issues.json")
+    @GET("/issues.json?status_id=*")
     void getProjectIssues(
             @Query("project_id") String project_id,
             Callback<IssueData> callback
@@ -62,7 +61,6 @@ public interface RedMineApi {
             Callback<IssueData> callback
     );
 
-    // Creator or Data?
     @PUT("/issues/{id}.json")
     void updateIssue(
             @Body IssueCreator creator,
@@ -70,7 +68,6 @@ public interface RedMineApi {
             Callback<IssueData> callback
     );
 
-    // Creator or Data?
     @POST("/issues.json")
     void createIssue(
             @Body IssueCreator creator,
@@ -78,8 +75,7 @@ public interface RedMineApi {
     );
 
     //project
-
-    @GET("/projects.json")
+    @GET("/projects.json?limit=100")
     void getProjects(
             Callback<ProjectData> callback
     );

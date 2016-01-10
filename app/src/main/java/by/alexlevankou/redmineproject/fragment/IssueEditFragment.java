@@ -103,7 +103,6 @@ public class IssueEditFragment extends AbstractIssueFragment {
         priority.setSelection(selected);
         selected = findSelected(issue.getAssigneeId(),assigneeIdentifiers);
         assignee.setSelection(selected);
-
         done_ratio.setSelection(issue.done_ratio/10);
     }
 
@@ -112,6 +111,7 @@ public class IssueEditFragment extends AbstractIssueFragment {
         iss.setSubject(subject.getText().toString());
         iss.setDescription(description.getText().toString());
         iss.setStartDate(start_date.getText().toString());
+
         String selectedVal;
         selectedVal = trackerIdentifiers.get(tracker.getSelectedItemPosition()).toString();
         iss.setTracker(selectedVal);

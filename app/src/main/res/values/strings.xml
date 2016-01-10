@@ -52,6 +52,10 @@
     <string name="preferences">Preferences</string>
     <string name="connect">Connect</string>
     <string name="search">Search</string>
+    <string name="ok">OK</string>
+    <string name="autentication_failed">Authentication Failed!</string>
+    <string name="check_input">Check the entered data.</string>
+    <string name="submit_question">Submit changes?</string>
 
 
     <string-array name="tracker_array">

@@ -33,8 +33,6 @@
              android:elevation="4dp"
              android:layout_marginTop="?attr/actionBarSize"
          />
-
-
      </android.support.design.widget.CoordinatorLayout>
 
 

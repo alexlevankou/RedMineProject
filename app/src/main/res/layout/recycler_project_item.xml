@@ -10,8 +10,14 @@
     android:paddingRight="16dp"
     android:background="@drawable/ripple">
 
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
     <TextView
         android:id="@+id/project_name"
+        android:layout_toEndOf="@+id/image"
+        android:layout_toRightOf="@+id/image"
         android:layout_width="wrap_content"
         android:textColor="@color/colorBlue"
         style="@style/SubHeadFont" />

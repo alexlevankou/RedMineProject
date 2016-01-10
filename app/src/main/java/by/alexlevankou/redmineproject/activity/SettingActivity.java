@@ -1,15 +1,11 @@
 package by.alexlevankou.redmineproject.activity;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
 

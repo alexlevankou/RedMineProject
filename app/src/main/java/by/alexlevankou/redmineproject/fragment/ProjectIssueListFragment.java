@@ -2,11 +2,17 @@ package by.alexlevankou.redmineproject.fragment;
 
 
 import android.content.Context;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import by.alexlevankou.redmineproject.R;
 import by.alexlevankou.redmineproject.RedMineApplication;
@@ -41,6 +47,16 @@ public class ProjectIssueListFragment extends IssueListFragment{
         fragment.setArguments(args);
         fragment.setTitle(context.getString(R.string.tab_issues));
         return fragment;
+    }
+
+    protected void setSortImage(View v) {
+        if(headView != null) {
+            headView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+        }
+        TextView tv = (TextView)v;
+        tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_sort_black, 0, 0, 0);
+        tv.setCompoundDrawablePadding(0);
+        headView = tv;
     }
 
     protected void getInfoFromApi(){

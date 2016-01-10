@@ -1,7 +1,6 @@
 package by.alexlevankou.redmineproject.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -22,8 +21,6 @@ import by.alexlevankou.redmineproject.RedMineApplication;
 import by.alexlevankou.redmineproject.adapter.ViewPagerAdapter;
 import by.alexlevankou.redmineproject.fragment.ExitDialogFragment;
 import by.alexlevankou.redmineproject.fragment.IssueCreateFragment;
-import by.alexlevankou.redmineproject.fragment.IssueEditFragment;
-import by.alexlevankou.redmineproject.fragment.OverviewFragment;
 import by.alexlevankou.redmineproject.model.IssueCreator;
 import by.alexlevankou.redmineproject.model.IssueData;
 import by.alexlevankou.redmineproject.model.ProjectData;
@@ -44,18 +41,15 @@ public class ProjectActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project);
 
         Intent intent = getIntent();
         id = intent.getIntExtra("id", RedMineApplication.EMPTY_INTENT);
-
         FloatingActionButton add_fab = (FloatingActionButton)findViewById(R.id.add_fab);
         add_fab.hide();
 
         getInfoFromApi(id);
-        //initToolbar();
         initNavigation();
         initTabs();
     }
@@ -66,13 +60,10 @@ public class ProjectActivity extends AppCompatActivity{
 
         @Override
         public void onPageSelected(int newPosition) {
-
             FragmentLifecycle fragmentToShow = (FragmentLifecycle)adapter.getItem(newPosition);
             fragmentToShow.onResumeFragment();
-
             FragmentLifecycle fragmentToHide = (FragmentLifecycle)adapter.getItem(currentPosition);
             fragmentToHide.onPauseFragment();
-
             currentPosition = newPosition;
         }
 
@@ -97,7 +88,6 @@ public class ProjectActivity extends AppCompatActivity{
     }
 
     private void getInfoFromApi(int id){
-
         Callback callback = new Callback() {
             @Override
             public void success(Object o, Response response) {
@@ -109,11 +99,9 @@ public class ProjectActivity extends AppCompatActivity{
                 retrofitError.printStackTrace();
             }
         };
-
         Callback callbackProjectIssues = new Callback() {
             @Override
             public void success(Object o, Response response) {
-
                 projectIssueData = (IssueData)o;
             }
             @Override
@@ -128,6 +116,7 @@ public class ProjectActivity extends AppCompatActivity{
 
     }
 
+    //add issue
     public void onClickFAB(View v){
 
         Callback cb = new Callback() {
@@ -135,7 +124,6 @@ public class ProjectActivity extends AppCompatActivity{
             public void success(Object o, Response response) {
                viewPager.setCurrentItem(Constants.TAB_OVERVIEW);
             }
-
             @Override
             public void failure(RetrofitError retrofitError) {
                 retrofitError.printStackTrace();
@@ -146,6 +134,8 @@ public class ProjectActivity extends AppCompatActivity{
         IssueCreateFragment createFragment = (IssueCreateFragment)adapter.getItem(index);
         IssueCreator iss  = new IssueCreator();
 
+
+        //incapsulate
         String taskId = String.valueOf(id);
         iss.setProject(taskId);
         iss.setSubject(createFragment.subject.getText().toString());

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import by.alexlevankou.redmineproject.R;
 import by.alexlevankou.redmineproject.RedMineApplication;
+import by.alexlevankou.redmineproject.adapter.RecyclerAdapter;
 import by.alexlevankou.redmineproject.adapter.RecyclerProjectAdapter;
 import by.alexlevankou.redmineproject.model.ProjectData;
 import retrofit.Callback;
@@ -37,7 +38,6 @@ public class ProjectListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_project_list,null);
         initToolbar();
         initRecycler(view);
-
         return view;
     }
 
@@ -76,5 +76,10 @@ public class ProjectListFragment extends Fragment {
         };
         RedMineApplication.redMineApi.getProjects(callback);
     }
+
+    public RecyclerProjectAdapter getAdapter(){
+        return projectAdapter;
+    }
+
 
 }

@@ -43,6 +43,7 @@ public class IssueListFragment extends AbstractFragment implements SwipeRefreshL
     protected int sync = 0;
     public static SparseBooleanArray prefTracker, prefStatus, prefPriority;
     protected View view;
+    protected TextView headView;
     protected SwipeRefreshLayout mSwipeLayout;
     protected RecyclerView mRecyclerView;
     protected RecyclerAdapter mAdapter;
@@ -114,6 +115,8 @@ public class IssueListFragment extends AbstractFragment implements SwipeRefreshL
         subject = (TextView) v.findViewById(R.id.subject);
         description = (TextView) v.findViewById(R.id.description);
         start_date = (TextView) v.findViewById(R.id.start_date);
+
+        headView = null;
     }
 
     protected void setListener(){
@@ -122,6 +125,7 @@ public class IssueListFragment extends AbstractFragment implements SwipeRefreshL
             public void onClick(View v) {
                 Collections.sort(list, new IssueComparator(v.getId()));
                 mAdapter.update(list);
+                setSortImage(v);
             }
         };
         number.setOnClickListener(tabClickListener);
@@ -132,6 +136,16 @@ public class IssueListFragment extends AbstractFragment implements SwipeRefreshL
         subject.setOnClickListener(tabClickListener);
         description.setOnClickListener(tabClickListener);
         start_date.setOnClickListener(tabClickListener);
+    }
+
+    protected void setSortImage(View v) {
+        if(headView != null) {
+            headView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+        }
+        TextView tv = (TextView)v;
+        tv.setCompoundDrawablesWithIntrinsicBounds( R.drawable.ic_sort, 0, 0, 0);
+        tv.setCompoundDrawablePadding(0);
+        headView = tv;
     }
 
     protected void formListHeader() {

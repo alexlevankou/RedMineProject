@@ -5,12 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -18,7 +16,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -30,6 +27,7 @@ import by.alexlevankou.redmineproject.R;
 import by.alexlevankou.redmineproject.RedMineApi;
 import by.alexlevankou.redmineproject.RedMineApplication;
 import by.alexlevankou.redmineproject.ServiceGenerator;
+import by.alexlevankou.redmineproject.fragment.ErrorDialogFragment;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -41,6 +39,8 @@ public class LoginActivity extends AppCompatActivity {
     private CoordinatorLayout coordinatorLayout;
     private String name;
     private  String pass;
+    private  String url;
+
     private SharedPreferences sharedPreferences;
 
     @Override
@@ -51,9 +51,11 @@ public class LoginActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(Constants.APP_PREFERENCES, MODE_PRIVATE);
         name = sharedPreferences.getString(Constants.USERNAME, null);
         pass = sharedPreferences.getString(Constants.PASSWORD, null);
+        url = sharedPreferences.getString(Constants.URL, null);
 
-        if(name != null && pass != null) {
-            RedMineApplication.redMineApi = ServiceGenerator.createService(this, RedMineApi.class, name, pass);
+
+        if(name != null && pass != null && url != null) {
+            RedMineApplication.redMineApi = ServiceGenerator.createService(this, RedMineApi.class, name, pass, url);
             Intent intent = new Intent(LoginActivity.this,TaskListActivity.class);
             startActivity(intent);
         }else{
@@ -91,7 +93,11 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 Toast.makeText(LoginActivity.this,"Submit",Toast.LENGTH_LONG).show();
-                ServiceGenerator.setApiBaseUrl(query);
+
+                Editor ed = sharedPreferences.edit();
+                ed.putString(Constants.URL, query);
+                ed.apply();
+                url = query;
                 menuItem.collapseActionView();
                 return true;
             }
@@ -124,18 +130,26 @@ public class LoginActivity extends AppCompatActivity {
         ed.putString(Constants.PASSWORD, pass);
         ed.apply();
 
-        RedMineApplication.redMineApi = ServiceGenerator.createService(this,RedMineApi.class, name, pass);
+        RedMineApplication.redMineApi = ServiceGenerator.createService(this,RedMineApi.class, name, pass, url);
 
         Callback callback = new Callback() {
             @Override
             public void success(Object o, Response response) {
                 Intent intent = new Intent(LoginActivity.this,TaskListActivity.class);
                 startActivity(intent);
+               // RedMineApplication app  = (RedMineApplication)getApplication();
+
             }
 
             @Override
             public void failure(RetrofitError retrofitError) {
-                Snackbar.make(coordinatorLayout,"Wrong Login or Password",Snackbar.LENGTH_LONG).show();
+                Editor ed = sharedPreferences.edit();
+                ed.putString(Constants.USERNAME, null);
+                ed.putString(Constants.PASSWORD, null);
+                ed.apply();
+
+                DialogFragment fragment = new ErrorDialogFragment();
+                fragment.show(getSupportFragmentManager(), "Error");
             }
         };
 

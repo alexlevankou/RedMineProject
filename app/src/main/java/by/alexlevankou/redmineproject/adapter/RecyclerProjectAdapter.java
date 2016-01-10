@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -19,6 +20,7 @@ import by.alexlevankou.redmineproject.model.ProjectData;
 public class RecyclerProjectAdapter extends RecyclerView.Adapter<RecyclerProjectAdapter.ViewHolder> {
 
     private ArrayList<ProjectData.Project> list;
+    private ArrayList<ProjectData.Project> defaultList;
     private Context context;
 
 
@@ -30,6 +32,7 @@ public class RecyclerProjectAdapter extends RecyclerView.Adapter<RecyclerProject
         private int projectId;
         private TextView projectName;
         private TextView projectDescription;
+        private ImageView image;
         private MyListListener mListener;
 
 
@@ -37,6 +40,7 @@ public class RecyclerProjectAdapter extends RecyclerView.Adapter<RecyclerProject
             super(v);
             mListener = listener;
             item = (RelativeLayout) v.findViewById(R.id.list_item);
+            image = (ImageView) v.findViewById(R.id.image);
             projectName = (TextView) v.findViewById(R.id.project_name);
             projectDescription = (TextView) v.findViewById(R.id.project_description);
             item.setOnClickListener(this);
@@ -64,6 +68,7 @@ public class RecyclerProjectAdapter extends RecyclerView.Adapter<RecyclerProject
     // Конструктор
     public RecyclerProjectAdapter(Context context) {
         list = new ArrayList<ProjectData.Project>();
+        defaultList = new ArrayList<ProjectData.Project>();
         this.context = context;
     }
 
@@ -80,7 +85,6 @@ public class RecyclerProjectAdapter extends RecyclerView.Adapter<RecyclerProject
         ViewHolder vh = new ViewHolder(v, new RecyclerProjectAdapter.ViewHolder.MyListListener() {
 
             public void onChoose(int id) {
-                //Log.e("listener","Project id: "+id);
                 Intent intent = new Intent(context, ProjectActivity.class);
                 intent.putExtra("id",id);
                 context.startActivity(intent);
@@ -96,7 +100,9 @@ public class RecyclerProjectAdapter extends RecyclerView.Adapter<RecyclerProject
         holder.projectId = list.get(position).getId();
         holder.projectName.setText(list.get(position).getName());
         holder.projectDescription.setText(list.get(position).getDescription());
-
+       /* if(list.get(position).getId()){
+            holder.image.setBackgroundResource(R.drawable.ic_star);
+        }*/
         holder.checkVisibility(holder.projectDescription);
     }
 
@@ -106,8 +112,27 @@ public class RecyclerProjectAdapter extends RecyclerView.Adapter<RecyclerProject
         return list.size();
     }
 
+    public void update(){
+        list = defaultList;
+        notifyDataSetChanged();
+    }
+
     public void update(ArrayList<ProjectData.Project> projects){
         list = projects;
+        defaultList = projects;
+        notifyDataSetChanged();
+    }
+
+    public void search(String text){
+        list.clear();
+        for(ProjectData.Project item: defaultList){
+            if(
+                item.getName().toLowerCase().contains(text.toLowerCase())||
+                item.getDescription().toLowerCase().contains(text.toLowerCase())
+            ){
+                list.add(item);
+            }
+        }
         notifyDataSetChanged();
     }
 }

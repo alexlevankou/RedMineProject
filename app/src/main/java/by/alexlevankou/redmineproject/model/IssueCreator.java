@@ -24,6 +24,10 @@ public class IssueCreator {
         issue.start_date = s;
     }
 
+    public void setDueDate(String s) {
+        issue.due_date = s;
+    }
+
     public void setTracker(String s) {
         issue.tracker_id = s;
     }
@@ -54,6 +58,7 @@ public class IssueCreator {
         public String subject;
         public String description;
         public String start_date;
+        public String due_date;
         public int done_ratio;
     }
 }

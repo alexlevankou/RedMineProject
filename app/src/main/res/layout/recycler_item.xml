@@ -41,7 +41,7 @@
             android:id="@+id/subject"
             android:layout_width="0dp"
             style="@style/TextFont"
-            android:layout_weight="3"
+            android:layout_weight="2"
             android:shrinkColumns="true"
             android:gravity="center_horizontal" />
         <TextView

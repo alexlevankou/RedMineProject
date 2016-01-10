@@ -1,8 +1,11 @@
 package by.alexlevankou.redmineproject.activity;
 
+import android.animation.Animator;
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -10,11 +13,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewAnimationUtils;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import by.alexlevankou.redmineproject.R;
 import by.alexlevankou.redmineproject.RedMineApplication;
+import by.alexlevankou.redmineproject.fragment.ErrorDialogFragment;
 import by.alexlevankou.redmineproject.fragment.IssueEditFragment;
 import by.alexlevankou.redmineproject.fragment.IssuePropertiesFragment;
+import by.alexlevankou.redmineproject.fragment.SubmitDialogFragment;
 import by.alexlevankou.redmineproject.model.IssueCreator;
 import by.alexlevankou.redmineproject.model.IssueData;
 import retrofit.Callback;
@@ -50,6 +58,8 @@ public class PropertyActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);
         MenuItem menuItem = menu.findItem(R.id.settings_item);
         menuItem.setVisible(false);
+        menuItem = menu.findItem(R.id.search_item);
+        menuItem.setVisible(false);
         menuItem = menu.findItem(R.id.edit_item);
         menuItem.setVisible(true);
         return true;
@@ -77,8 +87,8 @@ public class PropertyActivity extends AppCompatActivity {
         Callback cb = new Callback() {
             @Override
             public void success(Object o, Response response) {
-                Intent intent = new Intent(PropertyActivity.this,TaskListActivity.class);
-                startActivity(intent);
+                DialogFragment fragment = new SubmitDialogFragment();
+                fragment.show(getSupportFragmentManager(), "Submit");
             }
             @Override
             public void failure(RetrofitError retrofitError) {
@@ -93,6 +103,18 @@ public class PropertyActivity extends AppCompatActivity {
         String taskId = String.valueOf(id);
         RedMineApplication.redMineApi.updateIssue(iss,taskId, cb);
     }
+
+/*
+    @TargetApi(21)
+    private void createAnimation() {
+        FrameLayout frameLayout = (FrameLayout)findViewById(R.id.frame);
+        int x = (int)fab.getX();
+        int y = (int)fab.getY();
+        int radius = frameLayout.getWidth();
+        Animator anim = ViewAnimationUtils.createCircularReveal(frameLayout, x, y, 0, radius);
+        anim.start();
+    }
+*/
 
     private void getInfoFromApi(){
 

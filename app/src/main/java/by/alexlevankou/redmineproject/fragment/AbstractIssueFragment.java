@@ -2,7 +2,6 @@ package by.alexlevankou.redmineproject.fragment;
 
 
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -10,15 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import by.alexlevankou.redmineproject.R;
 import by.alexlevankou.redmineproject.RedMineApplication;
 import by.alexlevankou.redmineproject.model.PriorityData;
-import by.alexlevankou.redmineproject.model.ProjectData;
 import by.alexlevankou.redmineproject.model.StatusData;
 import by.alexlevankou.redmineproject.model.TrackerData;
 import retrofit.Callback;

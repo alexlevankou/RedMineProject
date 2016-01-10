@@ -87,7 +87,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         this.context = context;
         PreferenceManager.setDefaultValues(context, R.xml.preferences, false);
         pref = PreferenceManager.getDefaultSharedPreferences(context);
-
     }
 
     // Создает новые views (вызывается layout manager-ом)
@@ -141,25 +140,23 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     public void update(){
         filter();
-        //notifyDataSetChanged();
     }
     public void update(ArrayList<IssueData.Issues> issues){
         defaultList = issues;
         filter();
-        //notifyDataSetChanged();
     }
 
     public void search(String text){
         list.clear();
         for(IssueData.Issues item: defaultList){
            if(
-               item.getStatusName().contains(text)||
-               item.getPriorityName().contains(text)||
-               item.getTrackerName().contains(text)||
-               item.getSubject().contains(text)||
-               item.getStartDate().contains(text)||
-               item.getProjectName().contains(text)||
-               item.getDescription().contains(text)
+               item.getStatusName().toLowerCase().contains(text.toLowerCase())||
+               item.getPriorityName().toLowerCase().contains(text.toLowerCase())||
+               item.getTrackerName().toLowerCase().contains(text.toLowerCase())||
+               item.getSubject().toLowerCase().contains(text.toLowerCase())||
+               item.getStartDate().toLowerCase().contains(text.toLowerCase())||
+               item.getProjectName().toLowerCase().contains(text.toLowerCase())||
+               item.getDescription().toLowerCase().contains(text.toLowerCase())
            ){
                 list.add(item);
            }
@@ -168,7 +165,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         notifyDataSetChanged();
     }
 
-    private void filter(){
+    public void filter(){
         list.clear();
         for(IssueData.Issues item: defaultList){
             if(

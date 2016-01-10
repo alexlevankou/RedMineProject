@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +25,7 @@ import by.alexlevankou.redmineproject.Constants;
 import by.alexlevankou.redmineproject.R;
 import by.alexlevankou.redmineproject.RedMineApplication;
 import by.alexlevankou.redmineproject.adapter.RecyclerAdapter;
+import by.alexlevankou.redmineproject.adapter.RecyclerProjectAdapter;
 import by.alexlevankou.redmineproject.fragment.ExitDialogFragment;
 import by.alexlevankou.redmineproject.fragment.IssueListFragment;
 import by.alexlevankou.redmineproject.fragment.ProjectListFragment;
@@ -37,6 +39,8 @@ public class TaskListActivity extends AppCompatActivity {
     private FragmentTransaction fragmentTransaction;
     private final int PROJECTS_FRAGMENT = 1;
 
+    private RecyclerAdapter recyclerAdapter;
+    private RecyclerProjectAdapter recyclerProjectAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +52,8 @@ public class TaskListActivity extends AppCompatActivity {
         fragmentTransaction.add(R.id.frame, issueListFragment);
         fragmentTransaction.commit();
 
+
+        //
         Intent intent = getIntent();
         int  type = intent.getIntExtra("fragment", RedMineApplication.EMPTY_INTENT);
         if(type == PROJECTS_FRAGMENT){
@@ -56,7 +62,6 @@ public class TaskListActivity extends AppCompatActivity {
             fragmentTransaction.replace(R.id.frame, projectListFragment);
             fragmentTransaction.commit();
         }
-
         initNavigation();
     }
 
@@ -67,44 +72,61 @@ public class TaskListActivity extends AppCompatActivity {
         menuItem.setVisible(false);
 
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        menuItem = menu.findItem(R.id.search_item);
-        SearchView searchView = (SearchView) menuItem.getActionView();
+        MenuItem searchItem = menu.findItem(R.id.search_item);
+
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextChange(String newText) {
-                IssueListFragment fragment = (IssueListFragment) getSupportFragmentManager().findFragmentById(R.id.frame);
-                RecyclerAdapter recyclerAdapter = fragment.getAdapter();
-                recyclerAdapter.search(newText);
+
+                Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.frame);
+                if (fragment instanceof IssueListFragment) {
+                    IssueListFragment frag = (IssueListFragment) fragment;
+                    recyclerAdapter = frag.getAdapter();
+                    recyclerAdapter.search(newText);
+                } else if (fragment instanceof ProjectListFragment) {
+                    ProjectListFragment frag = (ProjectListFragment) fragment;
+                    recyclerProjectAdapter = frag.getAdapter();
+                    recyclerProjectAdapter.search(newText);
+                }
                 return true;
             }
+
             @Override
             public boolean onQueryTextSubmit(String query) {
-               /* if (query.length() != 0) {
-                    System.out.println("--->" + query);
-                    // handle search here
-                    return true;
-                }*/
-                return true;
+                return false;
             }
+
         });
-        MenuItemCompat.setOnActionExpandListener(menuItem, new MenuItemCompat.OnActionExpandListener() {
+
+
+     /*   MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
-                IssueListFragment fragment = (IssueListFragment) getSupportFragmentManager().findFragmentById(R.id.frame);
-                RecyclerAdapter recyclerAdapter = fragment.getAdapter();
-                recyclerAdapter.update();
+
+                Log.e("SearchView", "Collapsed");
+
+                Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.frame);
+                if (fragment instanceof IssueListFragment) {
+                   //not working
+                    recyclerAdapter.filter();
+                } else if (fragment instanceof ProjectListFragment) {
+                    ProjectListFragment frag = (ProjectListFragment) fragment;
+                    RecyclerProjectAdapter recyclerProjectAdapter = frag.getAdapter();
+                    recyclerProjectAdapter.update();
+                }
                 return true;  // Return true to collapse action view
             }
 
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
-                // Do something when expanded
                 return true;  // Return true to expand action view
             }
-        });
-        menuItem.setVisible(true);
+        });*/
+        searchItem.setVisible(true);
 
         menuItem = menu.findItem(R.id.settings_item);
         menuItem.setVisible(true);
