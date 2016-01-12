@@ -24,5 +24,4 @@ public class DenialDialogFragment extends DialogFragment {
                 });
         return builder.create();
     }
-
 }

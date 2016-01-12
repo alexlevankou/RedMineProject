@@ -1,28 +1,20 @@
 package by.alexlevankou.redmineproject.fragment;
 
-
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.widget.AppCompatSpinner;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
-import by.alexlevankou.redmineproject.Constants;
 import by.alexlevankou.redmineproject.FragmentLifecycle;
 import by.alexlevankou.redmineproject.R;
 import by.alexlevankou.redmineproject.RedMineApplication;
 import by.alexlevankou.redmineproject.activity.ProjectActivity;
-import by.alexlevankou.redmineproject.adapter.MembershipAdapter;
 import by.alexlevankou.redmineproject.model.IssueCreator;
 import by.alexlevankou.redmineproject.model.ProjectMembership;
-import by.alexlevankou.redmineproject.model.StatusData;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -57,8 +49,6 @@ public class IssueCreateFragment extends AbstractIssueFragment implements Fragme
         getSpinnerData();
     }
 
-
-
     @Override
     public void onPauseFragment() {
         FloatingActionButton add_fab = (FloatingActionButton)getActivity().findViewById(R.id.add_fab);
@@ -72,36 +62,18 @@ public class IssueCreateFragment extends AbstractIssueFragment implements Fragme
         checkAccess();
     }
 
-    public IssueCreator prepareIssue(IssueCreator iss) {
-
+    public void prepareIssue(IssueCreator iss) {
         iss.setSubject(subject.getText().toString());
         iss.setDescription(description.getText().toString());
 
         String selectedVal;
         selectedVal = trackerIdentifiers.get(tracker.getSelectedItemPosition()).toString();
         iss.setTracker(selectedVal);
-/*
-
-        selectedVal = statusIdentifiers.get(status.getSelectedItemPosition()).toString();
-        iss.setStatus(selectedVal);
-*/
         selectedVal = priorityIdentifiers.get(priority.getSelectedItemPosition()).toString();
         iss.setPriority(selectedVal);
         selectedVal = assigneeIdentifiers.get(assignee.getSelectedItemPosition()).toString();
         iss.setAssignee(selectedVal);
-
-        return iss;
     }
-
-/*    public String getSelectedTrackerId(){
-        return String.valueOf(trackerIdentifiers.get(tracker.getSelectedItemPosition()));
-    }
-    public String getSelectedPriorityId(){
-        return String.valueOf(priorityIdentifiers.get(tracker.getSelectedItemPosition()));
-    }
-    public String getSelectedStatusId(){
-        return String.valueOf(statusIdentifiers.get(tracker.getSelectedItemPosition()));
-    }*/
 
     protected void getSpinnerData(){
         super.getSpinnerData();
@@ -124,8 +96,7 @@ public class IssueCreateFragment extends AbstractIssueFragment implements Fragme
         RedMineApplication.redMineApi.getProjectMembership(query,assigneeCallback);
     }
 
-    protected void setData(){    }
-
+    protected void setData(){}
 
     private void checkAccess() {
 

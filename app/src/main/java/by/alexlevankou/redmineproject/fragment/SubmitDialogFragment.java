@@ -17,7 +17,6 @@ public class SubmitDialogFragment extends DialogFragment {
         builder.setMessage(R.string.submit_question)
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-
                         Intent intent = new Intent(getContext(),TaskListActivity.class);
                         startActivity(intent);
                     }

@@ -16,7 +16,6 @@ import by.alexlevankou.redmineproject.activity.LoginActivity;
 public class ExitDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(R.string.exit_question)
                 .setPositiveButton(R.string.exit, new DialogInterface.OnClickListener() {
@@ -37,7 +36,6 @@ public class ExitDialogFragment extends DialogFragment {
                         // User cancelled the dialog
                     }
                 });
-        // Create the AlertDialog object and return it
         return builder.create();
     }
 }

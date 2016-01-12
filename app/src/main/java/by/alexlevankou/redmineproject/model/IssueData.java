@@ -1,8 +1,6 @@
 package by.alexlevankou.redmineproject.model;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class IssueData{
 
@@ -36,7 +34,6 @@ public class IssueData{
         issue.start_date = s;
     }
 
-
     public String getStatusName(){
         return issue.status.name;
     }
@@ -55,8 +52,6 @@ public class IssueData{
     public String getStartDate(){
         return issue.start_date;
     }
-
-
 
 
     public class Issues{
@@ -105,7 +100,7 @@ public class IssueData{
         public int getAssigneeId(){
             return assigned_to.id;
         }
-        public String getAssigneNeame(){
+        public String getAssigneeName(){
             return assigned_to.name;
         }
 
@@ -125,8 +120,6 @@ public class IssueData{
         public String getStartDate(){
             return start_date;
         }
-
-
 
 
         public class Basics{

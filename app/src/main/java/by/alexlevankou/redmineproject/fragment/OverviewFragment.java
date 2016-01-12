@@ -1,16 +1,13 @@
 package by.alexlevankou.redmineproject.fragment;
 
-
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-
 import java.util.ArrayList;
 
 import by.alexlevankou.redmineproject.Constants;
@@ -39,7 +36,6 @@ public class OverviewFragment extends AbstractFragment implements FragmentLifecy
 
     private ListView trackerListView;
     private ListView memberListView;
-
     private IssueData projectIssueData;
 
 
@@ -67,12 +63,10 @@ public class OverviewFragment extends AbstractFragment implements FragmentLifecy
 
     @Override
     public void onPauseFragment() {
-
     }
 
     @Override
     public void onResumeFragment() {
-
     }
 
     private void initRecycler(View view) {
@@ -90,7 +84,6 @@ public class OverviewFragment extends AbstractFragment implements FragmentLifecy
                 TrackerData trackerData = RedMineApplication.getTrackerData();
                 trackers  = trackerData.getTrackers();
                 trackingAdapter = new TrackingAdapter(getContext(), trackers, projectIssueData);
-
                 trackerListView.setAdapter(trackingAdapter);
                 trackerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
@@ -102,42 +95,12 @@ public class OverviewFragment extends AbstractFragment implements FragmentLifecy
                         recyclerAdapter.chooseTracker(id);
                     }
                 });
-
-
             }
             @Override
             public void failure(RetrofitError retrofitError) {
                 retrofitError.printStackTrace();
             }
         };
-
-
-
-     /*   Callback callbackTrackers = new Callback() {
-            @Override
-            public void success(Object o, Response response) {
-                TrackerData trackerData = (TrackerData)o;
-                trackers  = trackerData.getTrackers();
-                trackingAdapter = new TrackingAdapter(getContext(),trackers);
-                trackerListView.setAdapter(trackingAdapter);
-                trackerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Log.e("tracklist", String.valueOf(id));
-                        ProjectActivity.viewPager.setCurrentItem(Constants.TAB_LIST);
-                        Fragment fragment = ProjectActivity.adapter.getItem(Constants.TAB_LIST);
-                        ProjectIssueListFragment frag = (ProjectIssueListFragment) fragment;
-                        RecyclerAdapter recyclerAdapter = frag.getAdapter();
-                        recyclerAdapter.chooseTracker(id);
-                    }
-                });
-
-            }
-            @Override
-            public void failure(RetrofitError retrofitError) {
-                retrofitError.printStackTrace();
-            }
-        };*/
 
         Callback callbackMembers = new Callback() {
             @Override
@@ -152,10 +115,8 @@ public class OverviewFragment extends AbstractFragment implements FragmentLifecy
                 retrofitError.printStackTrace();
             }
         };
-
         String query = String.valueOf(ProjectActivity.id);
         RedMineApplication.redMineApi.getProjectIssues(query, callbackProjectIssues);
-       // RedMineApplication.redMineApi.getTrackers(callbackTrackers);
         RedMineApplication.redMineApi.getProjectMembership(query, callbackMembers);
     }
 }

@@ -8,12 +8,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import java.util.ArrayList;
 
 import by.alexlevankou.redmineproject.R;
 import by.alexlevankou.redmineproject.RedMineApplication;
-import by.alexlevankou.redmineproject.adapter.RecyclerAdapter;
 import by.alexlevankou.redmineproject.adapter.RecyclerProjectAdapter;
 import by.alexlevankou.redmineproject.model.ProjectData;
 import retrofit.Callback;
@@ -26,7 +24,6 @@ public class ProjectListFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerProjectAdapter projectAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-
     private Callback callback;
     private ArrayList<ProjectData.Project> list;
 
@@ -80,6 +77,4 @@ public class ProjectListFragment extends Fragment {
     public RecyclerProjectAdapter getAdapter(){
         return projectAdapter;
     }
-
-
 }

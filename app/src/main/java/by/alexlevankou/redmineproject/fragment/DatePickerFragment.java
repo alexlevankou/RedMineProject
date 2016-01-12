@@ -26,20 +26,18 @@ public class DatePickerFragment extends DialogFragment
         date_type = bundle.getInt("date");
         start_date = (TextView) getActivity().findViewById(R.id.start_date_text);
 
-
         String date_string;
         if(date_type == 1) {
-
             date_string = start_date.getText().toString();
         }else{
-            date_string = issue.updated_on; // where is due date????????
+            date_string = issue.updated_on;
         }
         return parseDateString(date_string);
     }
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
         // Do something with the date chosen by the user
-        String str_year, str_day, str_month;
+        String str_day, str_month;
         if(date_type == 1) {
             month++;
             if(day < 10){
@@ -69,5 +67,4 @@ public class DatePickerFragment extends DialogFragment
 
         return new DatePickerDialog(getActivity(), this, year, month, day);
     }
-
 }

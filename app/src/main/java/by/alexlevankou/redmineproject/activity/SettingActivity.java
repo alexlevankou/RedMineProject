@@ -39,7 +39,6 @@ public class SettingActivity extends AppCompatActivity {
         {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.preferences);
-
             setPreferences();
         }
 
@@ -74,71 +73,6 @@ public class SettingActivity extends AppCompatActivity {
                 chb.setTitle(name);
                 status_screen.addPreference(chb);
             }
-            /*Callback trackerCallback = new Callback() {
-                @Override
-                public void success(Object o, Response response) {
-                    TrackerData trackerData = (TrackerData)o;
-                    trackerNames = trackerData.getNameList();
-
-                    tracker_screen = (PreferenceScreen) findPreference("tracker_screen");
-                    for(String name: trackerNames){
-                        CheckBoxPreference chb = new CheckBoxPreference(getActivity());
-                        chb.setKey("chb_" + name);
-                        chb.setDefaultValue(true);
-                        chb.setTitle(name);
-                        tracker_screen.addPreference(chb);
-                    }
-                }
-                @Override
-                public void failure(RetrofitError retrofitError) {
-                    retrofitError.printStackTrace();
-                }
-            };
-
-            Callback priorityCallback = new Callback() {
-                @Override
-                public void success(Object o, Response response) {
-                    PriorityData priorData = (PriorityData)o;
-                    priorityNames = priorData.getNameList();
-
-                    priority_screen = (PreferenceScreen) findPreference("priority_screen");
-                    for(String name: priorityNames){
-                        CheckBoxPreference chb = new CheckBoxPreference(getActivity());
-                        chb.setKey("chb_"+name);
-                        chb.setDefaultValue(true);
-                        chb.setTitle(name);
-                        priority_screen.addPreference(chb);
-                    }
-                }
-                @Override
-                public void failure(RetrofitError retrofitError) {
-                    retrofitError.printStackTrace();
-                }
-            };
-
-            Callback statusCallback = new Callback() {
-                @Override
-                public void success(Object o, Response response) {
-                    StatusData statusData = (StatusData)o;
-                    statusNames = statusData.getNameList();
-
-                    status_screen = (PreferenceScreen) findPreference("status_screen");
-                    for(String name: statusNames){
-                        CheckBoxPreference chb = new CheckBoxPreference(getActivity());
-                        chb.setKey("chb_"+name);
-                        chb.setDefaultValue(true);
-                        chb.setTitle(name);
-                        status_screen.addPreference(chb);
-                    }
-                }
-                @Override
-                public void failure(RetrofitError retrofitError) {
-                    retrofitError.printStackTrace();
-                }
-            };
-            RedMineApplication.redMineApi.getTrackers(trackerCallback);
-            RedMineApplication.redMineApi.getPriorities(priorityCallback);
-            RedMineApplication.redMineApi.getStatuses(statusCallback);*/
         }
     }
 }

@@ -3,16 +3,11 @@ package by.alexlevankou.redmineproject.fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
 import android.preference.PreferenceManager;
-import android.preference.PreferenceScreen;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,24 +18,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import by.alexlevankou.redmineproject.FragmentLifecycle;
 import by.alexlevankou.redmineproject.IssueComparator;
-import by.alexlevankou.redmineproject.model.IssueData;
 import by.alexlevankou.redmineproject.R;
-import by.alexlevankou.redmineproject.adapter.RecyclerAdapter;
 import by.alexlevankou.redmineproject.RedMineApplication;
-import by.alexlevankou.redmineproject.model.PriorityData;
-import by.alexlevankou.redmineproject.model.StatusData;
-import by.alexlevankou.redmineproject.model.TrackerData;
+import by.alexlevankou.redmineproject.adapter.RecyclerAdapter;
+import by.alexlevankou.redmineproject.model.IssueData;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class IssueListFragment extends AbstractFragment implements SwipeRefreshLayout.OnRefreshListener, FragmentLifecycle {
 
-    protected int sync = 0;
     public static SparseBooleanArray prefTracker, prefStatus, prefPriority;
     protected View view;
     protected TextView headView;
@@ -148,10 +138,7 @@ public class IssueListFragment extends AbstractFragment implements SwipeRefreshL
         headView = tv;
     }
 
-
-
     protected void formListHeader() {
-        //sync = 0;
         PreferenceManager.setDefaultValues(getContext(), R.xml.preferences, false);
         pref = PreferenceManager.getDefaultSharedPreferences(getContext());
         checkVisibility(status,pref.getBoolean("status_chb",true));
@@ -184,78 +171,6 @@ public class IssueListFragment extends AbstractFragment implements SwipeRefreshL
             String value = entry.getValue();
             prefStatus.put(key, pref.getBoolean("chb_" + value, true));
         }
-/*
-            Callback trackerCallback = new Callback() {
-                @Override
-                public void success(Object o, Response response) {
-                    TrackerData trackerData = (TrackerData) o;
-
-                    HashMap<Integer, String> trackerMap = trackerData.getMappedData();
-                    prefTracker = new SparseBooleanArray();
-                    for (Map.Entry<Integer, String> entry : trackerMap.entrySet()) {
-                        Integer key = entry.getKey();
-                        String value = entry.getValue();
-                        prefTracker.put(key, pref.getBoolean("chb_" + value, true));
-                    }
-                    sync++;
-                    callData();
-                }
-
-                @Override
-                public void failure(RetrofitError retrofitError) {
-                    retrofitError.printStackTrace();
-                }
-            };
-
-            Callback priorityCallback = new Callback() {
-                @Override
-                public void success(Object o, Response response) {
-                    PriorityData priorData = (PriorityData) o;
-
-                    HashMap<Integer, String> priorityMap = priorData.getMappedData();
-                    prefPriority = new SparseBooleanArray();
-                    for (Map.Entry<Integer, String> entry : priorityMap.entrySet()) {
-                        Integer key = entry.getKey();
-                        String value = entry.getValue();
-                        prefPriority.put(key, pref.getBoolean("chb_" + value, true));
-                    }
-                    sync++;
-                    callData();
-                }
-
-                @Override
-                public void failure(RetrofitError retrofitError) {
-                    retrofitError.printStackTrace();
-                }
-            };
-
-            Callback statusCallback = new Callback() {
-                @Override
-                public void success(Object o, Response response) {
-                    StatusData statusData = (StatusData) o;
-
-                    HashMap<Integer, String> statusMap = statusData.getMappedData();
-                    prefStatus = new SparseBooleanArray();
-                    for (Map.Entry<Integer, String> entry : statusMap.entrySet()) {
-                        Integer key = entry.getKey();
-                        String value = entry.getValue();
-                        prefStatus.put(key, pref.getBoolean("chb_" + value, true));
-                    }
-                    sync++;
-                    callData();
-                }
-
-                @Override
-                public void failure(RetrofitError retrofitError) {
-                    retrofitError.printStackTrace();
-                }
-            };
-
-            RedMineApplication.redMineApi.getTrackers(trackerCallback);
-            RedMineApplication.redMineApi.getPriorities(priorityCallback);
-            RedMineApplication.redMineApi.getStatuses(statusCallback);
-*/
-
     }
 
     protected void initSwipeRefresher() {
@@ -284,14 +199,7 @@ public class IssueListFragment extends AbstractFragment implements SwipeRefreshL
         }
     }
 
-/*    protected void callData(){
-        if(sync == 3){
-            getInfoFromApi();
-        }
-    }*/
-
     public void getInfoFromApi(){
-
             callback = new Callback() {
                 @Override
                 public void success(Object o, Response response) {
@@ -299,7 +207,6 @@ public class IssueListFragment extends AbstractFragment implements SwipeRefreshL
                     list = issueData.issues;
                     mAdapter.update(list);
                 }
-
                 @Override
                 public void failure(RetrofitError retrofitError) {
                     retrofitError.printStackTrace();

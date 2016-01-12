@@ -17,7 +17,6 @@ public class IssuePropertiesFragment extends Fragment {
 
     private IssueData.Issues issue = PropertyActivity.issue;
 
-
     public IssuePropertiesFragment() {
         // Required empty public constructor
     }

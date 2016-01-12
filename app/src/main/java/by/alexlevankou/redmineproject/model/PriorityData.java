@@ -2,7 +2,6 @@ package by.alexlevankou.redmineproject.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class PriorityData {
 

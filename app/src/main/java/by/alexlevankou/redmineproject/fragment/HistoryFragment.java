@@ -31,12 +31,9 @@ public class HistoryFragment extends AbstractFragment implements FragmentLifecyc
         return view;
     }
 
-
     @Override
     public void onStart() {
         super.onStart();
-        //initData();
-      //  setData();
     }
 
     @Override
@@ -48,5 +45,4 @@ public class HistoryFragment extends AbstractFragment implements FragmentLifecyc
     public void onResumeFragment() {
 
     }
-
 }

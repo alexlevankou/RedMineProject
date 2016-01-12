@@ -86,7 +86,6 @@ public class ProjectMembership {
             }
         }
 
-
         public String getRole(int i){
             return roles.get(i).getName();
         }
@@ -106,7 +105,6 @@ public class ProjectMembership {
             }
             return str.toString();
         }
-
 
         public class Basics{
 

@@ -1,7 +1,5 @@
 package by.alexlevankou.redmineproject.activity;
 
-import android.animation.Animator;
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -13,18 +11,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewAnimationUtils;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 
-import by.alexlevankou.redmineproject.Constants;
 import by.alexlevankou.redmineproject.R;
 import by.alexlevankou.redmineproject.RedMineApplication;
-import by.alexlevankou.redmineproject.adapter.RecyclerAdapter;
-import by.alexlevankou.redmineproject.fragment.ErrorDialogFragment;
 import by.alexlevankou.redmineproject.fragment.IssueEditFragment;
 import by.alexlevankou.redmineproject.fragment.IssuePropertiesFragment;
-import by.alexlevankou.redmineproject.fragment.ProjectIssueListFragment;
 import by.alexlevankou.redmineproject.fragment.SubmitDialogFragment;
 import by.alexlevankou.redmineproject.model.IssueCreator;
 import by.alexlevankou.redmineproject.model.IssueData;
@@ -101,23 +92,13 @@ public class PropertyActivity extends AppCompatActivity {
 
         IssueCreator iss  = new IssueCreator();
         IssueEditFragment editFragment = (IssueEditFragment) fragment;
-        iss = editFragment.prepareIssue(iss);
+        editFragment.prepareIssue(iss);
 
         String taskId = String.valueOf(id);
-        RedMineApplication.redMineApi.updateIssue(iss,taskId, cb);
+        RedMineApplication.redMineApi.updateIssue(iss, taskId, cb);
     }
 
-/*
-    @TargetApi(21)
-    private void createAnimation() {
-        FrameLayout frameLayout = (FrameLayout)findViewById(R.id.frame);
-        int x = (int)fab.getX();
-        int y = (int)fab.getY();
-        int radius = frameLayout.getWidth();
-        Animator anim = ViewAnimationUtils.createCircularReveal(frameLayout, x, y, 0, radius);
-        anim.start();
-    }
-*/
+
 
     private void getInfoFromApi(){
 

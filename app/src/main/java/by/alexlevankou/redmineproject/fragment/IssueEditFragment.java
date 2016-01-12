@@ -102,8 +102,7 @@ public class IssueEditFragment extends AbstractIssueFragment {
         done_ratio.setSelection(issue.done_ratio/10);
     }
 
-    public IssueCreator prepareIssue(IssueCreator iss) {
-
+    public void prepareIssue(IssueCreator iss) {
         iss.setSubject(subject.getText().toString());
         iss.setDescription(description.getText().toString());
         iss.setStartDate(start_date.getText().toString());
@@ -118,7 +117,5 @@ public class IssueEditFragment extends AbstractIssueFragment {
         selectedVal = assigneeIdentifiers.get(assignee.getSelectedItemPosition()).toString();
         iss.setAssignee(selectedVal);
         iss.setDoneRatio(done_ratio.getSelectedItemPosition()*10);
-
-        return iss;
     }
 }

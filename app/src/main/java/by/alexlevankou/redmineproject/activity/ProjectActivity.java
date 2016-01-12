@@ -19,7 +19,6 @@ import by.alexlevankou.redmineproject.Constants;
 import by.alexlevankou.redmineproject.FragmentLifecycle;
 import by.alexlevankou.redmineproject.R;
 import by.alexlevankou.redmineproject.RedMineApplication;
-import by.alexlevankou.redmineproject.adapter.RecyclerAdapter;
 import by.alexlevankou.redmineproject.adapter.ViewPagerAdapter;
 import by.alexlevankou.redmineproject.fragment.ExitDialogFragment;
 import by.alexlevankou.redmineproject.fragment.IssueCreateFragment;
@@ -35,11 +34,8 @@ public class ProjectActivity extends AppCompatActivity{
 
     private Toolbar toolbar;
     public static ViewPager viewPager;
-
     public static ProjectData projectData;
-    public static IssueData projectIssueData;
     public static int id;
-
     public static ViewPagerAdapter adapter;
 
     @Override
@@ -57,8 +53,35 @@ public class ProjectActivity extends AppCompatActivity{
         initTabs();
     }
 
-    private ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.OnPageChangeListener() {
+    //add issue
+    public void onClickFAB(View v){
 
+        Callback cb = new Callback() {
+            @Override
+            public void success(Object o, Response response) {
+                viewPager.setCurrentItem(Constants.TAB_OVERVIEW);
+            }
+            @Override
+            public void failure(RetrofitError retrofitError) {
+                retrofitError.printStackTrace();
+            }
+        };
+
+        int index = viewPager.getCurrentItem();
+        IssueCreateFragment createFragment = (IssueCreateFragment)adapter.getItem(index);
+
+        IssueCreator iss  = new IssueCreator();
+        String taskId = String.valueOf(id);
+        iss.setProject(taskId);
+        createFragment.prepareIssue(iss);
+        RedMineApplication.redMineApi.createIssue(iss, cb);
+
+        Fragment fragment = ProjectActivity.adapter.getItem(Constants.TAB_LIST);
+        ProjectIssueListFragment frag = (ProjectIssueListFragment) fragment;
+        frag.getInfoFromApi();
+    }
+
+    private ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.OnPageChangeListener() {
         int currentPosition = 0;
 
         @Override
@@ -69,7 +92,6 @@ public class ProjectActivity extends AppCompatActivity{
             fragmentToHide.onPauseFragment();
             currentPosition = newPosition;
         }
-
         @Override
         public void onPageScrolled(int arg0, float arg1, int arg2) { }
 
@@ -102,52 +124,9 @@ public class ProjectActivity extends AppCompatActivity{
                 retrofitError.printStackTrace();
             }
         };
-      /*  Callback callbackProjectIssues = new Callback() {
-            @Override
-            public void success(Object o, Response response) {
-                projectIssueData = (IssueData)o;
-            }
-            @Override
-            public void failure(RetrofitError retrofitError) {
-                retrofitError.printStackTrace();
-            }
-        };
-*/
         String query = String.valueOf(id);
         RedMineApplication.redMineApi.showProject(query, callback);
-     //   RedMineApplication.redMineApi.getProjectIssues(query, callbackProjectIssues);
-
     }
-
-    //add issue
-    public void onClickFAB(View v){
-
-        Callback cb = new Callback() {
-            @Override
-            public void success(Object o, Response response) {
-               viewPager.setCurrentItem(Constants.TAB_OVERVIEW);
-            }
-            @Override
-            public void failure(RetrofitError retrofitError) {
-                retrofitError.printStackTrace();
-            }
-        };
-
-        int index = viewPager.getCurrentItem();
-        IssueCreateFragment createFragment = (IssueCreateFragment)adapter.getItem(index);
-
-        IssueCreator iss  = new IssueCreator();
-        String taskId = String.valueOf(id);
-        iss.setProject(taskId);
-        iss = createFragment.prepareIssue(iss);
-
-        RedMineApplication.redMineApi.createIssue(iss, cb);
-
-        Fragment fragment = ProjectActivity.adapter.getItem(Constants.TAB_LIST);
-        ProjectIssueListFragment frag = (ProjectIssueListFragment) fragment;
-        frag.getInfoFromApi();
-    }
-
 
     private void initNavigation() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

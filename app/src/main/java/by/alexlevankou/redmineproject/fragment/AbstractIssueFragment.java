@@ -1,6 +1,5 @@
 package by.alexlevankou.redmineproject.fragment;
 
-
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
@@ -20,7 +19,6 @@ import by.alexlevankou.redmineproject.model.TrackerData;
 
 public abstract class AbstractIssueFragment  extends AbstractFragment {
 
-    protected int sync =0;
     protected View view;
     protected Toolbar toolbar;
 
@@ -30,7 +28,6 @@ public abstract class AbstractIssueFragment  extends AbstractFragment {
     public AppCompatSpinner status;
     public AppCompatSpinner priority;
     public AppCompatSpinner assignee;
-
 
     protected final static int START_DATE = 1;
     protected final static int DUE_DATE = 2;
@@ -54,7 +51,6 @@ public abstract class AbstractIssueFragment  extends AbstractFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_issue_edit,null);
-
         return view;
     }
 
@@ -65,9 +61,8 @@ public abstract class AbstractIssueFragment  extends AbstractFragment {
         getSpinnerData();
     }
 
-
     protected abstract void setData();
-    protected abstract IssueCreator prepareIssue(IssueCreator issueCreator);
+    protected abstract void prepareIssue(IssueCreator issueCreator);
 
     protected void initData() {
         toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
@@ -98,70 +93,6 @@ public abstract class AbstractIssueFragment  extends AbstractFragment {
         statusAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, statusData.getNameList());
         statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         status.setAdapter(statusAdapter);
-
-
-        /*sync=0;
-        Callback trackerCallback = new Callback() {
-            @Override
-            public void success(Object o, Response response) {
-                TrackerData trackerData = (TrackerData)o;
-                trackerIdentifiers = trackerData.getIdList();
-                trackerAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, trackerData.getNameList());
-                trackerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                tracker.setAdapter(trackerAdapter);
-                sync++;
-                allowToSet();
-            }
-            @Override
-            public void failure(RetrofitError retrofitError) {
-                retrofitError.printStackTrace();
-            }
-        };
-
-        Callback priorityCallback = new Callback() {
-            @Override
-            public void success(Object o, Response response) {
-                PriorityData priorData = (PriorityData)o;
-                priorityIdentifiers = priorData.getIdList();
-                priorityAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, priorData.getNameList());
-                priorityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                priority.setAdapter(priorityAdapter);
-                sync++;
-                allowToSet();
-            }
-            @Override
-            public void failure(RetrofitError retrofitError) {
-                retrofitError.printStackTrace();
-            }
-        };
-
-        Callback statusCallback = new Callback() {
-            @Override
-            public void success(Object o, Response response) {
-                StatusData statusData = (StatusData)o;
-                statusIdentifiers = statusData.getIdList();
-                statusAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, statusData.getNameList());
-                statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                status.setAdapter(statusAdapter);
-                sync++;
-                allowToSet();
-            }
-            @Override
-            public void failure(RetrofitError retrofitError) {
-                retrofitError.printStackTrace();
-            }
-        };
-
-        RedMineApplication.redMineApi.getTrackers(trackerCallback);
-        RedMineApplication.redMineApi.getPriorities(priorityCallback);
-        RedMineApplication.redMineApi.getStatuses(statusCallback);
-        */
-    }
-
-    protected void allowToSet() {
-        if(sync == 4){
-            setData();
-        }
     }
 
     protected int findSelected(int id,ArrayList<Integer> list){
@@ -170,5 +101,4 @@ public abstract class AbstractIssueFragment  extends AbstractFragment {
         }
         return -1;
     }
-
 }

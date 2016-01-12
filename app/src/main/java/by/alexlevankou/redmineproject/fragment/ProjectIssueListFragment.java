@@ -1,14 +1,7 @@
 package by.alexlevankou.redmineproject.fragment;
 
-
 import android.content.Context;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,7 +61,6 @@ public class ProjectIssueListFragment extends IssueListFragment{
                 list = issueData.issues;
                 mAdapter.update(list);
             }
-
             @Override
             public void failure(RetrofitError retrofitError) {
                 retrofitError.printStackTrace();

@@ -113,15 +113,12 @@ public class RecyclerProjectAdapter extends RecyclerView.Adapter<RecyclerProject
     }
 
     public void update(){
-        //list = defaultList;
         notifyDataSetChanged();
     }
 
     public void update(ArrayList<ProjectData.Project> projects){
-        //list = projects;
         defaultList = projects;
         filter();
-        //notifyDataSetChanged();
     }
 
     public void search(String text){

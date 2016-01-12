@@ -7,11 +7,9 @@ public class ProjectData {
     public Project project;
     public ArrayList<Project> projects;
 
-
     public ProjectData(){
         project = new Project();
     }
-
 
     public void setId(int i){
        project.id = i;
