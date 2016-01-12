@@ -85,7 +85,7 @@ public class IssueListFragment extends AbstractFragment implements SwipeRefreshL
     public void onStart() {
         super.onStart();
         formListHeader();
-        // synchronize callbacks
+        getInfoFromApi();
     }
 
     @Override
@@ -143,14 +143,15 @@ public class IssueListFragment extends AbstractFragment implements SwipeRefreshL
             headView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
         }
         TextView tv = (TextView)v;
-        tv.setCompoundDrawablesWithIntrinsicBounds( R.drawable.ic_sort, 0, 0, 0);
+        tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_sort, 0, 0, 0);
         tv.setCompoundDrawablePadding(0);
         headView = tv;
     }
 
-    protected void formListHeader() {
 
-        sync = 0;
+
+    protected void formListHeader() {
+        //sync = 0;
         PreferenceManager.setDefaultValues(getContext(), R.xml.preferences, false);
         pref = PreferenceManager.getDefaultSharedPreferences(getContext());
         checkVisibility(status,pref.getBoolean("status_chb",true));
@@ -161,6 +162,29 @@ public class IssueListFragment extends AbstractFragment implements SwipeRefreshL
         checkVisibility(description, pref.getBoolean("description_chb", false));
         checkVisibility(start_date, pref.getBoolean("start_date_chb", false));
 
+        HashMap<Integer, String> trackerMap = RedMineApplication.getTrackerData().getMappedData();
+        prefTracker = new SparseBooleanArray();
+        for (Map.Entry<Integer, String> entry : trackerMap.entrySet()) {
+            Integer key = entry.getKey();
+            String value = entry.getValue();
+            prefTracker.put(key, pref.getBoolean("chb_" + value, true));
+        }
+        HashMap<Integer, String> priorityMap = RedMineApplication.getPriorityData().getMappedData();
+        prefPriority = new SparseBooleanArray();
+        for (Map.Entry<Integer, String> entry : priorityMap.entrySet()) {
+            Integer key = entry.getKey();
+            String value = entry.getValue();
+            prefPriority.put(key, pref.getBoolean("chb_" + value, true));
+        }
+
+        HashMap<Integer, String> statusMap = RedMineApplication.getStatusData().getMappedData();
+        prefStatus = new SparseBooleanArray();
+        for (Map.Entry<Integer, String> entry : statusMap.entrySet()) {
+            Integer key = entry.getKey();
+            String value = entry.getValue();
+            prefStatus.put(key, pref.getBoolean("chb_" + value, true));
+        }
+/*
             Callback trackerCallback = new Callback() {
                 @Override
                 public void success(Object o, Response response) {
@@ -230,6 +254,7 @@ public class IssueListFragment extends AbstractFragment implements SwipeRefreshL
             RedMineApplication.redMineApi.getTrackers(trackerCallback);
             RedMineApplication.redMineApi.getPriorities(priorityCallback);
             RedMineApplication.redMineApi.getStatuses(statusCallback);
+*/
 
     }
 
@@ -259,20 +284,19 @@ public class IssueListFragment extends AbstractFragment implements SwipeRefreshL
         }
     }
 
-    protected void callData(){
+/*    protected void callData(){
         if(sync == 3){
             getInfoFromApi();
         }
-    }
+    }*/
 
-    protected void getInfoFromApi(){
+    public void getInfoFromApi(){
 
             callback = new Callback() {
                 @Override
                 public void success(Object o, Response response) {
                     IssueData issueData = (IssueData) o;
                     list = issueData.issues;
-                    Log.e("Synchro", "get list");
                     mAdapter.update(list);
                 }
 
@@ -281,7 +305,6 @@ public class IssueListFragment extends AbstractFragment implements SwipeRefreshL
                     retrofitError.printStackTrace();
                 }
             };
-            //verify project or your issues
             RedMineApplication.redMineApi.getIssues("me", callback);
     }
 

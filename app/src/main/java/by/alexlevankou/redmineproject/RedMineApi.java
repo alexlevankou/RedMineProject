@@ -7,6 +7,7 @@ import by.alexlevankou.redmineproject.model.ProjectData;
 import by.alexlevankou.redmineproject.model.ProjectMembership;
 import by.alexlevankou.redmineproject.model.StatusData;
 import by.alexlevankou.redmineproject.model.TrackerData;
+import by.alexlevankou.redmineproject.model.UserData;
 import retrofit.Callback;
 import retrofit.http.Body;
 import retrofit.http.GET;
@@ -18,7 +19,12 @@ import retrofit.http.Query;
 
 public interface RedMineApi {
 
-    // issue
+    //current user
+    @GET("/users/current.json")
+    void getUser(
+            Callback<UserData> callback
+    );
+    // issue list
     @HEAD("/issues.json")
     void login(
             @Query("assigned_to_id") String user_id,
@@ -38,23 +44,23 @@ public interface RedMineApi {
     );
 
 
-
+    //tracker
     @GET("/trackers.json")
     void getTrackers(
             Callback<TrackerData> callback
     );
-
+    //priority
     @GET("/enumerations/issue_priorities.json")
     void getPriorities(
             Callback<PriorityData> callback
     );
-
+    //status
     @GET("/issue_statuses.json")
     void getStatuses(
             Callback<StatusData> callback
     );
 
-
+    //show, update, create
     @GET("/issues/{id}.json")
     void showIssue(
             @Path("id") String id,
@@ -75,7 +81,7 @@ public interface RedMineApi {
     );
 
     //project
-    @GET("/projects.json?limit=100")
+    @GET("/projects.json?limit=200")
     void getProjects(
             Callback<ProjectData> callback
     );

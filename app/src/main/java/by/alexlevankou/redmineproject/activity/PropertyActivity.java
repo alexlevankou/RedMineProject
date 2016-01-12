@@ -17,11 +17,14 @@ import android.view.ViewAnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import by.alexlevankou.redmineproject.Constants;
 import by.alexlevankou.redmineproject.R;
 import by.alexlevankou.redmineproject.RedMineApplication;
+import by.alexlevankou.redmineproject.adapter.RecyclerAdapter;
 import by.alexlevankou.redmineproject.fragment.ErrorDialogFragment;
 import by.alexlevankou.redmineproject.fragment.IssueEditFragment;
 import by.alexlevankou.redmineproject.fragment.IssuePropertiesFragment;
+import by.alexlevankou.redmineproject.fragment.ProjectIssueListFragment;
 import by.alexlevankou.redmineproject.fragment.SubmitDialogFragment;
 import by.alexlevankou.redmineproject.model.IssueCreator;
 import by.alexlevankou.redmineproject.model.IssueData;

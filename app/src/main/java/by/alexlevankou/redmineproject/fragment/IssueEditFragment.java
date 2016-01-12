@@ -1,25 +1,18 @@
 package by.alexlevankou.redmineproject.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatSpinner;
-import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import by.alexlevankou.redmineproject.R;
 import by.alexlevankou.redmineproject.RedMineApplication;
-import by.alexlevankou.redmineproject.activity.ProjectActivity;
+import by.alexlevankou.redmineproject.activity.PropertyActivity;
 import by.alexlevankou.redmineproject.model.IssueCreator;
 import by.alexlevankou.redmineproject.model.IssueData;
-import by.alexlevankou.redmineproject.activity.PropertyActivity;
-import by.alexlevankou.redmineproject.R;
 import by.alexlevankou.redmineproject.model.ProjectMembership;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -76,8 +69,7 @@ public class IssueEditFragment extends AbstractIssueFragment {
                 assigneeAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, membership.getNameList());
                 assigneeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 assignee.setAdapter(assigneeAdapter);
-                sync++;
-                allowToSet();
+                setData();
             }
             @Override
             public void failure(RetrofitError retrofitError) {
@@ -85,7 +77,7 @@ public class IssueEditFragment extends AbstractIssueFragment {
             }
         };
         String query = String.valueOf(issue.getProjectId());
-        RedMineApplication.redMineApi.getProjectMembership(query,assigneeCallback);
+        RedMineApplication.redMineApi.getProjectMembership(query, assigneeCallback);
 
     }
 
@@ -101,8 +93,12 @@ public class IssueEditFragment extends AbstractIssueFragment {
         status.setSelection(selected);
         selected = findSelected(issue.getPriorityId(),priorityIdentifiers);
         priority.setSelection(selected);
-        selected = findSelected(issue.getAssigneeId(),assigneeIdentifiers);
-        assignee.setSelection(selected);
+        try {
+            selected = findSelected(issue.getAssigneeId(), assigneeIdentifiers);
+            assignee.setSelection(selected);
+        }catch (NullPointerException e){
+            assignee.setSelection(0);
+        }
         done_ratio.setSelection(issue.done_ratio/10);
     }
 

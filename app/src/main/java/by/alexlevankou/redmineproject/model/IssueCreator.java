@@ -8,6 +8,10 @@ public class IssueCreator {
 
     public Issue issue;
 
+    public String getProject(){
+        return issue.project_id;
+    }
+
     public void setProject(String s) {
         issue.project_id = s;
     }

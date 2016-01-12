@@ -56,6 +56,8 @@
     <string name="autentication_failed">Authentication Failed!</string>
     <string name="check_input">Check the entered data.</string>
     <string name="submit_question">Submit changes?</string>
+    <string name="access_denied">Access denied.</string>
+    <string name="not_your_project">Your are not a member of this project.</string>
 
 
     <string-array name="tracker_array">

@@ -58,7 +58,9 @@ public class IssuePropertiesFragment extends Fragment {
         author.setText(info);
         status.setText(issue.status.name);
         priority.setText(issue.priority.name);
-        assignee.setText(issue.assigned_to.name);
+        if(issue.assigned_to != null) {
+            assignee.setText(issue.assigned_to.name);
+        }
         start_date.setText(issue.start_date);
         update_date.setText(issue.updated_on);
         description.setText(issue.description);

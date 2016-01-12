@@ -87,7 +87,11 @@ public class ProjectData {
         }
 
         public String getDescription() {
-            return description;
+            if(description != null) {
+                return description;
+            }else{
+                return "";
+            }
         }
 
         public void setDescription(String description) {

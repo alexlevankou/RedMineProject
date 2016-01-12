@@ -7,6 +7,9 @@ import android.util.Base64;
 import android.widget.Toast;
 
 import com.squareup.okhttp.OkHttpClient;
+
+import java.util.concurrent.TimeUnit;
+
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.client.OkClient;
@@ -14,7 +17,6 @@ import retrofit.client.OkClient;
 public class ServiceGenerator {
 
     private static String API_BASE_URL = "https://redmine-demo.alphanodes.com";//
-
     //"http://192.168.1.17:3001";
 
 
@@ -26,9 +28,13 @@ public class ServiceGenerator {
 
         API_BASE_URL = url;
 
+        final OkHttpClient okHttpClient = new OkHttpClient();
+        okHttpClient.setReadTimeout(5, TimeUnit.SECONDS);
+        okHttpClient.setConnectTimeout(5, TimeUnit.SECONDS);
+
         RestAdapter.Builder builder = new RestAdapter.Builder()
                 .setEndpoint(API_BASE_URL)
-                .setClient(new OkClient(new OkHttpClient()));
+                .setClient(new OkClient(okHttpClient));
 
 
         if (!username.isEmpty() && !password.isEmpty()) {
@@ -47,7 +53,6 @@ public class ServiceGenerator {
                 }
             });
         }
-
         RestAdapter adapter = builder.build();
         return adapter.create(serviceClass);
     }

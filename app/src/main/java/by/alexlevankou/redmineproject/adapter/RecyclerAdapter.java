@@ -26,6 +26,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     private static SharedPreferences pref;
 
 
+
+
     // класс view holder-а с помощью которого мы получаем ссылку на каждый элемент
     // отдельного пункта списка
     public static class ViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener {
@@ -173,6 +175,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 IssueListFragment.prefTracker.get(item.getTrackerId())&&
                 IssueListFragment.prefStatus.get(item.getStatusId())
             ){
+                list.add(item);
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+    public void chooseTracker(long id) {
+        list.clear();
+        for(IssueData.Issues item: defaultList){
+            if(item.getTrackerId()==id){
                 list.add(item);
             }
         }

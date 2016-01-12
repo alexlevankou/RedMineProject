@@ -49,8 +49,8 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     private void initTabsMap(Context context) {
         tabs = new HashMap<>();
         tabs.put(0, OverviewFragment.getInstance(context));
-        tabs.put(1, HistoryFragment.getInstance(context));
-        tabs.put(2, ProjectIssueListFragment.getInstance(context));
-        tabs.put(3, IssueCreateFragment.getInstance(context));
+      //  tabs.put(1, HistoryFragment.getInstance(context));
+        tabs.put(1, ProjectIssueListFragment.getInstance(context));
+        tabs.put(2, IssueCreateFragment.getInstance(context));
     }
 }

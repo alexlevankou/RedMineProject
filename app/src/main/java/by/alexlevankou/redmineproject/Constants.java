@@ -9,6 +9,7 @@ public class Constants {
     public final static String APP_PREFERENCES = "mySettings";
 
     public final static int TAB_OVERVIEW = 0;
-    public final static int TAB_ADD = 3;
+    public final static int TAB_LIST = 1;
+    public final static int TAB_ADD = 2;
 
 }

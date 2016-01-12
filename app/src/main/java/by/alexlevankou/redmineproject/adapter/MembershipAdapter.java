@@ -39,7 +39,6 @@ public class MembershipAdapter extends ListAdapter{
         ProjectMembership.Member member = (ProjectMembership.Member)obj;
         userText.setText(member.getUsername());
         roleText.setText(member.getUserRoles());
-
         return view;
     }
 }

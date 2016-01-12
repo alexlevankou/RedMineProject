@@ -113,25 +113,35 @@ public class RecyclerProjectAdapter extends RecyclerView.Adapter<RecyclerProject
     }
 
     public void update(){
-        list = defaultList;
+        //list = defaultList;
         notifyDataSetChanged();
     }
 
     public void update(ArrayList<ProjectData.Project> projects){
-        list = projects;
+        //list = projects;
         defaultList = projects;
-        notifyDataSetChanged();
+        filter();
+        //notifyDataSetChanged();
     }
 
     public void search(String text){
         list.clear();
+        String lowerText  = text.toLowerCase();
         for(ProjectData.Project item: defaultList){
             if(
-                item.getName().toLowerCase().contains(text.toLowerCase())||
-                item.getDescription().toLowerCase().contains(text.toLowerCase())
+                item.getName().toLowerCase().contains(lowerText)||
+                item.getDescription().toLowerCase().contains(lowerText)
             ){
                 list.add(item);
             }
+        }
+        notifyDataSetChanged();
+    }
+
+    private void filter() {
+        list.clear();
+        for(ProjectData.Project item: defaultList){
+            list.add(item);
         }
         notifyDataSetChanged();
     }

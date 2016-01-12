@@ -3,23 +3,26 @@ package by.alexlevankou.redmineproject.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import by.alexlevankou.redmineproject.Constants;
 import by.alexlevankou.redmineproject.FragmentLifecycle;
 import by.alexlevankou.redmineproject.R;
 import by.alexlevankou.redmineproject.RedMineApplication;
 import by.alexlevankou.redmineproject.activity.ProjectActivity;
 import by.alexlevankou.redmineproject.adapter.ListAdapter;
 import by.alexlevankou.redmineproject.adapter.MembershipAdapter;
+import by.alexlevankou.redmineproject.adapter.RecyclerAdapter;
 import by.alexlevankou.redmineproject.adapter.TrackingAdapter;
+import by.alexlevankou.redmineproject.model.IssueData;
 import by.alexlevankou.redmineproject.model.ProjectMembership;
 import by.alexlevankou.redmineproject.model.TrackerData;
 import retrofit.Callback;
@@ -36,6 +39,9 @@ public class OverviewFragment extends AbstractFragment implements FragmentLifecy
 
     private ListView trackerListView;
     private ListView memberListView;
+
+    private IssueData projectIssueData;
+
 
     public OverviewFragment() {
         // Required empty public constructor
@@ -76,19 +82,62 @@ public class OverviewFragment extends AbstractFragment implements FragmentLifecy
 
     private void getInfoFromApi(){
 
-        Callback callbackTrackers = new Callback() {
+        Callback callbackProjectIssues = new Callback() {
             @Override
             public void success(Object o, Response response) {
-                TrackerData trackerData = (TrackerData)o;
+                projectIssueData = (IssueData)o;
+
+                TrackerData trackerData = RedMineApplication.getTrackerData();
                 trackers  = trackerData.getTrackers();
-                trackingAdapter = new TrackingAdapter(getContext(),trackers);
+                trackingAdapter = new TrackingAdapter(getContext(), trackers, projectIssueData);
+
                 trackerListView.setAdapter(trackingAdapter);
+                trackerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        ProjectActivity.viewPager.setCurrentItem(Constants.TAB_LIST);
+                        Fragment fragment = ProjectActivity.adapter.getItem(Constants.TAB_LIST);
+                        ProjectIssueListFragment frag = (ProjectIssueListFragment) fragment;
+                        RecyclerAdapter recyclerAdapter = frag.getAdapter();
+                        recyclerAdapter.chooseTracker(id);
+                    }
+                });
+
+
             }
             @Override
             public void failure(RetrofitError retrofitError) {
                 retrofitError.printStackTrace();
             }
         };
+
+
+
+     /*   Callback callbackTrackers = new Callback() {
+            @Override
+            public void success(Object o, Response response) {
+                TrackerData trackerData = (TrackerData)o;
+                trackers  = trackerData.getTrackers();
+                trackingAdapter = new TrackingAdapter(getContext(),trackers);
+                trackerListView.setAdapter(trackingAdapter);
+                trackerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Log.e("tracklist", String.valueOf(id));
+                        ProjectActivity.viewPager.setCurrentItem(Constants.TAB_LIST);
+                        Fragment fragment = ProjectActivity.adapter.getItem(Constants.TAB_LIST);
+                        ProjectIssueListFragment frag = (ProjectIssueListFragment) fragment;
+                        RecyclerAdapter recyclerAdapter = frag.getAdapter();
+                        recyclerAdapter.chooseTracker(id);
+                    }
+                });
+
+            }
+            @Override
+            public void failure(RetrofitError retrofitError) {
+                retrofitError.printStackTrace();
+            }
+        };*/
 
         Callback callbackMembers = new Callback() {
             @Override
@@ -105,7 +154,8 @@ public class OverviewFragment extends AbstractFragment implements FragmentLifecy
         };
 
         String query = String.valueOf(ProjectActivity.id);
-        RedMineApplication.redMineApi.getTrackers(callbackTrackers);
+        RedMineApplication.redMineApi.getProjectIssues(query, callbackProjectIssues);
+       // RedMineApplication.redMineApi.getTrackers(callbackTrackers);
         RedMineApplication.redMineApi.getProjectMembership(query, callbackMembers);
     }
 }

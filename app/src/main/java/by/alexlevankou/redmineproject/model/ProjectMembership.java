@@ -2,6 +2,8 @@ package by.alexlevankou.redmineproject.model;
 
 import java.util.ArrayList;
 
+import by.alexlevankou.redmineproject.RedMineApplication;
+
 public class ProjectMembership {
 
     private ArrayList<Member> memberships;
@@ -26,12 +28,24 @@ public class ProjectMembership {
         return ids;
     }
 
+    public boolean cooperate(){
+        UserData.User user = RedMineApplication.getCurrentUser();
+        for(Member member: memberships){
+            if(member.getName().equals(user.getFullName())){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public class Member{
 
         private Basics user;
+        private Basics group;
         private ArrayList<Basics> roles;
 
         public Member(){
+            group = new Basics();
             user = new Basics();
             roles = new ArrayList<>();
         }
@@ -39,24 +53,44 @@ public class ProjectMembership {
         public Basics getUser() {
             return user;
         }
+        public Basics getGroup(){
+            return group;
+        }
         public ArrayList<Basics> getRoles() {
             return roles;
         }
+
         public int getUserId(){
-            return user.getId();
+            try {
+                return user.getId();
+            }catch(Exception e){
+                return group.getId();
+            }
         }
 
+
         public String getName(){
-            return user.getName();
+
+            try {
+                return user.getName();
+            }catch(Exception e){
+                return group.getName();
+            }
         }
 
         public String getUsername(){
-            return user.getName()+": ";
+            try {
+                return user.getName() + ": ";
+            }catch(Exception e){
+                return group.getName()+" : ";
+            }
         }
+
 
         public String getRole(int i){
             return roles.get(i).getName();
         }
+
         private int getNumberOfRoles(){
             return roles.size();
         }

@@ -59,7 +59,7 @@ public class ProjectIssueListFragment extends IssueListFragment{
         headView = tv;
     }
 
-    protected void getInfoFromApi(){
+    public void getInfoFromApi(){
 
         callback = new Callback() {
             @Override

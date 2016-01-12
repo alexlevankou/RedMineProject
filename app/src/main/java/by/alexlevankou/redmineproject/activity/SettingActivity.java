@@ -11,12 +11,6 @@ import java.util.ArrayList;
 
 import by.alexlevankou.redmineproject.R;
 import by.alexlevankou.redmineproject.RedMineApplication;
-import by.alexlevankou.redmineproject.model.PriorityData;
-import by.alexlevankou.redmineproject.model.StatusData;
-import by.alexlevankou.redmineproject.model.TrackerData;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 public class SettingActivity extends AppCompatActivity {
 
@@ -51,7 +45,36 @@ public class SettingActivity extends AppCompatActivity {
 
         private void setPreferences() {
 
-            Callback trackerCallback = new Callback() {
+            trackerNames = RedMineApplication.getTrackerData().getNameList();
+            tracker_screen = (PreferenceScreen) findPreference("tracker_screen");
+            for(String name: trackerNames) {
+                CheckBoxPreference chb = new CheckBoxPreference(getActivity());
+                chb.setKey("chb_" + name);
+                chb.setDefaultValue(true);
+                chb.setTitle(name);
+                tracker_screen.addPreference(chb);
+            }
+
+            priorityNames = RedMineApplication.getPriorityData().getNameList();
+            priority_screen = (PreferenceScreen) findPreference("priority_screen");
+            for(String name: priorityNames){
+                CheckBoxPreference chb = new CheckBoxPreference(getActivity());
+                chb.setKey("chb_"+name);
+                chb.setDefaultValue(true);
+                chb.setTitle(name);
+                priority_screen.addPreference(chb);
+            }
+
+            statusNames = RedMineApplication.getStatusData().getNameList();
+            status_screen = (PreferenceScreen) findPreference("status_screen");
+            for(String name: statusNames) {
+                CheckBoxPreference chb = new CheckBoxPreference(getActivity());
+                chb.setKey("chb_" + name);
+                chb.setDefaultValue(true);
+                chb.setTitle(name);
+                status_screen.addPreference(chb);
+            }
+            /*Callback trackerCallback = new Callback() {
                 @Override
                 public void success(Object o, Response response) {
                     TrackerData trackerData = (TrackerData)o;
@@ -115,7 +138,7 @@ public class SettingActivity extends AppCompatActivity {
             };
             RedMineApplication.redMineApi.getTrackers(trackerCallback);
             RedMineApplication.redMineApi.getPriorities(priorityCallback);
-            RedMineApplication.redMineApi.getStatuses(statusCallback);
+            RedMineApplication.redMineApi.getStatuses(statusCallback);*/
         }
     }
 }

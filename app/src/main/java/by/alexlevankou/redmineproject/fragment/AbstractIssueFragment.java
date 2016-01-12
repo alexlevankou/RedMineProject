@@ -9,17 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-
 import java.util.ArrayList;
 
 import by.alexlevankou.redmineproject.R;
 import by.alexlevankou.redmineproject.RedMineApplication;
+import by.alexlevankou.redmineproject.model.IssueCreator;
 import by.alexlevankou.redmineproject.model.PriorityData;
 import by.alexlevankou.redmineproject.model.StatusData;
 import by.alexlevankou.redmineproject.model.TrackerData;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 public abstract class AbstractIssueFragment  extends AbstractFragment {
 
@@ -70,7 +67,7 @@ public abstract class AbstractIssueFragment  extends AbstractFragment {
 
 
     protected abstract void setData();
-
+    protected abstract IssueCreator prepareIssue(IssueCreator issueCreator);
 
     protected void initData() {
         toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
@@ -84,7 +81,26 @@ public abstract class AbstractIssueFragment  extends AbstractFragment {
 
     protected void getSpinnerData() {
 
-        sync=0;
+        TrackerData trackerData = RedMineApplication.getTrackerData();
+        trackerIdentifiers = trackerData.getIdList();
+        trackerAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, trackerData.getNameList());
+        trackerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        tracker.setAdapter(trackerAdapter);
+
+        PriorityData priorData = RedMineApplication.getPriorityData();
+        priorityIdentifiers = priorData.getIdList();
+        priorityAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, priorData.getNameList());
+        priorityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        priority.setAdapter(priorityAdapter);
+
+        StatusData statusData = RedMineApplication.getStatusData();
+        statusIdentifiers = statusData.getIdList();
+        statusAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, statusData.getNameList());
+        statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        status.setAdapter(statusAdapter);
+
+
+        /*sync=0;
         Callback trackerCallback = new Callback() {
             @Override
             public void success(Object o, Response response) {
@@ -139,6 +155,7 @@ public abstract class AbstractIssueFragment  extends AbstractFragment {
         RedMineApplication.redMineApi.getTrackers(trackerCallback);
         RedMineApplication.redMineApi.getPriorities(priorityCallback);
         RedMineApplication.redMineApi.getStatuses(statusCallback);
+        */
     }
 
     protected void allowToSet() {

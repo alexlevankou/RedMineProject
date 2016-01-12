@@ -52,10 +52,9 @@ public class TaskListActivity extends AppCompatActivity {
         fragmentTransaction.add(R.id.frame, issueListFragment);
         fragmentTransaction.commit();
 
-
-        //
         Intent intent = getIntent();
         int  type = intent.getIntExtra("fragment", RedMineApplication.EMPTY_INTENT);
+        //call from ProjectActivity
         if(type == PROJECTS_FRAGMENT){
             projectListFragment = new ProjectListFragment();
             fragmentTransaction = getSupportFragmentManager().beginTransaction();

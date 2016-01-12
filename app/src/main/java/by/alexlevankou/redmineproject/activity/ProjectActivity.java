@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -18,9 +19,11 @@ import by.alexlevankou.redmineproject.Constants;
 import by.alexlevankou.redmineproject.FragmentLifecycle;
 import by.alexlevankou.redmineproject.R;
 import by.alexlevankou.redmineproject.RedMineApplication;
+import by.alexlevankou.redmineproject.adapter.RecyclerAdapter;
 import by.alexlevankou.redmineproject.adapter.ViewPagerAdapter;
 import by.alexlevankou.redmineproject.fragment.ExitDialogFragment;
 import by.alexlevankou.redmineproject.fragment.IssueCreateFragment;
+import by.alexlevankou.redmineproject.fragment.ProjectIssueListFragment;
 import by.alexlevankou.redmineproject.model.IssueCreator;
 import by.alexlevankou.redmineproject.model.IssueData;
 import by.alexlevankou.redmineproject.model.ProjectData;
@@ -31,13 +34,13 @@ import retrofit.client.Response;
 public class ProjectActivity extends AppCompatActivity{
 
     private Toolbar toolbar;
-    private ViewPager viewPager;
+    public static ViewPager viewPager;
 
     public static ProjectData projectData;
     public static IssueData projectIssueData;
     public static int id;
 
-    ViewPagerAdapter adapter;
+    public static ViewPagerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +102,7 @@ public class ProjectActivity extends AppCompatActivity{
                 retrofitError.printStackTrace();
             }
         };
-        Callback callbackProjectIssues = new Callback() {
+      /*  Callback callbackProjectIssues = new Callback() {
             @Override
             public void success(Object o, Response response) {
                 projectIssueData = (IssueData)o;
@@ -109,10 +112,10 @@ public class ProjectActivity extends AppCompatActivity{
                 retrofitError.printStackTrace();
             }
         };
-
+*/
         String query = String.valueOf(id);
         RedMineApplication.redMineApi.showProject(query, callback);
-        RedMineApplication.redMineApi.getProjectIssues(query, callbackProjectIssues);
+     //   RedMineApplication.redMineApi.getProjectIssues(query, callbackProjectIssues);
 
     }
 
@@ -132,20 +135,17 @@ public class ProjectActivity extends AppCompatActivity{
 
         int index = viewPager.getCurrentItem();
         IssueCreateFragment createFragment = (IssueCreateFragment)adapter.getItem(index);
+
         IssueCreator iss  = new IssueCreator();
-
-
-        //incapsulate
         String taskId = String.valueOf(id);
         iss.setProject(taskId);
-        iss.setSubject(createFragment.subject.getText().toString());
-        iss.setDescription(createFragment.description.getText().toString());
-
-        iss.setTracker(createFragment.getSelectedTrackerId());
-        iss.setStatus(createFragment.getSelectedStatusId());
-        iss.setPriority(createFragment.getSelectedPriorityId());
+        iss = createFragment.prepareIssue(iss);
 
         RedMineApplication.redMineApi.createIssue(iss, cb);
+
+        Fragment fragment = ProjectActivity.adapter.getItem(Constants.TAB_LIST);
+        ProjectIssueListFragment frag = (ProjectIssueListFragment) fragment;
+        frag.getInfoFromApi();
     }
 
 
