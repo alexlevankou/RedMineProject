@@ -17,7 +17,8 @@ public class ExitDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(R.string.exit_question)
+        builder.setTitle(R.string.exit)
+                .setMessage(R.string.exit_question)
                 .setPositiveButton(R.string.exit, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.APP_PREFERENCES, Context.MODE_PRIVATE);

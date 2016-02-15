@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
@@ -28,20 +27,14 @@ import by.alexlevankou.redmineproject.RedMineApi;
 import by.alexlevankou.redmineproject.RedMineApplication;
 import by.alexlevankou.redmineproject.ServiceGenerator;
 import by.alexlevankou.redmineproject.fragment.ErrorDialogFragment;
-import by.alexlevankou.redmineproject.model.PriorityData;
-import by.alexlevankou.redmineproject.model.StatusData;
-import by.alexlevankou.redmineproject.model.TrackerData;
-import by.alexlevankou.redmineproject.model.UserData;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class LoginActivity extends AppCompatActivity {
 
     private EditText username;
     private EditText password;
-    private int syncAccess = 0;
-    private CoordinatorLayout coordinatorLayout;
     private String name;
     private  String pass;
     private  String url;
@@ -115,7 +108,6 @@ public class LoginActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         FloatingActionButton submitButton;
         submitButton = (FloatingActionButton) findViewById(R.id.submit_fab);
-        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.login_coordinator_layout);
         submitButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 fabClicked();
@@ -133,87 +125,40 @@ public class LoginActivity extends AppCompatActivity {
         enter();
     }
 
-    private void getSTP(){
-        syncAccess = 0;
-
-        Callback trackerCallback = new Callback() {
-            @Override
-            public void success(Object o, Response response) {
-                TrackerData trackerData = (TrackerData) o;
-                RedMineApplication.setTrackerData(trackerData);
-                syncAccess++;
-                connect();
-            }
-            @Override
-            public void failure(RetrofitError retrofitError) {
-                retrofitError.printStackTrace();
-                clearPreferences();
-                initLogin();
-            }
-        };
-
-        Callback priorityCallback = new Callback() {
-            @Override
-            public void success(Object o, Response response) {
-                PriorityData priorData = (PriorityData) o;
-                RedMineApplication.setPriorityData(priorData);
-                syncAccess++;
-                connect();
-            }
-            @Override
-            public void failure(RetrofitError retrofitError) {
-                retrofitError.printStackTrace();
-                clearPreferences();
-                initLogin();
-            }
-        };
-
-        Callback statusCallback = new Callback() {
-            @Override
-            public void success(Object o, Response response) {
-                StatusData statusData = (StatusData) o;
-                RedMineApplication.setStatusData(statusData);
-                syncAccess++;
-                connect();
-            }
-            @Override
-            public void failure(RetrofitError retrofitError) {
-                retrofitError.printStackTrace();
-                clearPreferences();
-                initLogin();
-            }
-        };
-        RedMineApplication.redMineApi.getTrackers(trackerCallback);
-        RedMineApplication.redMineApi.getPriorities(priorityCallback);
-        RedMineApplication.redMineApi.getStatuses(statusCallback);
-    }
-
-    private void connect(){
-        if(syncAccess == 3){
-            Intent intent = new Intent(LoginActivity.this,TaskListActivity.class);
-            startActivity(intent);
-        }
+    private String mockString(){
+        return "call";
     }
 
     private void enter(){
         RedMineApplication.redMineApi = ServiceGenerator.createService(this,RedMineApi.class, name, pass, url);
-
-        Callback callback = new Callback() {
-            @Override
-            public void success(Object o, Response response) {
-                UserData userData = (UserData)o;
-                RedMineApplication.setCurrentUser(userData.getUser());
-                getSTP();
-            }
-            @Override
-            public void failure(RetrofitError retrofitError) {
-                retrofitError.printStackTrace();
-                clearPreferences();
-                DialogFragment fragment = new ErrorDialogFragment();
-                fragment.show(getSupportFragmentManager(), "Error");
-            }
-        };
-        RedMineApplication.redMineApi.getUser(callback);
+        Observable.zip(
+                RedMineApplication.redMineApi.getUserRx()
+                        .subscribeOn(Schedulers.newThread())
+                        .doOnNext(userData -> {
+                            RedMineApplication.setCurrentUser(userData.getUser());
+                        }),
+                RedMineApplication.redMineApi.getTrackerRx()
+                        .subscribeOn(Schedulers.newThread())
+                        .doOnNext(RedMineApplication::setTrackerData),
+                RedMineApplication.redMineApi.getStatusRx()
+                        .subscribeOn(Schedulers.newThread())
+                        .doOnNext(RedMineApplication::setStatusData),
+                RedMineApplication.redMineApi.getPriorityRx()
+                        .subscribeOn(Schedulers.newThread())
+                        .doOnNext(RedMineApplication::setPriorityData),
+                (user, tracker, status, priority) -> mockString())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        response -> {
+                            Intent intent = new Intent(LoginActivity.this, TaskListActivity.class);
+                            startActivity(intent);
+                        }, throwable -> {
+                            throwable.printStackTrace();
+                            clearPreferences();
+                            DialogFragment fragment = new ErrorDialogFragment();
+                            fragment.show(getSupportFragmentManager(), "Error");
+                            initLogin();
+                        });
     }
 
     private void clearPreferences(){

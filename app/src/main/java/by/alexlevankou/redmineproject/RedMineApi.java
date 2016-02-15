@@ -16,81 +16,54 @@ import retrofit.http.POST;
 import retrofit.http.PUT;
 import retrofit.http.Path;
 import retrofit.http.Query;
+import rx.Observable;
 
 public interface RedMineApi {
 
-    //current user
+    //RxJava
     @GET("/users/current.json")
-    void getUser(
-            Callback<UserData> callback
-    );
-    // issue list
-    @HEAD("/issues.json")
-    void login(
-            @Query("assigned_to_id") String user_id,
-            Callback<IssueData> callback
-    );
+    Observable<UserData> getUserRx();
 
-    @GET("/issues.json?status_id=*")
-    void getIssues(
-            @Query("assigned_to_id") String user_id,
-            Callback<IssueData> callback
-    );
-
-    @GET("/issues.json?status_id=*")
-    void getProjectIssues(
-            @Query("project_id") String project_id,
-            Callback<IssueData> callback
-    );
-
-
-    //tracker
     @GET("/trackers.json")
-    void getTrackers(
-            Callback<TrackerData> callback
-    );
-    //priority
-    @GET("/enumerations/issue_priorities.json")
-    void getPriorities(
-            Callback<PriorityData> callback
-    );
-    //status
-    @GET("/issue_statuses.json")
-    void getStatuses(
-            Callback<StatusData> callback
-    );
+    Observable<TrackerData> getTrackerRx();
 
-    //show, update, create
+    @GET("/enumerations/issue_priorities.json")
+    Observable<PriorityData> getPriorityRx();
+
+    @GET("/issue_statuses.json")
+    Observable<StatusData> getStatusRx();
+
+    @GET("/issues.json?status_id=*")
+    Observable<IssueData> getIssues( @Query("assigned_to_id") String user_id );
+
+    @GET("/issues.json?status_id=*")
+    Observable<IssueData> getProjectIssues( @Query("project_id") String project_id);
+
+////
     @GET("/issues/{id}.json")
-    void showIssue(
-            @Path("id") String id,
-            Callback<IssueData> callback
-    );
+    Observable<IssueData> showIssue( @Path("id") String id );
 
     @PUT("/issues/{id}.json")
-    void updateIssue(
-            @Body IssueCreator creator,
-            @Path("id") String id,
-            Callback<IssueData> callback
-    );
+    Observable<IssueData> updateIssue( @Body IssueCreator creator, @Path("id") String id );
+
+    @POST("/issues.json")
+    Observable<IssueData> createIssue( @Body IssueCreator creator );
+
+    @GET("/projects.json?limit=200")
+    Observable<ProjectData> getProjects();
+
+    @GET("/projects/{id}.json")
+    Observable<ProjectData> showProject( @Path("id") String id );
+
+    @GET("/projects/{id}/memberships.json")
+    Observable<ProjectMembership> getProjectMembership( @Path("id") String id );
+
+    ///////////////////////////////////////////////////////////////////////
 
     @POST("/issues.json")
     void createIssue(
             @Body IssueCreator creator,
             Callback<IssueData> callback
-    );
-
-    //project
-    @GET("/projects.json?limit=200")
-    void getProjects(
-            Callback<ProjectData> callback
-    );
-
-
-    @GET("/projects/{id}.json")
-    void showProject(
-            @Path("id") String id,
-            Callback<ProjectData> callback
     );
 
     //membership

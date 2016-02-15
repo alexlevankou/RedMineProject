@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import java.util.ArrayList;
+import java.util.Observable;
 
 import by.alexlevankou.redmineproject.Constants;
 import by.alexlevankou.redmineproject.FragmentLifecycle;
@@ -22,9 +23,8 @@ import by.alexlevankou.redmineproject.adapter.TrackingAdapter;
 import by.alexlevankou.redmineproject.model.IssueData;
 import by.alexlevankou.redmineproject.model.ProjectMembership;
 import by.alexlevankou.redmineproject.model.TrackerData;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class OverviewFragment extends AbstractFragment implements FragmentLifecycle {
 
@@ -36,8 +36,6 @@ public class OverviewFragment extends AbstractFragment implements FragmentLifecy
 
     private ListView trackerListView;
     private ListView memberListView;
-    private IssueData projectIssueData;
-
 
     public OverviewFragment() {
         // Required empty public constructor
@@ -76,47 +74,31 @@ public class OverviewFragment extends AbstractFragment implements FragmentLifecy
 
     private void getInfoFromApi(){
 
-        Callback callbackProjectIssues = new Callback() {
-            @Override
-            public void success(Object o, Response response) {
-                projectIssueData = (IssueData)o;
-
-                TrackerData trackerData = RedMineApplication.getTrackerData();
-                trackers  = trackerData.getTrackers();
-                trackingAdapter = new TrackingAdapter(getContext(), trackers, projectIssueData);
-                trackerListView.setAdapter(trackingAdapter);
-                trackerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        ProjectActivity.viewPager.setCurrentItem(Constants.TAB_LIST);
-                        Fragment fragment = ProjectActivity.adapter.getItem(Constants.TAB_LIST);
-                        ProjectIssueListFragment frag = (ProjectIssueListFragment) fragment;
-                        RecyclerAdapter recyclerAdapter = frag.getAdapter();
-                        recyclerAdapter.chooseTracker(id);
-                    }
-                });
-            }
-            @Override
-            public void failure(RetrofitError retrofitError) {
-                retrofitError.printStackTrace();
-            }
-        };
-
-        Callback callbackMembers = new Callback() {
-            @Override
-            public void success(Object o, Response response) {
-                ProjectMembership membership = (ProjectMembership)o;
-                members  = membership.getMembers();
-                membershipAdapter = new MembershipAdapter(getContext(),members);
-                memberListView.setAdapter(membershipAdapter);
-            }
-            @Override
-            public void failure(RetrofitError retrofitError) {
-                retrofitError.printStackTrace();
-            }
-        };
         String query = String.valueOf(ProjectActivity.id);
-        RedMineApplication.redMineApi.getProjectIssues(query, callbackProjectIssues);
-        RedMineApplication.redMineApi.getProjectMembership(query, callbackMembers);
+        RedMineApplication.redMineApi.getProjectIssues(query)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        projectData -> {
+                            trackers = RedMineApplication.getTrackerData().getTrackers();
+                            trackingAdapter = new TrackingAdapter(getContext(), trackers, projectData);
+                            trackerListView.setAdapter(trackingAdapter);
+                            trackerListView.setOnItemClickListener((parent, view1, position, id) -> {
+                                ProjectActivity.viewPager.setCurrentItem(Constants.TAB_LIST);
+                                Fragment fragment = ProjectActivity.adapter.getItem(Constants.TAB_LIST);
+                                ProjectIssueListFragment frag = (ProjectIssueListFragment) fragment;
+                                RecyclerAdapter recyclerAdapter = frag.getAdapter();
+                                recyclerAdapter.chooseTracker(id);
+                            });
+                        });
+        RedMineApplication.redMineApi.getProjectMembership(query)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        membership -> {
+                            members  = membership.getMembers();
+                            membershipAdapter = new MembershipAdapter(getContext(),members);
+                            memberListView.setAdapter(membershipAdapter);
+                        });
     }
 }

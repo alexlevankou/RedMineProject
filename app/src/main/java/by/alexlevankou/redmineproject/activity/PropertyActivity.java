@@ -22,13 +22,14 @@ import by.alexlevankou.redmineproject.model.IssueData;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class PropertyActivity extends AppCompatActivity {
 
     public static IssueData.Issues issue;
     private static long id;
     private FloatingActionButton fab;
-    private Callback callback;
     private IssueData issueData;
     private Fragment fragment;
 
@@ -78,47 +79,33 @@ public class PropertyActivity extends AppCompatActivity {
 
     public void onClickFAB(View v){
 
-        Callback cb = new Callback() {
-            @Override
-            public void success(Object o, Response response) {
-                DialogFragment fragment = new SubmitDialogFragment();
-                fragment.show(getSupportFragmentManager(), "Submit");
-            }
-            @Override
-            public void failure(RetrofitError retrofitError) {
-                retrofitError.printStackTrace();
-            }
-        };
-
         IssueCreator iss  = new IssueCreator();
         IssueEditFragment editFragment = (IssueEditFragment) fragment;
         editFragment.prepareIssue(iss);
-
         String taskId = String.valueOf(id);
-        RedMineApplication.redMineApi.updateIssue(iss, taskId, cb);
+
+        RedMineApplication.redMineApi.updateIssue(iss, taskId)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        response -> {
+                            DialogFragment fragment = new SubmitDialogFragment();
+                            fragment.show(getSupportFragmentManager(), "Submit");
+                        });
     }
 
-
-
     private void getInfoFromApi(){
-
-        callback = new Callback() {
-            @Override
-            public void success(Object o, Response response) {
-                issueData = (IssueData)o;
-                issue = issueData.issue;
-                fragment = new IssuePropertiesFragment();
-                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.add(R.id.frame, fragment);
-                fragmentTransaction.commit();
-            }
-            @Override
-            public void failure(RetrofitError retrofitError) {
-                retrofitError.printStackTrace();
-            }
-        };
-
         String query = String.valueOf(id);
-        RedMineApplication.redMineApi.showIssue(query, callback);
+        RedMineApplication.redMineApi.showIssue(query)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        issueData -> {
+                            issue = issueData.issue;
+                            fragment = new IssuePropertiesFragment();
+                            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                            fragmentTransaction.add(R.id.frame, fragment);
+                            fragmentTransaction.commit();
+                        });
     }
 }

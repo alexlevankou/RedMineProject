@@ -13,17 +13,12 @@ public class RedMineApplication extends Application {
     public static final int EMPTY_INTENT = -1;
 
     private static UserData.User currentUser;
-
     private static StatusData statusData;
     private static TrackerData trackerData;
     private static PriorityData priorityData;
 
     public static UserData.User getCurrentUser() {
         return currentUser;
-    }
-
-    public static void setCurrentUser(UserData.User currentUser) {
-        RedMineApplication.currentUser = currentUser;
     }
 
     public static StatusData getStatusData() {
@@ -38,6 +33,9 @@ public class RedMineApplication extends Application {
         return priorityData;
     }
 
+    public static void setCurrentUser(UserData.User currentUser) {
+        RedMineApplication.currentUser = currentUser;
+    }
 
     public static void setStatusData(StatusData statusData) {
         RedMineApplication.statusData = statusData;
@@ -50,8 +48,4 @@ public class RedMineApplication extends Application {
     public static void setTrackerData(TrackerData trackerData) {
         RedMineApplication.trackerData = trackerData;
     }
-
-
-
-
 }

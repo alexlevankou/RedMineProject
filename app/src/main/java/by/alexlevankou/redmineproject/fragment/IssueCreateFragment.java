@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import by.alexlevankou.redmineproject.model.ProjectMembership;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 
 public class IssueCreateFragment extends AbstractIssueFragment implements FragmentLifecycle {
@@ -78,7 +81,7 @@ public class IssueCreateFragment extends AbstractIssueFragment implements Fragme
     protected void getSpinnerData(){
         super.getSpinnerData();
 
-        Callback assigneeCallback = new Callback() {
+     /*   Callback assigneeCallback = new Callback() {
             @Override
             public void success(Object o, Response response) {
                 ProjectMembership membership = (ProjectMembership)o;
@@ -91,16 +94,28 @@ public class IssueCreateFragment extends AbstractIssueFragment implements Fragme
             public void failure(RetrofitError retrofitError) {
                 retrofitError.printStackTrace();
             }
-        };
+        };*/
+       // RedMineApplication.redMineApi.getProjectMembership(query,assigneeCallback);
         String query = String.valueOf(ProjectActivity.id);
-        RedMineApplication.redMineApi.getProjectMembership(query,assigneeCallback);
+        RedMineApplication.redMineApi.getProjectMembership(query)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        membership -> {
+                            assigneeIdentifiers = membership.getIdList();
+                            assigneeAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, membership.getNameList());
+                            assigneeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            assignee.setAdapter(assigneeAdapter);
+                        },throwable -> {
+                            Log.e("IssueCreateFragment", throwable.getMessage());
+                        });
     }
 
     protected void setData(){}
 
     private void checkAccess() {
 
-        Callback callbackMembers = new Callback() {
+        /*Callback callbackMembers = new Callback() {
             @Override
             public void success(Object o, Response response) {
                 ProjectMembership membership = (ProjectMembership)o;
@@ -115,8 +130,21 @@ public class IssueCreateFragment extends AbstractIssueFragment implements Fragme
             public void failure(RetrofitError retrofitError) {
                 retrofitError.printStackTrace();
             }
-        };
+        };*/
+       // RedMineApplication.redMineApi.getProjectMembership(query, callbackMembers);
         String query = String.valueOf(ProjectActivity.id);
-        RedMineApplication.redMineApi.getProjectMembership(query, callbackMembers);
+        RedMineApplication.redMineApi.getProjectMembership(query)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        membership -> {
+                            boolean access = membership.cooperate();
+                            if(!access){
+                                DialogFragment fragment = new DenialDialogFragment();
+                                fragment.show(getActivity().getSupportFragmentManager(), "Denied");
+                            }
+                        },throwable -> {
+                            Log.e("IssueCreateFragment", throwable.getMessage());
+                        });
     }
 }

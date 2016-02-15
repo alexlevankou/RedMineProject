@@ -28,6 +28,8 @@ import by.alexlevankou.redmineproject.model.IssueData;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class IssueListFragment extends AbstractFragment implements SwipeRefreshLayout.OnRefreshListener, FragmentLifecycle {
 
@@ -42,7 +44,6 @@ public class IssueListFragment extends AbstractFragment implements SwipeRefreshL
     protected TextView number, status, priority, tracker ,project ,subject, description, start_date;
 
     protected SharedPreferences pref;
-    protected Callback callback;
     protected ArrayList<IssueData.Issues> list;
     protected String title;
 
@@ -200,19 +201,14 @@ public class IssueListFragment extends AbstractFragment implements SwipeRefreshL
     }
 
     public void getInfoFromApi(){
-            callback = new Callback() {
-                @Override
-                public void success(Object o, Response response) {
-                    IssueData issueData = (IssueData) o;
-                    list = issueData.issues;
-                    mAdapter.update(list);
-                }
-                @Override
-                public void failure(RetrofitError retrofitError) {
-                    retrofitError.printStackTrace();
-                }
-            };
-            RedMineApplication.redMineApi.getIssues("me", callback);
+            RedMineApplication.redMineApi.getIssues("me")
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        issueData -> {
+                            list = issueData.issues;
+                            mAdapter.update(list);
+                });
     }
 
     public void setTitle(String title) {

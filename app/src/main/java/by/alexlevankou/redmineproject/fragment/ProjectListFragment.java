@@ -17,6 +17,8 @@ import by.alexlevankou.redmineproject.model.ProjectData;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 
 public class ProjectListFragment extends Fragment {
@@ -24,7 +26,6 @@ public class ProjectListFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerProjectAdapter projectAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private Callback callback;
     private ArrayList<ProjectData.Project> list;
 
     public ProjectListFragment() {}
@@ -59,19 +60,15 @@ public class ProjectListFragment extends Fragment {
     }
 
     private void getInfoFromApi() {
-        callback = new Callback() {
-            @Override
-            public void success(Object o, Response response) {
-                ProjectData projectData = (ProjectData)o;
-                list = projectData.projects;
-                projectAdapter.update(list);
-            }
-            @Override
-            public void failure(RetrofitError retrofitError) {
-                retrofitError.printStackTrace();
-            }
-        };
-        RedMineApplication.redMineApi.getProjects(callback);
+
+        RedMineApplication.redMineApi.getProjects()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        projectData -> {
+                            list = projectData.projects;
+                            projectAdapter.update(list);
+                        });
     }
 
     public RecyclerProjectAdapter getAdapter(){

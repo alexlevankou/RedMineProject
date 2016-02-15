@@ -3,6 +3,7 @@ package by.alexlevankou.redmineproject.fragment;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.AppCompatSpinner;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
@@ -17,6 +18,8 @@ import by.alexlevankou.redmineproject.model.ProjectMembership;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class IssueEditFragment extends AbstractIssueFragment {
 
@@ -61,24 +64,20 @@ public class IssueEditFragment extends AbstractIssueFragment {
     protected void getSpinnerData(){
         super.getSpinnerData();
 
-        Callback assigneeCallback = new Callback() {
-            @Override
-            public void success(Object o, Response response) {
-                ProjectMembership membership = (ProjectMembership)o;
-                assigneeIdentifiers = membership.getIdList();
-                assigneeAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, membership.getNameList());
-                assigneeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                assignee.setAdapter(assigneeAdapter);
-                setData();
-            }
-            @Override
-            public void failure(RetrofitError retrofitError) {
-                retrofitError.printStackTrace();
-            }
-        };
         String query = String.valueOf(issue.getProjectId());
-        RedMineApplication.redMineApi.getProjectMembership(query, assigneeCallback);
-
+        RedMineApplication.redMineApi.getProjectMembership(query)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        membership -> {
+                            assigneeIdentifiers = membership.getIdList();
+                            assigneeAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, membership.getNameList());
+                            assigneeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            assignee.setAdapter(assigneeAdapter);
+                            setData();
+                        },throwable -> {
+                            Log.e("IssueEditFragment",throwable.getMessage());
+                        });
     }
 
     protected void setData(){

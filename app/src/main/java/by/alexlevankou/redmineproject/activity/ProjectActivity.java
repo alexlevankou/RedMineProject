@@ -12,6 +12,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -29,6 +30,8 @@ import by.alexlevankou.redmineproject.model.ProjectData;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class ProjectActivity extends AppCompatActivity{
 
@@ -56,6 +59,27 @@ public class ProjectActivity extends AppCompatActivity{
     //add issue
     public void onClickFAB(View v){
 
+        int index = viewPager.getCurrentItem();
+        IssueCreateFragment createFragment = (IssueCreateFragment)adapter.getItem(index);
+
+        IssueCreator iss  = new IssueCreator();
+        String taskId = String.valueOf(id);
+        iss.setProject(taskId);
+        createFragment.prepareIssue(iss);
+        /*RedMineApplication.redMineApi.createIssue(iss)
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    viewPager.setCurrentItem(Constants.TAB_OVERVIEW);
+                },
+                        throwable -> {
+                            Log.e("IssueCreateFragment", throwable.getMessage());
+                        });
+        Fragment fragment = ProjectActivity.adapter.getItem(Constants.TAB_LIST);
+        ProjectIssueListFragment frag = (ProjectIssueListFragment) fragment;
+        frag.getInfoFromApi();*/
+
+        //???????????????????????????????????????????? 422
         Callback cb = new Callback() {
             @Override
             public void success(Object o, Response response) {
@@ -66,19 +90,7 @@ public class ProjectActivity extends AppCompatActivity{
                 retrofitError.printStackTrace();
             }
         };
-
-        int index = viewPager.getCurrentItem();
-        IssueCreateFragment createFragment = (IssueCreateFragment)adapter.getItem(index);
-
-        IssueCreator iss  = new IssueCreator();
-        String taskId = String.valueOf(id);
-        iss.setProject(taskId);
-        createFragment.prepareIssue(iss);
         RedMineApplication.redMineApi.createIssue(iss, cb);
-
-        Fragment fragment = ProjectActivity.adapter.getItem(Constants.TAB_LIST);
-        ProjectIssueListFragment frag = (ProjectIssueListFragment) fragment;
-        frag.getInfoFromApi();
     }
 
     private ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.OnPageChangeListener() {
@@ -113,19 +125,16 @@ public class ProjectActivity extends AppCompatActivity{
     }
 
     private void getInfoFromApi(int id){
-        Callback callback = new Callback() {
-            @Override
-            public void success(Object o, Response response) {
-                projectData = (ProjectData)o;
-                initToolbar();
-            }
-            @Override
-            public void failure(RetrofitError retrofitError) {
-                retrofitError.printStackTrace();
-            }
-        };
+
         String query = String.valueOf(id);
-        RedMineApplication.redMineApi.showProject(query, callback);
+        RedMineApplication.redMineApi.showProject(query)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        projectData -> {
+                            ProjectActivity.projectData = projectData;
+                            initToolbar();
+                        });
     }
 
     private void initNavigation() {
